@@ -1,0 +1,33 @@
+Prompt for Cursor.ai – Integrate 3D Spline Embed of T-Shirt with Scroll Effects on Shopify Homepage
+
+Hello Cursor.ai,
+
+You will build a Shopify homepage theme based on the Dora.run Nike shoe template, fully replicating the style, layout, animations, and scroll-driven interactivity.
+
+Important: Instead of the original 3D shoe, embed the interactive 3D t-shirt model using the provided Spline Embed code below.
+
+Spline Embed Code:
+
+html
+Copier
+<iframe src="https://my.spline.design/untitled-515a6y3URLgYgvO5piNdZM6c/" frameborder="0" width="100%" height="100%"></iframe>
+Implementation requirements:
+
+Replace the hero’s 3D shoe model with this embedded Spline 3D t-shirt iframe.
+
+The 3D t-shirt must be fully interactive and respond to user scroll smoothly, rotating or animating in sync with scroll position, matching the original Dora.run template’s scroll-driven 3D behavior.
+
+Ensure the iframe is integrated responsively and fits perfectly within the hero section on desktop and mobile.
+
+All other homepage elements (text, CTA, layout, animations) must replicate Dora.run Nike template exactly.
+
+The text content, buttons, and images must remain fully editable through Shopify’s theme editor.
+
+Optimize loading and performance so that the 3D embed does not hinder user experience or page speed.
+
+Deliver a complete Shopify theme ZIP, ready for import and customization.
+
+Please pay careful attention to replicating the original smooth scroll animations for text and 3D model, now using this Spline embed for the t-shirt.
+
+Thank you.
+

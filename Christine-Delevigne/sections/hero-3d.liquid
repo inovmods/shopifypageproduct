@@ -1,0 +1,349 @@
+{%- comment -%}
+  Blueprint Theme - Hero 3D Section
+  Features: 3D Spline integration, GSAP animations, responsive layout
+{%- endcomment -%}
+
+<link rel="stylesheet" href="{{ 'section-hero-3d.css' | asset_url }}" media="print" onload="this.media='all'">
+<noscript>{{ 'section-hero-3d.css' | asset_url | stylesheet_tag }}</noscript>
+
+<div class="hero-3d color-{{ section.settings.color_scheme }} gradient">
+  <div class="hero-3d__inner page-width">
+    <div class="hero-3d__content">
+      <div class="hero-3d__text">
+        {%- if section.settings.heading != blank -%}
+          <h1 class="hero-3d__heading inline-richtext {{ section.settings.heading_size }}" data-animate="fade-up">
+            {{ section.settings.heading }}
+          </h1>
+        {%- endif -%}
+        
+        {%- if section.settings.subheading != blank -%}
+          <p class="hero-3d__subheading" data-animate="fade-up" data-delay="0.2">
+            {{ section.settings.subheading }}
+          </p>
+        {%- endif -%}
+        
+        {%- if section.settings.button_text != blank -%}
+          <div class="hero-3d__buttons" data-animate="fade-up" data-delay="0.4">
+            <a
+              {% if section.settings.button_link == blank %}
+                role="link" aria-disabled="true"
+              {% else %}
+                href="{{ section.settings.button_link }}"
+              {% endif %}
+              class="button button--primary"
+            >
+              {{ section.settings.button_text | escape }}
+            </a>
+          </div>
+        {%- endif -%}
+      </div>
+      
+      {%- if section.settings.enable_3d and section.settings.spline_url != blank -%}
+        <div class="hero-3d__model" data-animate="scale-in" data-delay="0.6">
+          <div class="hero-3d__model-container" id="spline-container-{{ section.id }}">
+            <iframe 
+              src="{{ section.settings.spline_url }}"
+              frameborder="0"
+              width="100%"
+              height="100%"
+              loading="lazy"
+              allowfullscreen
+              class="hero-3d__iframe"
+              data-scroll-animation="rotate"
+            ></iframe>
+          </div>
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+<style>
+  .hero-3d {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .hero-3d__inner {
+    width: 100%;
+    max-width: var(--page-width);
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+  
+  .hero-3d__content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+    min-height: 80vh;
+  }
+  
+  .hero-3d__text {
+    z-index: 2;
+  }
+  
+  .hero-3d__heading {
+    font-size: clamp(3rem, 8vw, 8rem);
+    font-weight: 900;
+    line-height: 0.9;
+    margin-bottom: 2rem;
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+  }
+  
+  .hero-3d__subheading {
+    font-size: clamp(1.2rem, 2vw, 1.8rem);
+    line-height: 1.4;
+    margin-bottom: 3rem;
+    opacity: 0.8;
+  }
+  
+  .hero-3d__buttons {
+    display: flex;
+    gap: 1rem;
+  }
+  
+  .hero-3d__model {
+    position: relative;
+    height: 80vh;
+    min-height: 600px;
+  }
+  
+  .hero-3d__model-container {
+    width: 100%;
+    height: 100%;
+    border-radius: 2rem;
+    overflow: hidden;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  }
+  
+  .hero-3d__iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    transition: transform 0.3s ease;
+  }
+  
+  /* Mobile Styles */
+  @media screen and (max-width: 749px) {
+    .hero-3d__content {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+      text-align: center;
+    }
+    
+    .hero-3d__model {
+      height: 50vh;
+      min-height: 400px;
+      order: -1;
+    }
+    
+    .hero-3d__heading {
+      font-size: clamp(2.5rem, 10vw, 4rem);
+    }
+  }
+  
+  /* Animation States */
+  [data-animate] {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  
+  [data-animate="scale-in"] {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  
+  [data-animate].animate-in {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  [data-animate="scale-in"].animate-in {
+    opacity: 1;
+    transform: scale(1);
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Initialize hero animations
+    if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+      // Animate text elements
+      gsap.timeline()
+        .from('[data-animate="fade-up"]', {
+          y: 50,
+          opacity: 0,
+          duration: 1,
+          stagger: 0.2,
+          ease: 'power3.out'
+        })
+        .from('[data-animate="scale-in"]', {
+          scale: 0.8,
+          opacity: 0,
+          duration: 1.2,
+          ease: 'power3.out'
+        }, '-=0.5');
+      
+      // 3D model scroll animation
+      const modelContainer = document.querySelector('#spline-container-{{ section.id }} .hero-3d__iframe');
+      if (modelContainer) {
+        ScrollTrigger.create({
+          trigger: '.hero-3d',
+          start: 'top top',
+          end: 'bottom top',
+          scrub: 1,
+          onUpdate: (self) => {
+            const rotation = self.progress * 360;
+            modelContainer.style.transform = `rotateY(${rotation}deg)`;
+          }
+        });
+      }
+    } else {
+      // Fallback animation without GSAP
+      const animateElements = document.querySelectorAll('[data-animate]');
+      animateElements.forEach((el, index) => {
+        setTimeout(() => {
+          el.classList.add('animate-in');
+        }, index * 200);
+      });
+    }
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Hero 3D",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "default": "Premium Streetwear",
+      "label": "Heading"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "options": [
+        {
+          "value": "h2",
+          "label": "Small"
+        },
+        {
+          "value": "h1",
+          "label": "Medium"
+        },
+        {
+          "value": "h0",
+          "label": "Large"
+        }
+      ],
+      "default": "h1",
+      "label": "Heading size"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "default": "Crafted for those who demand excellence",
+      "label": "Subheading"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "default": "Shop Collection",
+      "label": "Button text"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    },
+    {
+      "type": "header",
+      "content": "3D Settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_3d",
+      "default": true,
+      "label": "Enable 3D model"
+    },
+    {
+      "type": "url",
+      "id": "spline_url",
+      "label": "Spline 3D URL",
+      "info": "Add your Spline 3D model embed URL here"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "select",
+      "id": "color_scheme",
+      "options": [
+        {
+          "value": "accent-1",
+          "label": "Accent 1"
+        },
+        {
+          "value": "accent-2",
+          "label": "Accent 2"
+        },
+        {
+          "value": "background-1",
+          "label": "Background 1"
+        },
+        {
+          "value": "background-2",
+          "label": "Background 2"
+        },
+        {
+          "value": "inverse",
+          "label": "Inverse"
+        }
+      ],
+      "default": "background-1",
+      "label": "Color scheme"
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 0
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero 3D"
+    }
+  ]
+}
+{% endschema %} 

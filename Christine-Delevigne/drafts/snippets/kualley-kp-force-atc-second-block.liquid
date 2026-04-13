@@ -1,0 +1,81 @@
+{% comment %}
+  Optionnel : supprime ce bloc si tu utilises déjà kualley-kp-complete-block.liquid (1 seul bouton).
+  Sinon : 2e bloc Liquid ; ajout AJAX sans redirection.
+{% endcomment %}
+<div style="margin:16px 0;padding:14px;border:2px solid #1C1914;border-radius:16px;background:#fff;max-width:100%;box-sizing:border-box;">
+  <p style="margin:0 0 10px;font-size:12px;line-height:1.5;color:#333;">Sélectionne les options des 2 bikinis dans le bloc au-dessus, puis :</p>
+  <button type="button" id="kualley-force-atc-btn" style="display:block;width:100%;padding:18px 16px;background:#1c1914;color:#f8f5ef;border:0;border-radius:14px;font-weight:800;font-size:14px;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;box-sizing:border-box;">Add to cart — 2 bikinis</button>
+</div>
+<!-- KUALLEY_FORCE_ATC_SECOND_BLOCK -->
+<script>
+(function () {
+  function run() {
+    var btn = document.getElementById('kualley-force-atc-btn');
+    if (!btn) return;
+    btn.addEventListener('click', function () {
+      var root = document.querySelector('.kp[data-kp-root]');
+      if (!root) {
+        window.alert('Bloc Kualley (.kp) introuvable sur la page.');
+        return;
+      }
+      var h1 = root.querySelector('[data-k-vid][data-k-slot="1"]');
+      var h2 = root.querySelector('[data-k-vid][data-k-slot="2"]');
+      var qEl = root.querySelector('[data-k-qty-input]');
+      var v1 = h1 ? h1.value : '';
+      var v2 = h2 ? h2.value : '';
+      var qty = qEl ? Math.min(99, Math.max(1, parseInt(qEl.value, 10) || 1)) : 1;
+      if (!v1 || !v2) {
+        window.alert('Choisis les options pour Bikini #1 et Bikini #2.');
+        return;
+      }
+      var base = (window.Shopify && window.Shopify.routes && window.Shopify.routes.root) ? window.Shopify.routes.root : '/';
+      if (base.slice(-1) !== '/') base += '/';
+      btn.disabled = true;
+      btn.textContent = 'Adding…';
+      fetch(base + 'cart/add.js', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+          'X-Requested-With': 'XMLHttpRequest'
+        },
+        body: JSON.stringify({
+          items: [
+            { id: Number(v1), quantity: qty },
+            { id: Number(v2), quantity: qty }
+          ]
+        })
+      })
+        .then(function (r) {
+          return r.json().then(function (data) {
+            if (!r.ok) throw new Error((data && data.description) || 'Error');
+            return data;
+          });
+        })
+        .then(function () {
+          return fetch(base + 'cart.js', {
+            headers: { Accept: 'application/json' }
+          }).then(function (r) { return r.json(); }).then(function (cart) {
+            document.dispatchEvent(new CustomEvent('cart:refresh', { bubbles: true }));
+            document.dispatchEvent(new CustomEvent('variant:add', { bubbles: true, detail: { cart: cart } }));
+            var cd = document.querySelector('cart-drawer');
+            if (cd && typeof cd.show === 'function') try { cd.show(); } catch (e) {}
+            btn.disabled = false;
+            btn.textContent = 'Added ✓';
+            setTimeout(function () { btn.textContent = 'Add to cart — 2 bikinis'; }, 1500);
+          });
+        })
+        .catch(function () {
+          btn.disabled = false;
+          btn.textContent = 'Add to cart — 2 bikinis';
+          window.alert('Impossible d’ajouter au panier. Réessaie ou vérifie le stock.');
+        });
+    });
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', run);
+  } else {
+    run();
+  }
+})();
+</script>

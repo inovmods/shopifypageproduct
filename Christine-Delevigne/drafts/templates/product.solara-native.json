@@ -1,0 +1,9 @@
+{
+  "sections": {
+    "kualley_solara_native": {
+      "type": "kualley-solara-native",
+      "settings": {}
+    }
+  },
+  "order": ["kualley_solara_native"]
+}

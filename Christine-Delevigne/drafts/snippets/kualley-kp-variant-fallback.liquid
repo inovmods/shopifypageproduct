@@ -1,0 +1,19 @@
+{% comment %}
+  Variantes canoniques (taille × 3 styles) pour Solara / Marea.
+  kp_fallback_profile: 'solara' | 'marea' (depuis les sections PDP) ou vide = détection par handle.
+{% endcomment %}
+{% if kp_product == blank %}{% else %}
+{% assign _kpf_prof = kp_fallback_profile | default: '' | strip | downcase %}
+{% assign _kpf_h = kp_product.handle %}
+{% assign _kpf_sol = kp_solara_static_handle | default: 'kualley-solara-set' %}
+{% assign _kpf_mar = kp_marea_static_handle | default: 'kualley-marea-set' %}
+{% if _kpf_prof == 'solara' or _kpf_h == _kpf_sol %}
+<script type="application/json" data-k-variant-fallback>
+[{"id":53475051700561,"title":"XS / Style 1","options":["XS","Style 1"],"available":true},{"id":53475051733329,"title":"XS / Style 2","options":["XS","Style 2"],"available":true},{"id":53475051798865,"title":"XS / Style 3","options":["XS","Style 3"],"available":true},{"id":53475051176273,"title":"S / Style 1","options":["S","Style 1"],"available":true},{"id":53475051209041,"title":"S / Style 2","options":["S","Style 2"],"available":true},{"id":53475051274577,"title":"S / Style 3","options":["S","Style 3"],"available":true},{"id":53475051569489,"title":"M / Style 1","options":["M","Style 1"],"available":true},{"id":53475051602257,"title":"M / Style 2","options":["M","Style 2"],"available":true},{"id":53475051667793,"title":"M / Style 3","options":["M","Style 3"],"available":true},{"id":53475051438417,"title":"L / Style 1","options":["L","Style 1"],"available":true},{"id":53475051471185,"title":"L / Style 2","options":["L","Style 2"],"available":true},{"id":53475051536721,"title":"L / Style 3","options":["L","Style 3"],"available":true},{"id":53475051307345,"title":"XL / Style 1","options":["XL","Style 1"],"available":true},{"id":53475051340113,"title":"XL / Style 2","options":["XL","Style 2"],"available":true},{"id":53475051405649,"title":"XL / Style 3","options":["XL","Style 3"],"available":true}]
+</script>
+{% elsif _kpf_prof == 'marea' or _kpf_h == _kpf_mar %}
+<script type="application/json" data-k-variant-fallback>
+[{"id":53407000592721,"title":"S / Style 1","options":["S","Style 1"],"available":true},{"id":53407000625489,"title":"S / Style 2","options":["S","Style 2"],"available":true},{"id":53407000658257,"title":"S / Style 3","options":["S","Style 3"],"available":true},{"id":53407000789329,"title":"M / Style 1","options":["M","Style 1"],"available":true},{"id":53407000822097,"title":"M / Style 2","options":["M","Style 2"],"available":true},{"id":53407000854865,"title":"M / Style 3","options":["M","Style 3"],"available":true},{"id":53407000691025,"title":"L / Style 1","options":["L","Style 1"],"available":true},{"id":53407000723793,"title":"L / Style 2","options":["L","Style 2"],"available":true},{"id":53407000756561,"title":"L / Style 3","options":["L","Style 3"],"available":true}]
+</script>
+{% endif %}
+{% endif %}

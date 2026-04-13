@@ -1,0 +1,360 @@
+{% comment %}
+  Hero accueil animé — utilisable en Liquid personnalisé SANS {% schema %}.
+  Colle uniquement : {% render 'kualley-home-hero-paste' %}
+  Optionnel : assign kh_heading, kh_kicker, etc. AVANT le render (voir défauts ci‑dessous).
+{% endcomment %}
+
+{%- liquid
+  assign kh_uid = kh_uid | default: section.id | default: 'kualley-hero-paste' | replace: ' ', '-'
+  assign kh_hash = kh_uid | append: 'kualleyhero' | md5
+  assign kh_anim = 'kf' | append: kh_hash
+  assign kh_kicker = kh_kicker | default: 'Resort swimwear · Easter'
+  assign kh_heading = kh_heading | default: 'Summer moves with you'
+  assign kh_subheading = kh_subheading | default: 'Petites séries, finitions main — fais défiler pour l’offre.'
+  assign kh_primary_label = kh_primary_label | default: 'Voir le drop'
+  assign kh_primary_link = kh_primary_link | default: ''
+  assign kh_secondary_label = kh_secondary_label | default: 'Toute la collection'
+  assign kh_secondary_link = kh_secondary_link | default: '/collections/all'
+  assign kh_show_scroll = kh_show_scroll | default: true
+  assign kh_scroll_label = kh_scroll_label | default: 'Défiler'
+  assign kh_min_height = kh_min_height | default: 88
+  assign kh_padding_top = kh_padding_top | default: 48
+  assign kh_padding_bottom = kh_padding_bottom | default: 40
+  assign kh_color_scheme = kh_color_scheme | default: 'background-1'
+  assign kh_image_url = kh_image_url | default: ''
+
+  assign h = kh_heading | strip
+  assign words = h | split: ' '
+  assign word_i = 0
+
+  assign kh_has_visual = false
+  if kh_image != blank
+    assign kh_has_visual = true
+  endif
+  if kh_image_url != blank
+    assign kh_has_visual = true
+  endif
+-%}
+
+<section
+  id="kh-hero-{{ kh_uid }}"
+  class="kh-hero color-{{ kh_color_scheme }} gradient"
+  aria-label="{{ kh_heading | escape }}"
+>
+  <div class="kh-hero__bg" aria-hidden="true">
+    <span class="kh-hero__orb kh-hero__orb--1"></span>
+    <span class="kh-hero__orb kh-hero__orb--2"></span>
+    <span class="kh-hero__orb kh-hero__orb--3"></span>
+  </div>
+
+  <div class="kh-hero__inner page-width">
+    <div class="kh-hero__grid kh-hero__grid--{% if kh_has_visual %}split{% else %}single{% endif %}">
+      <div class="kh-hero__copy">
+        {% if kh_kicker != blank %}
+          <p class="kh-hero__kicker">{{ kh_kicker | escape }}</p>
+        {% endif %}
+
+        <h1 class="kh-hero__title">
+          {% if h != blank %}
+            {% for word in words %}
+              {% unless word == blank %}
+                <span class="kh-hero__word" style="--kh-d: {{ word_i }};">
+                  <span class="kh-hero__word-inner">{{ word }}</span>
+                </span>
+                {% assign word_i = word_i | plus: 1 %}
+              {% endunless %}
+            {% endfor %}
+          {% else %}
+            <span class="kh-hero__word kh-hero__word--shine" style="--kh-d: 0;"><span class="kh-hero__word-inner">Kualley</span></span>
+          {% endif %}
+        </h1>
+
+        {% if kh_subheading != blank %}
+          <p class="kh-hero__sub" data-kh-reveal>{{ kh_subheading | escape }}</p>
+        {% endif %}
+
+        <div class="kh-hero__cta" data-kh-reveal>
+          {% if kh_primary_label != blank %}
+            <a
+              class="button button--primary kh-hero__btn"
+              href="{% if kh_primary_link != blank %}{{ kh_primary_link }}{% else %}#shop-drop{% endif %}"
+            >
+              {{ kh_primary_label | escape }}
+            </a>
+          {% endif %}
+          {% if kh_secondary_label != blank and kh_secondary_link != blank %}
+            <a class="button button--secondary kh-hero__btn" href="{{ kh_secondary_link }}">
+              {{ kh_secondary_label | escape }}
+            </a>
+          {% endif %}
+        </div>
+
+        {% if kh_show_scroll %}
+          <a class="kh-hero__scroll" href="#shop-drop">
+            <span class="kh-hero__scroll-text">{{ kh_scroll_label | escape }}</span>
+            <span class="kh-hero__scroll-line" aria-hidden="true"></span>
+          </a>
+        {% endif %}
+      </div>
+
+      {% if kh_has_visual %}
+        <div class="kh-hero__visual" data-kh-reveal>
+          <div class="kh-hero__frame">
+            {% if kh_image != blank %}
+              <img
+                class="kh-hero__img"
+                src="{{ kh_image | image_url: width: 1200 }}"
+                alt="{{ kh_image.alt | default: kh_heading | escape }}"
+                width="{{ kh_image.width | default: 900 }}"
+                height="{{ kh_image.height | default: 1120 }}"
+                loading="eager"
+                fetchpriority="high"
+              >
+            {% elsif kh_image_url != blank %}
+              <img class="kh-hero__img" src="{{ kh_image_url }}" alt="{{ kh_heading | escape }}" loading="eager" width="900" height="1120">
+            {% endif %}
+          </div>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+{% style %}
+  #kh-hero-{{ kh_uid }}.kh-hero {
+    position: relative;
+    min-height: {{ kh_min_height }}vh;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    padding-top: {{ kh_padding_top }}px;
+    padding-bottom: {{ kh_padding_bottom }}px;
+  }
+  #kh-hero-{{ kh_uid }} .kh-hero__bg {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+  }
+  #kh-hero-{{ kh_uid }} .kh-hero__orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.45;
+    animation: kh-float-orb-{{ kh_anim }} 18s ease-in-out infinite;
+  }
+  @keyframes kh-float-orb-{{ kh_anim }} {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(4%, 6%) scale(1.06); }
+    66% { transform: translate(-5%, 3%) scale(0.94); }
+  }
+  #kh-hero-{{ kh_uid }} .kh-hero__orb--1 {
+    width: min(55vw, 420px);
+    height: min(55vw, 420px);
+    background: radial-gradient(circle, rgba(201, 169, 110, 0.55) 0%, transparent 70%);
+    top: -8%;
+    left: -5%;
+    animation-delay: 0s;
+  }
+  #kh-hero-{{ kh_uid }} .kh-hero__orb--2 {
+    width: min(45vw, 360px);
+    height: min(45vw, 360px);
+    background: radial-gradient(circle, rgba(237, 228, 214, 0.9) 0%, transparent 70%);
+    bottom: 5%;
+    right: -8%;
+    animation-delay: -6s;
+    animation-duration: 22s;
+  }
+  #kh-hero-{{ kh_uid }} .kh-hero__orb--3 {
+    width: min(40vw, 300px);
+    height: min(40vw, 300px);
+    background: radial-gradient(circle, rgba(28, 25, 20, 0.2) 0%, transparent 70%);
+    top: 40%;
+    left: 35%;
+    animation-delay: -12s;
+    animation-duration: 16s;
+  }
+  #kh-hero-{{ kh_uid }} .kh-hero__inner {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+  }
+  #kh-hero-{{ kh_uid }} .kh-hero__grid--split {
+    display: grid;
+    gap: 2.5rem;
+    align-items: center;
+    grid-template-columns: 1fr 1fr;
+  }
+  #kh-hero-{{ kh_uid }} .kh-hero__grid--single {
+    display: grid;
+    gap: 2.5rem;
+    align-items: center;
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+  @media screen and (max-width: 989px) {
+    #kh-hero-{{ kh_uid }} .kh-hero__grid--split {
+      grid-template-columns: 1fr;
+      text-align: center;
+    }
+    #kh-hero-{{ kh_uid }} .kh-hero__visual {
+      order: -1;
+      max-width: 22rem;
+      margin: 0 auto;
+    }
+  }
+  #kh-hero-{{ kh_uid }} .kh-hero__kicker {
+    margin: 0 0 1rem;
+    font-size: 0.75rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    font-weight: 800;
+    opacity: 0;
+    animation: kh-fade-up-{{ kh_anim }} 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.15s forwards;
+  }
+  #kh-hero-{{ kh_uid }} .kh-hero__title {
+    margin: 0 0 1.25rem;
+    font-size: clamp(2.25rem, 6.5vw, 4.25rem);
+    line-height: 1.05;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+  }
+  #kh-hero-{{ kh_uid }} .kh-hero__title .kh-hero__word + .kh-hero__word {
+    margin-left: 0.22em;
+  }
+  #kh-hero-{{ kh_uid }} .kh-hero__word {
+    display: inline-block;
+    overflow: hidden;
+    vertical-align: bottom;
+  }
+  #kh-hero-{{ kh_uid }} .kh-hero__word-inner {
+    display: inline-block;
+    transform: translateY(110%);
+    opacity: 0;
+    animation: kh-word-in-{{ kh_anim }} 0.85s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    animation-delay: calc(0.35s + (var(--kh-d) * 0.07s));
+  }
+  #kh-hero-{{ kh_uid }} .kh-hero__word--shine .kh-hero__word-inner {
+    background: linear-gradient(
+      100deg,
+      rgb(var(--color-foreground)) 0%,
+      #c9a96e 42%,
+      rgb(var(--color-foreground)) 78%
+    );
+    background-size: 220% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: kh-word-in-{{ kh_anim }} 0.85s cubic-bezier(0.22, 1, 0.36, 1) forwards,
+      kh-shimmer-{{ kh_anim }} 5s ease-in-out 1s infinite;
+    animation-delay: 0.35s, 1.2s;
+  }
+  @keyframes kh-word-in-{{ kh_anim }} {
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+  @keyframes kh-shimmer-{{ kh_anim }} {
+    0%, 100% { background-position: 0% center; }
+    50% { background-position: 100% center; }
+  }
+  @keyframes kh-fade-up-{{ kh_anim }} {
+    from {
+      opacity: 0;
+      transform: translateY(14px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  #kh-hero-{{ kh_uid }} [data-kh-reveal] {
+    opacity: 0;
+    transform: translateY(18px);
+    animation: kh-fade-up-{{ kh_anim }} 0.85s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+  #kh-hero-{{ kh_uid }} .kh-hero__sub {
+    margin: 0 0 1.75rem;
+    font-size: clamp(1rem, 1.35vw, 1.2rem);
+    line-height: 1.65;
+    max-width: 36rem;
+    opacity: 0.88;
+    animation-delay: 0.85s !important;
+  }
+  #kh-hero-{{ kh_uid }} .kh-hero__grid--single .kh-hero__sub {
+    margin-left: auto;
+    margin-right: auto;
+  }
+  #kh-hero-{{ kh_uid }} .kh-hero__cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    animation-delay: 1.05s !important;
+  }
+  #kh-hero-{{ kh_uid }} .kh-hero__grid--single .kh-hero__cta {
+    justify-content: center;
+  }
+  #kh-hero-{{ kh_uid }} .kh-hero__scroll {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 2.5rem;
+    text-decoration: none;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-weight: 800;
+    opacity: 0;
+    animation: kh-fade-up-{{ kh_anim }} 0.9s ease 1.35s forwards;
+    color: rgb(var(--color-foreground));
+  }
+  #kh-hero-{{ kh_uid }} .kh-hero__scroll-line {
+    width: 1px;
+    height: 2.5rem;
+    background: linear-gradient(to bottom, currentColor, transparent);
+    animation: kh-scroll-line-{{ kh_anim }} 2.2s ease-in-out infinite;
+  }
+  @keyframes kh-scroll-line-{{ kh_anim }} {
+    0%, 100% { transform: scaleY(1); opacity: 0.5; }
+    50% { transform: scaleY(1.15); opacity: 1; }
+  }
+  #kh-hero-{{ kh_uid }} .kh-hero__visual {
+    animation-delay: 0.5s !important;
+  }
+  #kh-hero-{{ kh_uid }} .kh-hero__frame {
+    border-radius: 1.5rem;
+    overflow: hidden;
+    box-shadow: 0 28px 80px rgba(28, 25, 20, 0.18);
+    animation: kh-card-float-{{ kh_anim }} 7s ease-in-out infinite;
+  }
+  @keyframes kh-card-float-{{ kh_anim }} {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+  #kh-hero-{{ kh_uid }} .kh-hero__img {
+    width: 100%;
+    height: auto;
+    vertical-align: middle;
+    display: block;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    #kh-hero-{{ kh_uid }} .kh-hero__orb,
+    #kh-hero-{{ kh_uid }} .kh-hero__word-inner,
+    #kh-hero-{{ kh_uid }} .kh-hero__frame,
+    #kh-hero-{{ kh_uid }} .kh-hero__scroll-line {
+      animation: none !important;
+    }
+    #kh-hero-{{ kh_uid }} .kh-hero__word-inner {
+      transform: none;
+      opacity: 1;
+    }
+    #kh-hero-{{ kh_uid }} [data-kh-reveal],
+    #kh-hero-{{ kh_uid }} .kh-hero__kicker {
+      opacity: 1;
+      transform: none;
+      animation: none !important;
+    }
+  }
+{% endstyle %}

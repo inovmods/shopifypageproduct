@@ -1,0 +1,24 @@
+{% comment %}
+  Page produit Solara — template product.solara.json.
+  Par défaut : variantes = catalogue Shopify (picker taille × modèle).
+  Coche « Variantes figées » seulement si tu dois forcer les IDs du snippet (cas rare).
+{% endcomment %}
+{% render 'kualley-kp-complete-block',
+  kp_prefer_static_variants: section.settings.force_static_variants,
+  kp_fallback_profile: 'solara'
+%}
+
+{% schema %}
+{
+  "name": "Kualley PDP",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "force_static_variants",
+      "label": "Variantes figées (JSON thème) — désactivé par défaut ; n’active que si le picker Shopify est cassé",
+      "default": false
+    }
+  ],
+  "presets": [{ "name": "Kualley PDP" }]
+}
+{% endschema %}

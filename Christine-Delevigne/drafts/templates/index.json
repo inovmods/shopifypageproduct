@@ -1,0 +1,75 @@
+{
+  "sections": {
+    "kualley_home_hero": {
+      "type": "kualley-home-hero",
+      "settings": {
+        "kicker": "Kualley · Resort swimwear",
+        "heading": "Summer moves with you",
+        "subheading": "Hero animé en tête — puis l’offre Easter et le shopping BOGO juste en dessous.",
+        "primary_label": "Voir le drop",
+        "primary_link": "",
+        "secondary_label": "Toute la collection",
+        "secondary_link": "/collections/all",
+        "show_scroll": true,
+        "scroll_label": "Défiler",
+        "min_height": "88",
+        "padding_top": 52,
+        "padding_bottom": 44,
+        "color_scheme": "background-1"
+      }
+    },
+    "kualley_home": {
+      "type": "kualley-kp-home",
+      "settings": {
+        "show_intro": false,
+        "intro_kicker": "",
+        "intro_heading": "",
+        "show_trust_row": false,
+        "trust_1": "",
+        "trust_2": "",
+        "trust_3": "",
+        "cta_label": "",
+        "cta_link": "",
+        "cta_secondary_label": "",
+        "cta_secondary_link": "",
+        "show_bottom": true,
+        "bottom_heading": "La boutique continue",
+        "bottom_text": "Après le bloc produit : grille d’articles.",
+        "bottom_link_label": "Tous les produits",
+        "bottom_link": "/collections/all",
+        "color_scheme": "background-1",
+        "padding_top": 0,
+        "padding_bottom": 36
+      }
+    },
+    "featured_collection": {
+      "type": "featured-collection",
+      "settings": {
+        "title": "Autres pièces",
+        "heading_size": "h1",
+        "description": "",
+        "show_description": false,
+        "description_style": "body",
+        "collection": "frontpage",
+        "products_to_show": 8,
+        "columns_desktop": 4,
+        "full_width": false,
+        "show_view_all": true,
+        "view_all_style": "solid",
+        "enable_desktop_slider": false,
+        "color_scheme": "background-1",
+        "image_ratio": "adapt",
+        "image_shape": "default",
+        "show_secondary_image": false,
+        "show_vendor": false,
+        "show_rating": false,
+        "enable_quick_add": false,
+        "columns_mobile": "2",
+        "swipe_on_mobile": false,
+        "padding_top": 28,
+        "padding_bottom": 52
+      }
+    }
+  },
+  "order": ["kualley_home_hero", "kualley_home", "featured_collection"]
+}

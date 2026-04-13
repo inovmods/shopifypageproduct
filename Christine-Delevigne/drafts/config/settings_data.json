@@ -1,0 +1,41 @@
+{
+  "current": {
+    "primary_color": "#000000",
+    "secondary_color": "#ffffff",
+    "accent_color": "#ff0000",
+    "background_color": "#ffffff",
+    "text_color": "#000000",
+    "header_background": "#ffffff",
+    "footer_background": "#000000",
+    "heading_font": "helvetica_neue_n4",
+    "text_font": "helvetica_neue_n4",
+    "heading_scale": 120,
+    "body_scale": 100,
+    "page_width": 1400,
+    "section_spacing": "medium",
+    "show_page_transition": true,
+    "logo_width": 150,
+    "sticky_header": true,
+    "header_style": "modern",
+    "spline_3d_url": "https://my.spline.design/untitled-7ac4e8c1d6c3b3f5e3b8b3b8b3b8b3b8",
+    "enable_3d_animations": true,
+    "animation_speed": 1.0,
+    "cart_type": "drawer",
+    "enable_cart_notes": true,
+    "show_vendor": false,
+    "show_secondary_image": true,
+    "show_vendor_on_cards": false,
+    "show_rating": true,
+    "card_text_alignment": "left",
+    "sections": {
+      "header": {
+        "type": "header",
+        "settings": {}
+      },
+      "footer": {
+        "type": "footer",
+        "settings": {}
+      }
+    }
+  }
+} 

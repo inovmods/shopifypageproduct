@@ -1,0 +1,136 @@
+<div class="container section">
+  <div class="customer-account">
+    <header class="customer-account__header mb-lg">
+      <h1 class="h2">{{ 'customer.account.title' | t }}</h1>
+      <a href="{{ routes.account_logout_url }}" class="button button--secondary">
+        {{ 'customer.account.sign_out' | t }}
+      </a>
+    </header>
+
+    <div class="customer-account__content grid grid--2-col">
+      <div class="customer-account__details">
+        <h2 class="h4 mb-md">{{ 'customer.account.details' | t }}</h2>
+        
+        <div class="customer-details">
+          <p><strong>{{ customer.first_name }} {{ customer.last_name }}</strong></p>
+          <p>{{ customer.email }}</p>
+          
+          {%- if customer.phone -%}
+            <p>{{ customer.phone }}</p>
+          {%- endif -%}
+        </div>
+
+        <div class="customer-account__actions mt-md">
+          <a href="{{ routes.account_addresses_url }}" class="button button--secondary">
+            {{ 'customer.account.view_addresses' | t }}
+          </a>
+        </div>
+      </div>
+
+      <div class="customer-account__orders">
+        <h2 class="h4 mb-md">{{ 'customer.orders.title' | t }}</h2>
+        
+        {%- if customer.orders.size > 0 -%}
+          <div class="orders-list">
+            {%- for order in customer.orders limit: 5 -%}
+              <div class="order-item">
+                <div class="order-item__header flex flex--between">
+                  <h3 class="order-item__number">
+                    <a href="{{ order.customer_url }}">{{ order.name }}</a>
+                  </h3>
+                  <span class="order-item__status">{{ order.financial_status_label }}</span>
+                </div>
+                
+                <div class="order-item__details">
+                  <p class="text-small">
+                    {{ order.created_at | date: format: 'date' }} • 
+                    {{ order.total_price | money }}
+                  </p>
+                </div>
+              </div>
+            {%- endfor -%}
+            
+            {%- if customer.orders.size > 5 -%}
+              <p class="mt-md">
+                <a href="{{ routes.account_url }}#orders" class="text-link">
+                  {{ 'customer.account.view_all_orders' | t }}
+                </a>
+              </p>
+            {%- endif -%}
+          </div>
+        {%- else -%}
+          <div class="empty-state text-center">
+            <p>{{ 'customer.orders.none' | t }}</p>
+            <a href="{{ routes.all_products_collection_url }}" class="button mt-md">
+              {{ 'customer.orders.start_shopping' | t }}
+            </a>
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .customer-account__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--spacing-md);
+  }
+
+  .customer-details p {
+    margin-bottom: var(--spacing-xs);
+  }
+
+  .orders-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+  }
+
+  .order-item {
+    padding: var(--spacing-md);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius);
+    background-color: var(--color-background);
+  }
+
+  .order-item__number a {
+    font-weight: var(--font-weight-bold);
+    text-decoration: none;
+  }
+
+  .order-item__status {
+    padding: 0.4rem 0.8rem;
+    background-color: var(--color-accent);
+    color: var(--color-secondary);
+    border-radius: var(--border-radius);
+    font-size: 1.2rem;
+    text-transform: uppercase;
+  }
+
+  .empty-state {
+    padding: var(--spacing-xl);
+  }
+
+  @media (max-width: 768px) {
+    .customer-account__content {
+      grid-template-columns: 1fr;
+    }
+    
+    .customer-account__header {
+      text-align: center;
+      flex-direction: column;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Customer Account",
+  "class": "shopify-section--main-customers-account",
+  "tag": "section"
+}
+{% endschema %} 

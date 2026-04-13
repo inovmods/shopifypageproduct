@@ -1,0 +1,129 @@
+<div class="container section">
+  <div class="customer-activate-account">
+    <div class="customer-activate-account__wrapper">
+      <header class="customer-activate-account__header text-center mb-lg">
+        <h1 class="h2">{{ 'customer.activate_account.title' | t }}</h1>
+        <p>{{ 'customer.activate_account.subtext' | t }}</p>
+      </header>
+
+      <div class="customer-activate-account__form-wrapper">
+        {%- form 'activate_customer_password' -%}
+          {%- if form.posted_successfully? -%}
+            <div class="form-success mb-md text-center">
+              <h3>{{ 'customer.activate_account.success' | t }}</h3>
+              <p>{{ 'customer.activate_account.success_message' | t }}</p>
+              <a href="{{ routes.account_login_url }}" class="button mt-md">
+                {{ 'customer.activate_account.sign_in' | t }}
+              </a>
+            </div>
+          {%- else -%}
+            {%- if form.errors -%}
+              <div class="form-errors mb-md">
+                {{ form.errors | default_errors }}
+              </div>
+            {%- endif -%}
+
+            <div class="customer-activate-account__form">
+              <div class="form-field">
+                <label for="activate-password" class="form-label">
+                  {{ 'customer.activate_account.password' | t }}
+                </label>
+                <input type="password" 
+                       name="customer[password]" 
+                       id="activate-password"
+                       class="form-input"
+                       autocomplete="new-password"
+                       required>
+                <small class="form-help">
+                  {{ 'customer.activate_account.password_requirements' | t }}
+                </small>
+              </div>
+
+              <div class="form-field">
+                <label for="activate-password-confirmation" class="form-label">
+                  {{ 'customer.activate_account.password_confirm' | t }}
+                </label>
+                <input type="password" 
+                       name="customer[password_confirmation]" 
+                       id="activate-password-confirmation"
+                       class="form-input"
+                       autocomplete="new-password"
+                       required>
+              </div>
+
+              <div class="form-actions">
+                <button type="submit" class="button button--large">
+                  {{ 'customer.activate_account.submit' | t }}
+                </button>
+              </div>
+            </div>
+          {%- endif -%}
+        {%- endform -%}
+
+        <div class="customer-activate-account__decline text-center mt-lg">
+          <p>
+            <a href="{{ routes.account_login_url }}" class="text-link">
+              {{ 'customer.activate_account.decline' | t }}
+            </a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .customer-activate-account__wrapper {
+    max-width: 50rem;
+    margin: 0 auto;
+  }
+
+  .customer-activate-account__form {
+    padding: var(--spacing-lg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-lg);
+    background-color: var(--color-background);
+  }
+
+  .form-help {
+    display: block;
+    margin-top: var(--spacing-xs);
+    color: var(--color-text-light);
+    font-size: 1.4rem;
+  }
+
+  .form-errors {
+    padding: var(--spacing-md);
+    background-color: rgba(244, 67, 54, 0.1);
+    border: 1px solid var(--color-error);
+    border-radius: var(--border-radius);
+    color: var(--color-error);
+  }
+
+  .form-success {
+    padding: var(--spacing-lg);
+    background-color: rgba(76, 175, 80, 0.1);
+    border: 1px solid var(--color-success);
+    border-radius: var(--border-radius);
+    color: var(--color-success);
+  }
+
+  .form-success h3 {
+    margin-bottom: var(--spacing-sm);
+    color: var(--color-success);
+  }
+
+  @media (max-width: 768px) {
+    .customer-activate-account__form {
+      padding: var(--spacing-md);
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Customer Activate Account",
+  "class": "shopify-section--main-customers-activate-account",
+  "tag": "section"
+}
+{% endschema %} 

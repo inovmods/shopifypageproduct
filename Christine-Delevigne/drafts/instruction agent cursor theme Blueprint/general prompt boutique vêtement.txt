@@ -1,0 +1,64 @@
+Prompt for Cursor.ai – Content Creation Guidance for Shopify Theme (Premium, Innovative Clothing Brands)
+
+Hello Cursor.ai,
+
+You are tasked with creating all textual content (titles, small descriptions, header and footer texts) for a Shopify theme designed specifically for premium, young, and innovative clothing and textile brands.
+
+Target audience and brand positioning:
+
+Young, trendy, cutting-edge fashion brands inspired by labels like Cortez, Supreme, Chrome Hearts, Amiri.
+
+Customers are affluent, style-conscious, willing to pay premium prices for exclusive, high-quality apparel.
+
+The theme should evoke luxury, innovation, streetwear-chic, and exclusivity while staying modern and clean.
+
+Ideal for new clothing brands launching their online presence or existing brands seeking a theme refresh with a strong, distinctive identity.
+
+Content guidelines:
+
+Homepage titles and headlines:
+
+Bold, memorable, and evocative.
+
+Use language that conveys exclusivity, trendsetting, craftsmanship, and innovation.
+
+Examples: “Revolutionize Your Style,” “Wear the Future,” “Crafted for the Bold,” “Elevate Your Streetwear Game.”
+
+Product section titles and descriptions:
+
+Highlight quality, unique design, limited editions, and brand story.
+
+Use concise, punchy sentences that spark desire and reflect premium value.
+
+Examples: “Masterfully Tailored Apparel,” “Exclusive Drops You Can’t Miss,” “Designed to Turn Heads.”
+
+Header content:
+
+Clear and minimalistic navigation reflecting the brand’s image (e.g., Collections, New Arrivals, Customization, About).
+
+Include subtle luxury cues (e.g., refined font, uppercase menu items).
+
+Suggest adding features like search bar, cart icon with item count, and user account access.
+
+Footer content:
+
+Include essential links: Privacy Policy, Terms of Service, Shipping & Returns, Contact.
+
+Add brand-related links like About Us, Sustainability, Press, Collaborations.
+
+Incorporate newsletter signup with engaging invitation (e.g., “Join the Movement — Get Exclusive Access & Updates”).
+
+Social media icons with focus on platforms relevant to fashion (Instagram, TikTok, Pinterest).
+
+Tone and style:
+
+Sophisticated yet approachable — urban luxury with an edge.
+
+Use active, confident voice.
+
+Maintain consistency across all textual elements for brand cohesion.
+
+Output:
+Please generate sample texts for each area (homepage title, product description snippet, header menu labels, footer sections) that fit the above criteria, ready to be implemented and editable within the Shopify theme.
+
+Thank you.

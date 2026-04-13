@@ -1,0 +1,315 @@
+{% comment %}
+  Page d’accueil Kualley : enveloppe (intro + CTA + confiance) + bloc produit complet (snippet ~1300 lignes).
+  Le rendu « page » est ici ; le merchandising détaillé reste dans snippets/kualley-kp-complete-block.liquid.
+{% endcomment %}
+
+{%- liquid
+  assign home_product = section.settings.product
+  if home_product == blank and section.settings.product_fallback_collection != blank
+    if section.settings.product_fallback_collection.products_count > 0
+      assign home_product = section.settings.product_fallback_collection.products.first
+    endif
+  endif
+-%}
+
+<div
+  class="kualley-home-shell color-{{ section.settings.color_scheme }} gradient"
+  id="kualley-home-{{ section.id }}"
+>
+  {% if section.settings.show_intro %}
+    <div class="kualley-home-shell__intro page-width">
+      {% if section.settings.intro_kicker != blank %}
+        <p class="kualley-home-shell__kicker">{{ section.settings.intro_kicker | escape }}</p>
+      {% endif %}
+      {% if section.settings.intro_heading != blank %}
+        <h2 class="kualley-home-shell__title">{{ section.settings.intro_heading | escape }}</h2>
+      {% endif %}
+      {% if section.settings.intro_text != blank %}
+        <div class="kualley-home-shell__text rte">{{ section.settings.intro_text }}</div>
+      {% endif %}
+      <div class="kualley-home-shell__actions">
+        {% if section.settings.cta_label != blank and section.settings.cta_link != blank %}
+          <a class="button button--primary" href="{{ section.settings.cta_link }}">
+            {{ section.settings.cta_label | escape }}
+          </a>
+        {% endif %}
+        {% if section.settings.cta_secondary_label != blank and section.settings.cta_secondary_link != blank %}
+          <a class="button button--secondary" href="{{ section.settings.cta_secondary_link }}">
+            {{ section.settings.cta_secondary_label | escape }}
+          </a>
+        {% endif %}
+      </div>
+      {% if section.settings.show_trust_row %}
+        <ul class="kualley-home-shell__trust" role="list">
+          {% if section.settings.trust_1 != blank %}
+            <li>{{ section.settings.trust_1 | escape }}</li>
+          {% endif %}
+          {% if section.settings.trust_2 != blank %}
+            <li>{{ section.settings.trust_2 | escape }}</li>
+          {% endif %}
+          {% if section.settings.trust_3 != blank %}
+            <li>{{ section.settings.trust_3 | escape }}</li>
+          {% endif %}
+        </ul>
+      {% endif %}
+    </div>
+  {% endif %}
+
+  <div class="kualley-home-shell__landing" id="shop-drop">
+    {% render 'kualley-kp-complete-block', kp_product: home_product %}
+  </div>
+
+  {% if section.settings.show_bottom %}
+    <div class="kualley-home-shell__bottom page-width">
+      <div class="kualley-home-shell__bottom-inner">
+        {% if section.settings.bottom_heading != blank %}
+          <h2 class="kualley-home-shell__bottom-title">{{ section.settings.bottom_heading | escape }}</h2>
+        {% endif %}
+        {% if section.settings.bottom_text != blank %}
+          <p class="kualley-home-shell__bottom-text">{{ section.settings.bottom_text | escape }}</p>
+        {% endif %}
+        {% if section.settings.bottom_link_label != blank and section.settings.bottom_link != blank %}
+          <a class="button button--primary" href="{{ section.settings.bottom_link }}">
+            {{ section.settings.bottom_link_label | escape }}
+          </a>
+        {% endif %}
+      </div>
+    </div>
+  {% endif %}
+</div>
+
+{% style %}
+  #kualley-home-{{ section.id }} .kualley-home-shell__intro {
+    text-align: center;
+    max-width: 48rem;
+    margin: 0 auto;
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_top | times: 0.5 | round: 0 }}px;
+  }
+  #kualley-home-{{ section.id }} .kualley-home-shell__kicker {
+    margin: 0 0 0.5rem;
+    font-size: 0.75rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    font-weight: 700;
+    opacity: 0.75;
+  }
+  #kualley-home-{{ section.id }} .kualley-home-shell__title {
+    margin: 0 0 0.75rem;
+    font-size: clamp(1.5rem, 3vw, 2.25rem);
+    line-height: 1.15;
+  }
+  #kualley-home-{{ section.id }} .kualley-home-shell__text {
+    margin: 0 0 1.25rem;
+    font-size: 1rem;
+    line-height: 1.6;
+    opacity: 0.88;
+  }
+  #kualley-home-{{ section.id }} .kualley-home-shell__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    justify-content: center;
+    margin-bottom: 1rem;
+  }
+  #kualley-home-{{ section.id }} .kualley-home-shell__trust {
+    list-style: none;
+    margin: 1rem 0 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem 1.25rem;
+    justify-content: center;
+    font-size: 0.8125rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    font-weight: 600;
+    opacity: 0.8;
+  }
+  #kualley-home-{{ section.id }} .kualley-home-shell__trust li::before {
+    content: '✓ ';
+    opacity: 0.7;
+  }
+  #kualley-home-{{ section.id }} .kualley-home-shell__bottom {
+    border-top: 1px solid rgba(var(--color-foreground), 0.12);
+    margin-top: 0;
+  }
+  #kualley-home-{{ section.id }} .kualley-home-shell__bottom-inner {
+    max-width: 40rem;
+    margin: 0 auto;
+    text-align: center;
+    padding-top: 2rem;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+  #kualley-home-{{ section.id }} .kualley-home-shell__bottom-title {
+    margin: 0 0 0.5rem;
+    font-size: 1.35rem;
+  }
+  #kualley-home-{{ section.id }} .kualley-home-shell__bottom-text {
+    margin: 0 0 1rem;
+    line-height: 1.6;
+    opacity: 0.85;
+  }
+{% endstyle %}
+
+{% schema %}
+{
+  "name": "Kualley — page d’accueil",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Produit vedette (bloc complet)"
+    },
+    {
+      "type": "product",
+      "id": "product",
+      "label": "Produit à mettre en avant"
+    },
+    {
+      "type": "collection",
+      "id": "product_fallback_collection",
+      "label": "Collection de secours",
+      "info": "Si aucun produit n’est choisi, le premier produit de cette collection sera utilisé."
+    },
+    {
+      "type": "header",
+      "content": "Bandeau d’introduction"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_intro",
+      "label": "Afficher l’introduction",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "intro_kicker",
+      "label": "Surtitre",
+      "default": "Kualley · Resort swimwear"
+    },
+    {
+      "type": "text",
+      "id": "intro_heading",
+      "label": "Titre",
+      "default": "Ta page d’accueil boutique"
+    },
+    {
+      "type": "richtext",
+      "id": "intro_text",
+      "label": "Texte"
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "Bouton principal — libellé",
+      "default": "Voir la collection"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "Bouton principal — lien"
+    },
+    {
+      "type": "text",
+      "id": "cta_secondary_label",
+      "label": "Bouton secondaire — libellé",
+      "default": "Nous contacter"
+    },
+    {
+      "type": "url",
+      "id": "cta_secondary_link",
+      "label": "Bouton secondaire — lien"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_trust_row",
+      "label": "Afficher les 3 engagements",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "trust_1",
+      "label": "Engagement 1",
+      "default": "Livraison suivie"
+    },
+    {
+      "type": "text",
+      "id": "trust_2",
+      "label": "Engagement 2",
+      "default": "Petites séries"
+    },
+    {
+      "type": "text",
+      "id": "trust_3",
+      "label": "Engagement 3",
+      "default": "Paiements sécurisés"
+    },
+    {
+      "type": "header",
+      "content": "Bloc sous la landing"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_bottom",
+      "label": "Afficher le bloc final",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "bottom_heading",
+      "label": "Titre du bloc final",
+      "default": "Découvrir le reste de la boutique"
+    },
+    {
+      "type": "textarea",
+      "id": "bottom_text",
+      "label": "Texte du bloc final",
+      "default": "En dessous : grille produits (section suivante sur la page d’accueil)."
+    },
+    {
+      "type": "text",
+      "id": "bottom_link_label",
+      "label": "Libellé du lien",
+      "default": "Tous les produits"
+    },
+    {
+      "type": "url",
+      "id": "bottom_link",
+      "label": "Lien du bloc final"
+    },
+    {
+      "type": "select",
+      "id": "color_scheme",
+      "label": "Jeu de couleurs",
+      "options": [
+        { "value": "accent-1", "label": "Accent 1" },
+        { "value": "accent-2", "label": "Accent 2" },
+        { "value": "background-1", "label": "Fond 1" },
+        { "value": "background-2", "label": "Fond 2" },
+        { "value": "inverse", "label": "Inverse" }
+      ],
+      "default": "background-1"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Marge haute (intro)",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Marge basse (bloc final)",
+      "default": 36
+    }
+  ]
+}
+{% endschema %}

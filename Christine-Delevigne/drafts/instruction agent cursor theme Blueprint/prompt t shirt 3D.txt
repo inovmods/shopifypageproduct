@@ -1,0 +1,32 @@
+You will create a Shopify homepage theme inspired by the Dora.run Nike shoe template, with all the same style, layout, animations, and scroll-driven 3D interactivity as the original.
+
+Important: Instead of the original 3D shoe model, you must use the 3D model file that I am uploading here:
+off-white_monalisa_black_t-shirt.glb (a 3D GLB file of a t-shirt).
+
+Instructions:
+
+Replace the shoe 3D model in the hero section with this t-shirt 3D model, ensuring it is fully interactive:
+
+The 3D t-shirt must respond to scroll events smoothly by rotating or animating as the user scrolls.
+
+It must be manipulable by the user if possible (rotation, zoom).
+
+The integration should be seamless, just like the original shoe model.
+
+Maintain the exact same structure and style of the Dora.run homepage template:
+
+Hero section with left-aligned text (product name, slogan, CTA).
+
+Right side featuring the interactive 3D t-shirt.
+
+Smooth scroll-triggered animations for text and 3D model.
+
+All text and images should be editable via Shopify’s theme editor.
+
+Ensure the 3D model is optimized for web, loads efficiently, and works responsively on desktop and mobile devices.
+
+Deliver the full Shopify theme as a ZIP file, ready to be imported and customized in Shopify.
+
+Please base your code on the full Dora.run Nike shoe template structure and replicate all relevant animations and UI/UX features, only swapping the 3D shoe for the uploaded t-shirt 3D model.
+
+Thank you.

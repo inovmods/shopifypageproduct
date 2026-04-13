@@ -1,0 +1,1378 @@
+{% comment %}
+  Marea — bloc BOGO complet (galerie + achat + sticky + sheet + avis US + « As seen on social » sous l’ATC).
+  Comme Solara : ouvre ce fichier, copie TOUT, colle dans Shopify → Liquid personnalisé (page produit).
+  Marqueur : KUALLEY_KP_MARK_marea_bogo_complet
+{% endcomment %}
+{% assign p = product %}
+{% if p == blank and closest.product != blank %}
+  {% assign p = closest.product %}
+{% endif %}
+{% if p == blank %}
+  {% assign p = collections.all.products.first %}
+{% endif %}
+
+{% assign base_price_cents = 7000 %}
+{% assign compare_price_cents = 10000 %}
+{% assign save_price_cents = compare_price_cents | minus: base_price_cents %}
+
+{% assign r_base = base_price_cents | modulo: 100 %}
+{% assign d_base = base_price_cents | divided_by: 100 %}
+{% assign r_cmp = compare_price_cents | modulo: 100 %}
+{% assign d_cmp = compare_price_cents | divided_by: 100 %}
+{% assign r_sav = save_price_cents | modulo: 100 %}
+{% assign d_sav = save_price_cents | divided_by: 100 %}
+
+{% assign logo_svg = 'https://cdn.shopify.com/s/files/1/1033/9418/1457/files/Generated_Image_March_29_2026_-_2_29PM.svg?v=1774791054' %}
+{% assign ig_logo = 'https://cdn.shopify.com/s/files/1/1033/9418/1457/files/Instagram-Logo.wine.svg?v=1774735024' %}
+{% assign ship_logo = 'https://cdn.shopify.com/s/files/1/1033/9418/1457/files/United_States_Postal_Service-Logo.wine.svg?v=1774735024' %}
+
+{% assign pay_apple = 'https://cdn.shopify.com/s/files/1/1033/9418/1457/files/Apple_Pay-Logo.wine_1.svg?v=1774735024' %}
+{% assign pay_mc = 'https://cdn.shopify.com/s/files/1/1033/9418/1457/files/Mastercard-Logo.wine.svg?v=1774735024' %}
+{% assign pay_amex = 'https://cdn.shopify.com/s/files/1/1033/9418/1457/files/American_Express-Logo.wine_1.svg?v=1774735024' %}
+{% assign pay_shop = 'https://cdn.shopify.com/s/files/1/1033/9418/1457/files/shoppay_logo-removebg-preview.png?v=1774735059' %}
+{% assign pay_pp = 'https://cdn.shopify.com/s/files/1/1033/9418/1457/files/PayPal-Logo.wine.svg?v=1774735024' %}
+
+{% assign video_1 = 'https://cdn.shopify.com/videos/c/o/v/186fe95c2279443c90727736281e1bb8.mp4' %}
+{% assign video_2 = 'https://cdn.shopify.com/videos/c/o/v/c0b90291362e42d4b990177e31e3f7fb.mp4' %}
+
+{% assign font_body = 'https://cdn.shopify.com/s/files/1/1033/9418/1457/files/amoera-Regular.ttf?v=1774791198' %}
+{% assign font_title = 'https://cdn.shopify.com/s/files/1/1033/9418/1457/files/Malline.ttf?v=1774787392' %}
+
+{% assign fallback_img = p.featured_image | image_url: width: 900 %}
+
+{% assign img_1 = 'https://cdn.shopify.com/s/files/1/1033/9418/1457/files/Generated_Image_March_28_2026_-_9_42PM.webp?v=1774734900' %}
+{% assign img_2 = 'https://cdn.shopify.com/s/files/1/1033/9418/1457/files/Generated_Image_March_28_2026_-_9_46PM.webp?v=1774734900' %}
+{% assign img_3 = 'https://cdn.shopify.com/s/files/1/1033/9418/1457/files/Generated_Image_March_28_2026_-_9_48PM.webp?v=1774734901' %}
+{% assign img_4 = 'https://cdn.shopify.com/s/files/1/1033/9418/1457/files/Generated_Image_March_28_2026_-_9_51PM.webp?v=1774734900' %}
+{% assign img_5 = 'https://cdn.shopify.com/s/files/1/1033/9418/1457/files/Generated_Image_March_28_2026_-_9_55PM.webp?v=1774734900' %}
+{% assign img_6 = 'https://cdn.shopify.com/s/files/1/1033/9418/1457/files/Generated_Image_March_28_2026_-_9_58PM.webp?v=1774734898' %}
+{% assign img_7 = 'https://cdn.shopify.com/s/files/1/1033/9418/1457/files/Generated_Image_March_28_2026_-_9_32PM.webp?v=1774734900' %}
+{% assign img_8 = 'https://cdn.shopify.com/s/files/1/1033/9418/1457/files/Generated_Image_March_28_2026_-_7_39PM.webp?v=1774734900' %}
+{% assign img_9 = 'https://cdn.shopify.com/s/files/1/1033/9418/1457/files/Generated_Image_March_28_2026_-_7_43PM.webp?v=1774734900' %}
+{% assign img_10 = 'https://cdn.shopify.com/s/files/1/1033/9418/1457/files/Generated_Image_March_28_2026_-_11_03PM.jpg?v=1774735457' %}
+
+{% assign soc_micro_1 = 'https://cdn.shopify.com/s/files/1/1033/9418/1457/files/Generated_Image_March_28_2026_-_10_43PM.webp?v=1774734901' %}
+{% assign soc_micro_2 = 'https://cdn.shopify.com/s/files/1/1033/9418/1457/files/Generated_Image_March_28_2026_-_10_33PM.webp?v=1774734900' %}
+{% assign soc_micro_3 = 'https://cdn.shopify.com/s/files/1/1033/9418/1457/files/Generated_Image_March_28_2026_-_10_30PM.webp?v=1774734900' %}
+
+{% assign support_email = shop.email %}
+<!-- KUALLEY_KP_MARK_build_2026-04-07 sticky-compact+sheet + rating + micro-social-under-ATC -->
+<div class="kp" data-kp-root data-k-cart-sections="">
+  <style>
+    @font-face{font-family:'KTitle';src:url('{{ font_title }}') format('truetype');font-weight:400;font-style:normal;font-display:swap;}
+    @font-face{font-family:'KBody';src:url('{{ font_body }}') format('truetype');font-weight:400;font-style:normal;font-display:swap;}
+    .kp{
+      --iv:#F8F5EF;--sd:#EDE4D6;--st:#C9BAA5;--wr:#A08B70;
+      --dp:#1C1914;--ch:#3A3530;--mu:#7D7268;--bd:#E2D9CC;
+      --wh:#FFFFFF;--cr:#FAF8F4;--gd:#C9A96E;--ok:#5A8A6A;
+      --r:20px;--tr:.32s cubic-bezier(.25,.46,.45,.94);--top:66px;
+      --header-safe:var(--header-group-height,var(--header-height,60px));
+      font-family:'KBody',system-ui,sans-serif;color:var(--dp);background:var(--iv);
+      -webkit-font-smoothing:antialiased;position:relative;
+    }
+    .kp *,.kp *::before,.kp *::after{box-sizing:border-box}
+    .kp img,.kp video{display:block;max-width:100%}
+    .kp .k-container{max-width:1280px;margin:0 auto;padding:0 16px}
+    @media(min-width:1024px){.kp .k-container{padding:0 48px}}
+
+    .kp .k-topbar{position:sticky;top:var(--header-safe);left:0;right:0;z-index:4;background:var(--iv);border-bottom:1px solid var(--bd)}
+    .kp .k-topbar__inner{height:var(--top);max-width:1280px;margin:0 auto;padding:0 16px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+    @media(min-width:1024px){.kp .k-topbar__inner{padding:0 48px}}
+    .kp .k-brand{display:flex;align-items:center;gap:10px;min-width:0}
+    .kp .k-logo{height:34px;width:auto;object-fit:contain}
+    .kp .k-offer{display:flex;align-items:center;gap:10px;color:var(--ch);font-size:12px;letter-spacing:.16em;text-transform:uppercase;font-weight:900;white-space:nowrap}
+    .kp .k-savepill{display:none}
+    @media(min-width:820px){
+      .kp .k-savepill{display:inline-flex;align-items:center;gap:8px;padding:9px 12px;border-radius:999px;background:rgba(28,25,20,.06);border:1px solid var(--bd);color:var(--dp);font-weight:900;letter-spacing:.12em;text-transform:uppercase;font-size:11px;white-space:nowrap}
+      .kp .k-savepill .k-savepill__usd{color:var(--ok);font-weight:900}
+    }
+    .kp .k-countwrap{display:flex;align-items:center;gap:10px;flex-shrink:0}
+    .kp .k-countwrap__promo{display:flex;flex-direction:column;align-items:flex-start;gap:2px;min-width:0}
+    .kp .k-bogo{margin:0;font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:900;color:var(--dp);line-height:1.2}
+    .kp .k-easter-label{margin:0 0 2px;font-size:10px;letter-spacing:.18em;text-transform:uppercase;font-weight:900;color:var(--gd);line-height:1.2}
+    .kp .k-countwrap .k-end{font-size:10px;letter-spacing:.12em;text-transform:uppercase;font-weight:900;color:var(--mu);white-space:normal;text-align:center;max-width:200px}
+    .kp .k-mini{display:flex;align-items:center;gap:6px;color:var(--dp);font-size:12px;letter-spacing:.10em;font-weight:900;font-variant-numeric:tabular-nums;background:var(--wh);border:1px solid var(--bd);padding:9px 12px;border-radius:999px;white-space:nowrap}
+    .kp .k-mini .d{opacity:.45}
+    @media(max-width:819px){
+      .kp .k-topbar__inner{flex-direction:column;align-items:stretch;justify-content:center;gap:8px;height:auto;min-height:var(--top);padding:10px max(56px, env(safe-area-inset-left, 0px) + 44px) 12px max(56px, env(safe-area-inset-right, 0px) + 44px)}
+      .kp .k-brand{justify-content:center;order:1}
+      .kp .k-offer{display:none}
+      .kp .k-countwrap{order:2;flex-direction:column;align-items:center;justify-content:center;gap:6px;width:100%;align-self:center}
+      .kp .k-countwrap__promo{align-items:center;text-align:center}
+      .kp .k-mini{margin:0 auto}
+    }
+
+    .kp .k-hero{background:var(--cr);padding:14px 0 56px}
+    .kp .k-grid{display:block}
+    @media(min-width:1024px){.kp .k-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:start}}
+
+    .kp .k-gal{margin-top:6px}
+    @media(min-width:1024px){.kp .k-gal{position:sticky;top:calc(var(--header-safe) + var(--top) + 18px)}}
+    .kp .k-main{position:relative;border-radius:var(--r);overflow:hidden;background:var(--sd);aspect-ratio:3/4;box-shadow:0 18px 55px rgba(28,25,20,.12)}
+    .kp .k-badge{position:absolute;top:14px;left:14px;z-index:4;background:rgba(28,25,20,.92);color:var(--gd);font-size:10px;letter-spacing:.14em;text-transform:uppercase;font-weight:900;padding:7px 12px;border-radius:999px;border:1px solid rgba(248,245,239,.12)}
+    .kp .k-slide{position:absolute;inset:0;opacity:0;transform:scale(1.01);transition:opacity .45s ease,transform .65s ease}
+    .kp .k-slide.on{opacity:1;transform:scale(1)}
+    .kp .k-slide img,.kp .k-slide video{width:100%;height:100%;object-fit:cover}
+    .kp .k-thumbs{display:flex;gap:10px;margin-top:12px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+    .kp .k-thumbs::-webkit-scrollbar{display:none}
+    .kp .k-thumb{flex-shrink:0;width:74px;height:92px;border-radius:14px;overflow:hidden;border:2px solid transparent;background:var(--sd);cursor:pointer;transition:transform var(--tr),border-color var(--tr);position:relative}
+    .kp .k-thumb:hover{transform:translateY(-2px)}
+    .kp .k-thumb.on{border-color:var(--dp)}
+    .kp .k-thumb img{width:100%;height:100%;object-fit:cover}
+    .kp .k-tag{position:absolute;left:8px;bottom:8px;font-size:10px;letter-spacing:.12em;text-transform:uppercase;font-weight:900;color:var(--iv);background:rgba(28,25,20,.78);border:1px solid rgba(248,245,239,.14);padding:4px 7px;border-radius:999px}
+
+    .kp .k-eye{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--wr);font-weight:900;margin:14px 0 10px}
+    .kp .k-rating{margin:0 0 14px}
+    .kp .k-rating__row{display:flex;align-items:center;flex-wrap:wrap;gap:8px 10px}
+    .kp .k-rating__stars{color:var(--gd);font-size:14px;letter-spacing:1px;line-height:1;flex-shrink:0}
+    .kp .k-rating__score{font-size:14px;font-weight:900;color:var(--dp);letter-spacing:.02em}
+    .kp .k-rating__sep{color:var(--st);font-weight:700;opacity:.85}
+    .kp .k-rating__proof{font-size:13px;font-weight:800;color:var(--ch);letter-spacing:.01em}
+    .kp .k-rating__hint{margin:6px 0 0;font-size:11px;color:var(--mu);line-height:1.45;max-width:42ch}
+    .kp .k-title{font-family:'KTitle',Georgia,serif;font-size:clamp(28px,4.6vw,46px);line-height:1.06;margin:0 0 10px}
+    .kp .k-sub{color:var(--mu);font-size:14px;line-height:1.75;margin:0 0 18px;max-width:58ch}
+    .kp .k-pill{display:inline-flex;align-items:center;gap:10px;padding:10px 14px;border-radius:999px;background:rgba(28,25,20,.92);color:var(--gd);border:1px solid rgba(248,245,239,.12);font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:900;margin:0 0 12px}
+
+    .kp .k-price{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin:10px 0 6px}
+    .kp .k-now{font-family:'KTitle',Georgia,serif;font-size:34px;letter-spacing:.02em}
+    .kp .k-was{font-size:16px;color:var(--st);text-decoration:line-through}
+    .kp .k-save{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ok);font-weight:900}
+    .kp .k-micro{font-size:12px;color:var(--mu);margin:0 0 16px;line-height:1.6}
+
+    .kp .k-ship{display:flex;flex-wrap:wrap;gap:10px;margin:12px 0 18px}
+    .kp .k-ship i{font-style:normal;color:var(--ok);font-weight:900}
+    .kp .k-chip{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--ch);background:rgba(255,255,255,.55);border:1px solid rgba(28,25,20,.06);padding:8px 10px;border-radius:999px}
+
+    .kp .k-paywrap{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:10px 0 18px}
+    .kp .k-pay{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+    .kp .k-pay img{height:22px;width:auto;opacity:.85;object-fit:contain}
+    .kp .k-shiplogo{display:flex;align-items:center;gap:10px}
+    .kp .k-shiplogo img{height:22px;width:auto;opacity:.80}
+
+    .kp .k-qty{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:12px 0 14px}
+    .kp .k-ql{font-size:12px;color:var(--mu);letter-spacing:.12em;text-transform:uppercase;font-weight:900}
+    .kp .k-qc{display:flex;align-items:center;gap:8px;background:var(--wh);border:1px solid var(--bd);border-radius:999px;padding:6px}
+    .kp .k-qb{width:34px;height:34px;border:none;border-radius:999px;background:rgba(28,25,20,.06);color:var(--dp);cursor:pointer;font-weight:900;transition:all var(--tr)}
+    .kp .k-qb:hover{background:rgba(28,25,20,.12)}
+    .kp .k-qv{min-width:34px;text-align:center;font-variant-numeric:tabular-nums;font-weight:900;color:var(--dp)}
+
+    .kp .k-pick{border:1px solid var(--bd);border-radius:18px;background:rgba(255,255,255,.65);padding:14px;margin:14px 0}
+    .kp .k-ph{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}
+    .kp .k-pt{font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:900;margin:0}
+    .kp .k-pr{font-size:11px;letter-spacing:.12em;text-transform:uppercase;font-weight:900;color:var(--gd);background:rgba(28,25,20,.92);border:1px solid rgba(248,245,239,.12);padding:6px 10px;border-radius:999px;white-space:nowrap}
+
+    .kp .k-sum{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.55);border:1px solid rgba(28,25,20,.06);padding:10px 12px;border-radius:16px;margin-bottom:10px}
+    .kp .k-sum__img{width:46px;height:58px;border-radius:12px;overflow:hidden;background:var(--sd);flex-shrink:0}
+    .kp .k-sum__img img{width:100%;height:100%;object-fit:cover}
+    .kp .k-sum__txt{min-width:0}
+    .kp .k-sum__name{font-weight:900;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .kp .k-sum__var{font-size:12px;color:var(--mu);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+    .kp .k-ol{font-size:11px;letter-spacing:.12em;text-transform:uppercase;font-weight:900;color:var(--mu);margin:10px 0 8px}
+    .kp .k-or{display:flex;flex-wrap:wrap;gap:8px}
+    .kp .k-ob{border:1.5px solid var(--bd);background:var(--wh);color:var(--ch);padding:11px 12px;border-radius:14px;cursor:pointer;font-size:13px;font-weight:900;transition:all var(--tr);user-select:none}
+    .kp .k-ob:hover{border-color:var(--dp);transform:translateY(-1px)}
+    .kp .k-ob.on{background:var(--dp);border-color:var(--dp);color:var(--iv)}
+    .kp .k-ob.off{opacity:.35;cursor:not-allowed;transform:none}
+
+    .kp .k-btn{width:100%;display:flex;align-items:center;justify-content:center;gap:10px;padding:16px 18px;border:none;border-radius:16px;cursor:pointer;font-size:13px;font-weight:900;letter-spacing:.14em;text-transform:uppercase;transition:all var(--tr);font-family:'KBody',system-ui,sans-serif}
+    .kp .k-btn.primary{background:var(--dp);color:var(--iv);box-shadow:0 16px 40px rgba(28,25,20,.18)}
+    .kp .k-btn.primary:hover{transform:translateY(-1px);background:var(--ch)}
+    .kp .k-btn.primary:disabled{opacity:.55;cursor:not-allowed;transform:none}
+    .kp [data-k-add].kp-atc--busy{opacity:.55;pointer-events:none;cursor:wait}
+    .kp .k-linkbtn{background:none;border:none;cursor:pointer;font-size:12px;color:var(--wr);font-weight:900;letter-spacing:.1em;text-transform:uppercase;text-decoration:underline;text-underline-offset:3px;padding:0}
+    .kp .k-atc-wrap{margin-top:18px;margin-bottom:8px}
+    .kp .k-social-micro{margin-top:0;margin-bottom:10px;padding-bottom:10px;border-bottom:1px solid rgba(28,25,20,.06)}
+    .kp .k-social-micro__head{display:flex;align-items:center;gap:6px;margin:0 0 4px}
+    .kp .k-social-micro__ig{width:12px;height:12px;opacity:.72;flex-shrink:0}
+    .kp .k-social-micro__label{font-size:9px;letter-spacing:.16em;text-transform:uppercase;font-weight:900;color:var(--wr);margin:0}
+    .kp .k-social-micro__tag{margin:0 0 8px;font-size:10px;color:var(--mu);line-height:1.4;max-width:48ch}
+    .kp .k-sgrid.k-sgrid--micro{display:flex;flex-direction:row;flex-wrap:nowrap;gap:8px;margin:0;overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;scroll-snap-type:x mandatory;scroll-padding-inline:0;padding:2px 0 6px;scrollbar-width:thin}
+    .kp .k-sgrid.k-sgrid--micro::-webkit-scrollbar{height:5px}
+    .kp .k-sgrid.k-sgrid--micro::-webkit-scrollbar-thumb{background:rgba(28,25,20,.18);border-radius:999px}
+    .kp .k-scard.k-scard--micro{position:relative;flex:0 0 104px;width:104px;scroll-snap-align:start;border-radius:12px;overflow:hidden;background:var(--sd);aspect-ratio:4/5;box-shadow:0 6px 18px rgba(28,25,20,.08)}
+    .kp .k-scard.k-scard--micro img{width:100%;height:100%;object-fit:cover;display:block}
+    .kp .k-scard.k-scard--micro .k-sov{position:absolute;inset:0;background:linear-gradient(to top,rgba(28,25,20,.58),transparent 52%);display:flex;align-items:flex-end;padding:6px 6px 7px}
+    .kp .k-scard.k-scard--micro .k-sov span{color:var(--iv);font-weight:900;letter-spacing:.1em;text-transform:uppercase;font-size:8px;line-height:1.2}
+    .shopify-section .kp [data-k-add],.shopify-block .kp [data-k-add]{display:flex!important;visibility:visible!important;opacity:1!important;max-height:none!important;clip:auto!important}
+
+    .kp .k-sticky{position:fixed;left:0;right:0;bottom:0;z-index:9995;background:rgba(248,245,239,.97);backdrop-filter:saturate(1.2) blur(12px);-webkit-backdrop-filter:saturate(1.2) blur(12px);border-top:1px solid var(--bd);padding:6px 0 calc(8px + env(safe-area-inset-bottom,0px));transform:translate3d(0,110%,0);transition:transform .32s var(--tr);visibility:hidden;pointer-events:none}
+    .kp .k-sticky.k-sticky--on{transform:translate3d(0,0,0);visibility:visible;pointer-events:auto}
+    .kp.kp--sticky-bar{padding-bottom:calc(76px + env(safe-area-inset-bottom,0px))}
+    @media(min-width:900px){.kp.kp--sticky-bar{padding-bottom:calc(72px + env(safe-area-inset-bottom,0px))}}
+    .kp .k-sticky__inner{max-width:1280px;margin:0 auto;padding:0 12px}
+    @media(min-width:1024px){.kp .k-sticky__inner{padding:0 48px}}
+    .kp .k-sticky__bar{display:flex;align-items:center;gap:8px}
+    .kp .k-sticky__hit{flex:1;min-width:0;display:flex;align-items:center;gap:10px;padding:6px 10px;border-radius:14px;border:1px solid var(--bd);background:rgba(255,255,255,.72);cursor:pointer;font:inherit;color:inherit;-webkit-tap-highlight-color:transparent;text-align:left;transition:border-color var(--tr),background var(--tr)}
+    .kp .k-sticky__hit:active{background:rgba(255,255,255,.92)}
+    .kp .k-sticky__thumb{width:40px;height:50px;border-radius:10px;object-fit:cover;flex-shrink:0;background:var(--sd);display:block}
+    .kp .k-sticky__meta{flex:1;min-width:0;display:flex;flex-direction:column;gap:1px}
+    .kp .k-sticky__eyebrow{font-size:8px;letter-spacing:.14em;text-transform:uppercase;font-weight:900;color:var(--mu);line-height:1.2}
+    .kp .k-sticky__sel{font-size:11px;font-weight:900;color:var(--dp);line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .kp .k-sticky__chev{flex-shrink:0;width:22px;height:22px;border-radius:999px;border:1px solid var(--bd);display:flex;align-items:center;justify-content:center;font-size:9px;color:var(--mu)}
+    .kp .k-sticky__cta--bar{flex-shrink:0;width:auto!important;min-width:92px;max-width:110px;padding:12px 10px!important;font-size:10px!important;letter-spacing:.1em!important;white-space:nowrap}
+    .kp .k-sticky-sheet{position:fixed;inset:0;z-index:9998;pointer-events:none}
+    .kp .k-sticky-sheet.k-sticky-sheet--on{pointer-events:auto}
+    .kp .k-sticky-sheet__backdrop{position:absolute;inset:0;background:rgba(28,25,20,.5);opacity:0;transition:opacity .28s ease}
+    .kp .k-sticky-sheet.k-sticky-sheet--on .k-sticky-sheet__backdrop{opacity:1}
+    .kp .k-sticky-sheet__panel{position:absolute;left:0;right:0;bottom:0;max-height:min(82dvh,560px);background:var(--wh);border-radius:20px 20px 0 0;box-shadow:0 -12px 40px rgba(28,25,20,.15);transform:translate3d(0,105%,0);transition:transform .34s cubic-bezier(.25,.46,.45,.94);display:flex;flex-direction:column}
+    .kp .k-sticky-sheet.k-sticky-sheet--on .k-sticky-sheet__panel{transform:translate3d(0,0,0)}
+    .kp .k-sticky-sheet__head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 16px 10px;border-bottom:1px solid rgba(28,25,20,.08);flex-shrink:0}
+    .kp .k-sticky-sheet__title{font-family:'KTitle',Georgia,serif;font-size:18px;margin:0;color:var(--dp)}
+    .kp .k-sticky-sheet__x{width:38px;height:38px;border-radius:999px;border:1px solid var(--bd);background:rgba(28,25,20,.04);cursor:pointer;font-weight:900;font-size:16px;line-height:1;color:var(--dp)}
+    .kp .k-sticky-sheet__body{padding:12px 16px calc(16px + env(safe-area-inset-bottom,0px));overflow-y:auto;-webkit-overflow-scrolling:touch;flex:1;min-height:0}
+    .kp .k-sticky-sheet__slot{display:flex;align-items:flex-start;gap:8px;margin-bottom:14px}
+    .kp .k-sticky-sheet__slot:last-of-type{margin-bottom:8px}
+    .kp .k-sticky-sheet__tag{flex-shrink:0;font-size:10px;letter-spacing:.14em;text-transform:uppercase;font-weight:900;color:var(--mu);padding-top:6px}
+    .kp .k-sticky-sheet__slot [data-k-picker-sticky]{flex:1;min-width:0}
+    .kp .k-sticky-sheet [data-k-picker-sticky] .k-ol{font-size:10px;margin:0 0 8px;letter-spacing:.1em}
+    .kp .k-sticky-sheet [data-k-picker-sticky] .k-or{gap:8px}
+    .kp .k-sticky-sheet [data-k-picker-sticky] .k-ob{padding:10px 12px;font-size:12px;border-radius:12px}
+    .kp .k-sticky-sheet__atc{margin-top:6px;padding-top:4px}
+    .kp .k-sticky-sheet__atc [data-k-add]{width:100%}
+
+    .kp .k-acc{margin-top:18px;border-top:1px solid var(--bd)}
+    .kp .k-ai{border-bottom:1px solid var(--bd)}
+    .kp .k-ab{width:100%;padding:18px 0;background:none;border:none;display:flex;justify-content:space-between;align-items:center;gap:14px;cursor:pointer;text-align:left}
+    .kp .k-aq{font-size:14px;font-weight:900;color:var(--dp)}
+    .kp .k-ax{width:30px;height:30px;border-radius:999px;border:1.5px solid var(--bd);display:flex;align-items:center;justify-content:center;font-weight:900;transition:all var(--tr);flex-shrink:0}
+    .kp .k-ap{max-height:0;overflow:hidden;transition:max-height .42s ease}
+    .kp .k-at{padding:0 0 18px;color:var(--mu);font-size:14px;line-height:1.8}
+    .kp .k-ai.on .k-ap{max-height:900px}
+    .kp .k-ai.on .k-ax{background:var(--dp);color:var(--iv);border-color:var(--dp);transform:rotate(45deg)}
+    .kp .k-spec{list-style:none;padding:0;margin:10px 0 0;display:grid;gap:10px}
+    .kp .k-spec li{display:flex;justify-content:space-between;gap:12px;background:rgba(255,255,255,.55);border:1px solid rgba(28,25,20,.06);padding:10px 12px;border-radius:14px}
+    .kp .k-spec b{color:var(--dp)}
+
+    .kp .k-social{background:var(--iv);padding:70px 0}
+    .kp .k-sh{display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:12px}
+    .kp .k-ig{width:18px;height:18px;opacity:.75}
+    .kp .k-st{font-family:'KTitle',Georgia,serif;font-size:clamp(22px,3.6vw,34px);margin:0}
+    .kp .k-ss{text-align:center;color:var(--mu);font-size:14px;line-height:1.7;max-width:62ch;margin:10px auto 0}
+    .kp .k-sgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:26px}
+    @media(max-width:760px){.kp .k-sgrid{grid-template-columns:1fr;gap:12px}}
+    .kp .k-scard{position:relative;border-radius:20px;overflow:hidden;background:var(--sd);aspect-ratio:4/5;box-shadow:0 18px 55px rgba(28,25,20,.10)}
+    .kp .k-scard img{width:100%;height:100%;object-fit:cover}
+    .kp .k-sov{position:absolute;inset:0;background:linear-gradient(to top,rgba(28,25,20,.62),transparent 55%);display:flex;align-items:flex-end;padding:14px}
+    .kp .k-sov span{color:var(--iv);font-weight:900;letter-spacing:.12em;text-transform:uppercase;font-size:12px}
+
+    .kp .k-sec{padding:76px 0;background:var(--cr)}
+    .kp .k-hd{text-align:center;margin-bottom:32px}
+    .kp .k-he{display:block;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--wr);font-weight:900;margin-bottom:10px}
+    .kp .k-ht{font-family:'KTitle',Georgia,serif;font-size:clamp(24px,4vw,40px);line-height:1.1;margin:0}
+    .kp .k-hs{max-width:58ch;margin:12px auto 0;color:var(--mu);font-size:15px;line-height:1.75}
+    .kp .k-grid2{display:grid;gap:16px;grid-template-columns:1fr}
+    @media(min-width:900px){.kp .k-grid2{grid-template-columns:1fr 1fr;gap:22px}}
+    .kp .k-img{border-radius:20px;overflow:hidden;background:var(--sd);position:relative;min-height:420px;box-shadow:0 18px 55px rgba(28,25,20,.10)}
+    .kp .k-img img{width:100%;height:100%;object-fit:cover}
+    .kp .k-ov{position:absolute;inset:0;background:linear-gradient(to top,rgba(28,25,20,.64),transparent 55%);display:flex;align-items:flex-end;padding:16px;opacity:0;transition:opacity .35s ease}
+    .kp .k-img:hover .k-ov{opacity:1}
+    .kp .k-ov span{color:var(--iv);font-weight:900;letter-spacing:.10em;text-transform:uppercase;font-size:12px}
+
+    .kp .rev{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s ease}
+    .kp .rev.on{opacity:1;transform:translateY(0)}
+    .kp .d1{transition-delay:.08s}.kp .d2{transition-delay:.16s}.kp .d3{transition-delay:.24s}
+
+    .kp .k-modal{position:fixed;inset:0;background:rgba(28,25,20,.62);z-index:9997;display:flex;align-items:flex-end;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s ease}
+    @media(min-width:700px){.kp .k-modal{align-items:center}}
+    .kp .k-modal.on{opacity:1;pointer-events:all}
+    .kp .k-box{width:100%;max-width:760px;background:var(--wh);border-radius:18px 18px 0 0;padding:18px 18px 22px;transform:translateY(110%);transition:transform .35s ease;max-height:88vh;overflow:auto}
+    @media(min-width:700px){.kp .k-box{border-radius:18px;transform:scale(.96)} .kp .k-modal.on .k-box{transform:scale(1)}}
+    .kp .k-modal.on .k-box{transform:translateY(0)}
+    .kp .k-bh{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:6px 2px 12px;border-bottom:1px solid rgba(28,25,20,.08)}
+    .kp .k-bt{font-family:'KTitle',Georgia,serif;font-size:22px;margin:0}
+    .kp .k-x{width:36px;height:36px;border-radius:999px;border:1px solid rgba(28,25,20,.12);background:rgba(28,25,20,.04);cursor:pointer;font-weight:900}
+    .kp .k-tabs{display:flex;gap:10px;margin:14px 0}
+    .kp .k-tab{border:1px solid rgba(28,25,20,.12);background:rgba(28,25,20,.04);padding:10px 12px;border-radius:999px;cursor:pointer;font-weight:900;font-size:12px;letter-spacing:.12em;text-transform:uppercase}
+    .kp .k-tab.on{background:var(--dp);color:var(--iv);border-color:var(--dp)}
+    .kp .k-pane{display:none}
+    .kp .k-pane.on{display:block}
+    .kp table{width:100%;border-collapse:collapse;font-size:13px;margin-top:10px;border-radius:16px;overflow:hidden;border:1px solid rgba(28,25,20,.10)}
+    .kp th,.kp td{padding:10px 12px;border-bottom:1px solid rgba(28,25,20,.08);text-align:left}
+    .kp th{background:var(--sd);font-size:11px;letter-spacing:.12em;text-transform:uppercase;font-weight:900}
+  </style>
+  <div class="k-topbar" data-k-topbar>
+    <div class="k-topbar__inner">
+      <div class="k-brand">
+        <img class="k-logo" src="{{ logo_svg }}" alt="Kualley" width="140" height="34" loading="eager">
+      </div>
+      <div class="k-offer">
+        <span>Easter · Free shipping</span>
+      </div>
+      <div class="k-savepill">Save <span class="k-savepill__usd">${{ d_sav }}.{% if r_sav < 10 %}0{% endif %}{{ r_sav }}</span> (30%)</div>
+      <div class="k-countwrap" data-k-countdown>
+        <div class="k-countwrap__promo">
+          <p class="k-easter-label">Easter offer</p>
+          <p class="k-bogo">Buy 1 Get 1 Free</p>
+          <span class="k-end">Ends Tue midnight · Florida (ET)</span>
+        </div>
+        <div class="k-mini">
+          <span data-kcd="d">00</span><span class="d">:</span><span data-kcd="h">00</span><span class="d">:</span><span data-kcd="m">00</span><span class="d">:</span><span data-kcd="s">00</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="k-hero">
+    <div class="k-container">
+      <div class="k-grid">
+        <div class="k-gal">
+          <div class="k-main" data-k-gallery>
+            <span class="k-badge">Hand-finished</span>
+            <div class="k-slide on" data-k-slide="0"><video playsinline muted loop autoplay preload="metadata" src="{{ video_1 }}"></video></div>
+            <div class="k-slide" data-k-slide="1"><video playsinline muted loop preload="metadata" src="{{ video_2 }}"></video></div>
+            <div class="k-slide" data-k-slide="2"><img src="{{ img_1 }}" alt="{{ p.title | escape }}" loading="eager" width="900" height="1200"></div>
+            <div class="k-slide" data-k-slide="3"><img src="{{ img_2 }}" alt="{{ p.title | escape }}" loading="lazy" width="900" height="1200"></div>
+            <div class="k-slide" data-k-slide="4"><img src="{{ img_3 }}" alt="{{ p.title | escape }}" loading="lazy" width="900" height="1200"></div>
+            <div class="k-slide" data-k-slide="5"><img src="{{ img_4 }}" alt="{{ p.title | escape }}" loading="lazy" width="900" height="1200"></div>
+            <div class="k-slide" data-k-slide="6"><img src="{{ img_5 }}" alt="{{ p.title | escape }}" loading="lazy" width="900" height="1200"></div>
+            <div class="k-slide" data-k-slide="7"><img src="{{ img_6 }}" alt="{{ p.title | escape }}" loading="lazy" width="900" height="1200"></div>
+            <div class="k-slide" data-k-slide="8"><img src="{{ img_7 }}" alt="{{ p.title | escape }}" loading="lazy" width="900" height="1200"></div>
+            <div class="k-slide" data-k-slide="9"><img src="{{ img_8 }}" alt="{{ p.title | escape }}" loading="lazy" width="900" height="1200"></div>
+            <div class="k-slide" data-k-slide="10"><img src="{{ img_9 }}" alt="{{ p.title | escape }}" loading="lazy" width="900" height="1200"></div>
+            <div class="k-slide" data-k-slide="11"><img src="{{ img_10 }}" alt="{{ p.title | escape }}" loading="lazy" width="900" height="1200"></div>
+          </div>
+          <div class="k-thumbs" aria-label="Gallery thumbnails">
+            <div class="k-thumb on" data-k-thumb="0"><img src="{{ img_1 }}" alt="Video 1"><span class="k-tag">Video</span></div>
+            <div class="k-thumb" data-k-thumb="1"><img src="{{ img_5 }}" alt="Video 2"><span class="k-tag">Video</span></div>
+            <div class="k-thumb" data-k-thumb="2"><img src="{{ img_1 }}" alt="1"></div>
+            <div class="k-thumb" data-k-thumb="3"><img src="{{ img_2 }}" alt="2"></div>
+            <div class="k-thumb" data-k-thumb="4"><img src="{{ img_3 }}" alt="3"></div>
+            <div class="k-thumb" data-k-thumb="5"><img src="{{ img_4 }}" alt="4"></div>
+            <div class="k-thumb" data-k-thumb="6"><img src="{{ img_5 }}" alt="5"></div>
+            <div class="k-thumb" data-k-thumb="7"><img src="{{ img_6 }}" alt="6"></div>
+            <div class="k-thumb" data-k-thumb="8"><img src="{{ img_7 }}" alt="7"></div>
+            <div class="k-thumb" data-k-thumb="9"><img src="{{ img_8 }}" alt="8"></div>
+            <div class="k-thumb" data-k-thumb="10"><img src="{{ img_9 }}" alt="9"></div>
+            <div class="k-thumb" data-k-thumb="11"><img src="{{ img_10 }}" alt="10"></div>
+          </div>
+        </div>
+
+        <div class="k-info" id="k-atc-anchor">
+          <p class="k-eye">Kualley — Resort Swimwear</p>
+          <div class="k-rating" role="group" aria-label="Customer rating 4.8 out of 5, over 10,000 verified customers">
+            <div class="k-rating__row">
+              <span class="k-rating__stars" aria-hidden="true">★★★★★</span>
+              <strong class="k-rating__score">4.8/5</strong>
+              <span class="k-rating__sep" aria-hidden="true">·</span>
+              <span class="k-rating__proof">10,000+ verified customers</span>
+            </div>
+            <p class="k-rating__hint">Average from verified post-purchase reviews.</p>
+          </div>
+          <h1 class="k-title">{{ p.title }}</h1>
+
+          <p class="k-sub">{{ p.description | strip_html | truncate: 160 }}</p>
+
+          <div class="k-pill">Buy 1 Get 1 Free — Free shipping — Automatic at checkout</div>
+
+          <div class="k-price">
+            <span class="k-now">${{ d_base }}.{% if r_base < 10 %}0{% endif %}{{ r_base }}</span>
+            <span class="k-was">${{ d_cmp }}.{% if r_cmp < 10 %}0{% endif %}{{ r_cmp }}</span>
+            <span class="k-save">Save ${{ d_sav }}.{% if r_sav < 10 %}0{% endif %}{{ r_sav }} (30%)</span>
+          </div>
+
+          <div class="k-ship">
+            <div class="k-chip"><i>✓</i> Free shipping</div>
+            <div class="k-chip"><i>✓</i> Prep: 3 days</div>
+            <div class="k-chip"><i>✓</i> Ships in: 5–7 days</div>
+          </div>
+
+          <div class="k-paywrap">
+            <div class="k-shiplogo">
+              <img src="{{ ship_logo }}" alt="USPS" loading="lazy">
+              <span style="font-size:12px;color:var(--mu);letter-spacing:.08em;text-transform:uppercase;font-weight:900;">Tracked delivery</span>
+            </div>
+            <div class="k-pay" aria-label="Payment methods">
+              <img src="{{ pay_apple }}" alt="Apple Pay" loading="lazy">
+              <img src="{{ pay_shop }}" alt="Shop Pay" loading="lazy">
+              <img src="{{ pay_pp }}" alt="PayPal" loading="lazy">
+              <img src="{{ pay_mc }}" alt="Mastercard" loading="lazy">
+              <img src="{{ pay_amex }}" alt="Amex" loading="lazy">
+            </div>
+          </div>
+
+          <div class="k-qty">
+            <div>
+              <div class="k-ql">Sets quantity</div>
+            </div>
+            <div class="k-qc" data-k-qty>
+              <button class="k-qb" type="button" data-k-qty-minus>−</button>
+              <div class="k-qv" data-k-qty-val>1</div>
+              <button class="k-qb" type="button" data-k-qty-plus>+</button>
+              <input type="hidden" value="1" data-k-qty-input>
+            </div>
+          </div>
+
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin:6px 0 10px;">
+            <div class="k-ql" style="margin:0;">Size guide</div>
+            <button class="k-linkbtn" type="button" data-k-open-size>Open guide</button>
+          </div>
+
+          <div class="k-pick" data-k-slot="1">
+            <div class="k-ph"><p class="k-pt">Bikini #1</p><span class="k-pr">Paid</span></div>
+            <div class="k-sum">
+              <div class="k-sum__img"><img src="{{ fallback_img }}" alt="Selected" loading="lazy" data-k-sum-img="1"></div>
+              <div class="k-sum__txt">
+                <div class="k-sum__name">{{ p.title }}</div>
+                <div class="k-sum__var" data-k-sum-var="1">Select options</div>
+              </div>
+            </div>
+            <div data-k-picker="1"></div>
+            <input type="hidden" data-k-vid data-k-slot="1" value="{{ p.selected_or_first_available_variant.id }}">
+          </div>
+
+          <div class="k-pick" data-k-slot="2">
+            <div class="k-ph"><p class="k-pt">Bikini #2</p><span class="k-pr">Free</span></div>
+            <div class="k-sum">
+              <div class="k-sum__img"><img src="{{ fallback_img }}" alt="Selected" loading="lazy" data-k-sum-img="2"></div>
+              <div class="k-sum__txt">
+                <div class="k-sum__name">{{ p.title }}</div>
+                <div class="k-sum__var" data-k-sum-var="2">Select options</div>
+              </div>
+            </div>
+            <div data-k-picker="2"></div>
+            <input type="hidden" data-k-vid data-k-slot="2" value="{{ p.selected_or_first_available_variant.id }}">
+          </div>
+          <div class="k-atc-wrap">
+            <span class="k-btn primary" role="button" tabindex="0" data-k-add>Add 2 bikinis to cart</span>
+          </div>
+
+          <div class="k-social-micro">
+            <div class="k-social-micro__head rev">
+              <img class="k-social-micro__ig" src="{{ ig_logo }}" alt="" width="12" height="12" loading="lazy">
+              <p class="k-social-micro__label">As seen on social</p>
+            </div>
+            <p class="k-social-micro__tag rev d1">Premium look and feel — designed to read “expensive on camera.”</p>
+            <div class="k-sgrid k-sgrid--micro" role="region" aria-label="As seen on social — swipe horizontally">
+              <div class="k-scard k-scard--micro rev d1">
+                <img src="{{ soc_micro_1 }}" alt="Social proof" loading="lazy" width="208" height="260">
+                <div class="k-sov"><span>Luxury finish</span></div>
+              </div>
+              <div class="k-scard k-scard--micro rev d2">
+                <img src="{{ soc_micro_2 }}" alt="Social proof" loading="lazy" width="208" height="260">
+                <div class="k-sov"><span>Resort-ready</span></div>
+              </div>
+              <div class="k-scard k-scard--micro rev d3">
+                <img src="{{ soc_micro_3 }}" alt="Social proof" loading="lazy" width="208" height="260">
+                <div class="k-sov"><span>Small batch</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="k-acc">
+            <div class="k-ai">
+              <button class="k-ab" type="button" data-k-acc><span class="k-aq">Materials &amp; specs</span><span class="k-ax">+</span></button>
+              <div class="k-ap"><div class="k-at">
+                <ul class="k-spec">
+                  <li><b>Fabric type</b><span>Polyamide</span></li>
+                  <li><b>Weave</b><span>Knit</span></li>
+                  <li><b>Style</b><span>Beach</span></li>
+                  <li><b>Materials</b><span>Polyester, spandex</span></li>
+                  <li><b>Pattern</b><span>Solid</span></li>
+                  <li><b>Support</b><span>Underwire</span></li>
+                </ul>
+              </div></div>
+            </div>
+            <div class="k-ai">
+              <button class="k-ab" type="button" data-k-acc><span class="k-aq">Shipping</span><span class="k-ax">+</span></button>
+              <div class="k-ap"><div class="k-at">
+                <p><b>Free shipping</b> on every order.</p>
+                <p><b>Processing:</b> 3 days. <b>Shipping:</b> 5–7 business days.</p>
+              </div></div>
+            </div>
+            <div class="k-ai">
+              <button class="k-ab" type="button" data-k-acc><span class="k-aq">Returns</span><span class="k-ax">+</span></button>
+              <div class="k-ap"><div class="k-at">
+                <p>Contact us at <b>{{ support_email }}</b> within <b>7 days</b> of delivery.</p>
+              </div></div>
+            </div>
+            <div class="k-ai">
+              <button class="k-ab" type="button" data-k-acc><span class="k-aq">Brand story</span><span class="k-ax">+</span></button>
+              <div class="k-ap"><div class="k-at">
+                <p><b>Kualley</b> was created by an independent founder with one simple idea: to bring value back to time, detail, and craftsmanship. Each piece is prepared with care, in small batches and with close attention to finishing.</p>
+                <p><b></b> Depending on the design, a single piece can require 6 to 8 hours of work to achieve the right drape, refined details, and strong visual presence. Kualley stands for a rarer vision of swimwear: bikinis created with intention, sensuality, and precision..</p>
+              </div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <section class="k-social">
+    <div class="k-container">
+      <div class="k-sh rev">
+        <img class="k-ig" src="{{ ig_logo }}" alt="Instagram" loading="lazy" width="18" height="18">
+        <h2 class="k-st">As seen on social</h2>
+      </div>
+      <p class="k-ss rev d1">Premium look and feel — designed to read “expensive on camera.”</p>
+      <div class="k-sgrid">
+        <div class="k-scard rev d1">
+          <img src="{{ soc_micro_1 }}" alt="Social proof" loading="lazy">
+          <div class="k-sov"><span>Luxury finish</span></div>
+        </div>
+        <div class="k-scard rev d2">
+          <img src="{{ soc_micro_2 }}" alt="Social proof" loading="lazy">
+          <div class="k-sov"><span>Resort-ready</span></div>
+        </div>
+        <div class="k-scard rev d3">
+          <img src="{{ soc_micro_3 }}" alt="Social proof" loading="lazy">
+          <div class="k-sov"><span>Small batch</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="k-sec">
+    <div class="k-container">
+      <div class="k-hd rev">
+        <span class="k-he">Atelier-level details</span>
+        <h2 class="k-ht">Made like a rare summer piece</h2>
+        <p class="k-hs">Small batches, handcrafted finish, ocean-inspired lines.</p>
+      </div>
+      <div class="k-grid2">
+        <div class="k-img rev d1">
+          <img src="{{ img_5 }}" alt="Hand-finished details" loading="lazy">
+          <div class="k-ov"><span>Hand-finished details</span></div>
+        </div>
+        <div class="k-img rev d2">
+          <img src="{{ img_6 }}" alt="Flattering fit" loading="lazy">
+          <div class="k-ov"><span>Flattering fit</span></div>
+        </div>
+        <div class="k-img rev d3">
+          <img src="{{ img_7 }}" alt="Texture" loading="lazy">
+          <div class="k-ov"><span>Ocean-inspired texture</span></div>
+        </div>
+        <div class="k-img rev d1">
+          <img src="{{ img_9 }}" alt="Small batch" loading="lazy">
+          <div class="k-ov"><span>Small batch · limited run</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="k-modal" data-k-modal>
+    <div class="k-box" role="dialog" aria-modal="true" aria-label="Size guide">
+      <div class="k-bh">
+        <h3 class="k-bt">Size guide</h3>
+        <button class="k-x" type="button" data-k-close>✕</button>
+      </div>
+      <div class="k-tabs">
+        <button class="k-tab on" type="button" data-k-tab="chart">Size chart</button>
+        <button class="k-tab" type="button" data-k-tab="tips">Fit tips</button>
+      </div>
+      <div class="k-pane on" data-k-pane="chart">
+        <p style="margin:0 0 8px;color:var(--mu);font-size:13px;line-height:1.6;">Use bust / waist / hips. Between sizes? Size up.</p>
+        <table aria-label="Size chart">
+          <thead><tr><th>Size</th><th>Bust (cm)</th><th>Waist (cm)</th><th>Hips (cm)</th></tr></thead>
+          <tbody>
+            <tr><td><b>S</b></td><td>82–86</td><td>62–66</td><td>87–91</td></tr>
+            <tr><td><b>M</b></td><td>87–91</td><td>67–71</td><td>92–96</td></tr>
+            <tr><td><b>L</b></td><td>92–96</td><td>72–76</td><td>97–101</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="k-pane" data-k-pane="tips">
+        <p style="margin:0;color:var(--mu);font-size:14px;line-height:1.8;">If you’re between sizes, choose the larger size for comfort. Adjustable fit with supportive structure.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="k-sticky" data-k-sticky>
+    <div class="k-sticky__inner">
+      <div class="k-sticky__bar">
+        <button type="button" class="k-sticky__hit" data-k-open-sticky-sheet aria-label="Choose bikini options">
+          <img class="k-sticky__thumb" data-k-st-img src="{{ fallback_img }}" alt="" width="40" height="50" loading="lazy">
+          <span class="k-sticky__meta">
+            <span class="k-sticky__eyebrow">2 bikinis · BOGO</span>
+            <span class="k-sticky__sel" data-k-st-line>Tap to choose options</span>
+          </span>
+          <span class="k-sticky__chev" aria-hidden="true">▾</span>
+        </button>
+        <span class="k-btn primary k-sticky__cta k-sticky__cta--bar" role="button" tabindex="0" data-k-add>Add</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="k-sticky-sheet" data-k-sticky-sheet>
+    <div class="k-sticky-sheet__backdrop" data-k-close-sticky-sheet tabindex="-1" aria-hidden="true"></div>
+    <div class="k-sticky-sheet__panel" role="dialog" aria-modal="true" aria-label="Choose bikini options">
+      <div class="k-sticky-sheet__head">
+        <h2 class="k-sticky-sheet__title">Your selection</h2>
+        <button type="button" class="k-sticky-sheet__x" data-k-close-sticky-sheet aria-label="Close">✕</button>
+      </div>
+      <div class="k-sticky-sheet__body">
+        <div class="k-sticky-sheet__slot">
+          <span class="k-sticky-sheet__tag" aria-hidden="true">#1</span>
+          <div data-k-picker-sticky="1"></div>
+        </div>
+        <div class="k-sticky-sheet__slot">
+          <span class="k-sticky-sheet__tag" aria-hidden="true">#2</span>
+          <div data-k-picker-sticky="2"></div>
+        </div>
+        <div class="k-sticky-sheet__atc">
+          <span class="k-btn primary" role="button" tabindex="0" data-k-add>Add 2 bikinis</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="application/json" data-k-variants>
+    {{ p.variants | json | replace: '</', '<\/' }}
+  </script>
+  <script>
+  (function () {
+    var root = document.querySelector('.kp[data-kp-root]');
+    if (!root) return;
+
+    var FL_TZ = 'America/New_York';
+
+    function q(sel, ctx) { return (ctx || root).querySelector(sel); }
+    function qa(sel, ctx) { return Array.prototype.slice.call((ctx || root).querySelectorAll(sel)); }
+    function closest(el, sel) {
+      if (!el) return null;
+      if (el.closest) return el.closest(sel);
+      while (el && el.nodeType === 1) {
+        if (el.matches && el.matches(sel)) return el;
+        el = el.parentNode;
+      }
+      return null;
+    }
+    function pad(n) { return String(n).padStart(2, '0'); }
+
+    function nextTuesdayMidnightFlorida() {
+      var now = Date.now();
+      var max = 21 * 24 * 60 * 60 * 1000;
+      var fmt = new Intl.DateTimeFormat('en-US', {
+        timeZone: FL_TZ,
+        weekday: 'short',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: false
+      });
+      for (var off = 1000; off <= max; off += 1000) {
+        var t = now + off;
+        var d = new Date(t);
+        var wd = '', h = 0, m = 0, s = 0;
+        var parts = fmt.formatToParts(d);
+        for (var i = 0; i < parts.length; i++) {
+          var p = parts[i];
+          if (p.type === 'weekday') wd = p.value;
+          if (p.type === 'hour') h = parseInt(p.value, 10);
+          if (p.type === 'minute') m = parseInt(p.value, 10);
+          if (p.type === 'second') s = parseInt(p.value, 10);
+        }
+        if (wd === 'Tue' && h === 0 && m === 0 && s === 0) return d;
+      }
+      return null;
+    }
+
+    var variants = [];
+    try {
+      var ve = q('[data-k-variants]');
+      var _ktv = ve && ve.textContent != null ? String(ve.textContent).trim() : '[]';
+      variants = JSON.parse(_ktv || '[]');
+    } catch (e) { variants = []; }
+
+    function firstAvail() {
+      for (var i = 0; i < variants.length; i++) {
+        if (variants[i] && variants[i].available) return variants[i];
+      }
+      return variants[0] || null;
+    }
+    function byId(id) {
+      id = Number(id);
+      for (var i = 0; i < variants.length; i++) {
+        if (Number(variants[i].id) === id) return variants[i];
+      }
+      return null;
+    }
+    function uniq(arr) {
+      var out = [], seen = {};
+      for (var i = 0; i < arr.length; i++) {
+        var k = String(arr[i]);
+        if (!seen[k]) { seen[k] = 1; out.push(arr[i]); }
+      }
+      return out;
+    }
+    function getValuesForIndex(idx) {
+      var vals = [];
+      for (var i = 0; i < variants.length; i++) {
+        var v = variants[i];
+        if (v && v.options && v.options[idx] != null) vals.push(v.options[idx]);
+      }
+      return uniq(vals);
+    }
+    function findAvailByPartial(partial) {
+      for (var i = 0; i < variants.length; i++) {
+        var v = variants[i];
+        if (!v || !v.available) continue;
+        var ok = true;
+        for (var j = 0; j < partial.length; j++) {
+          if (partial[j] && v.options[j] !== partial[j]) { ok = false; break; }
+        }
+        if (ok) return v;
+      }
+      return null;
+    }
+
+    function setTopbarHeight() {
+      var bar = q('[data-k-topbar]');
+      if (!bar) return;
+      root.style.setProperty('--top', Math.round(bar.getBoundingClientRect().height) + 'px');
+    }
+
+    function initCountdown() {
+      var nodes = qa('[data-k-countdown]');
+      if (!nodes.length) return;
+      var deadline = nextTuesdayMidnightFlorida();
+      if (!deadline) return;
+
+      function tick() {
+        var diff = deadline.getTime() - Date.now();
+        for (var i = 0; i < nodes.length; i++) {
+          var box = nodes[i];
+          var d = box.querySelector('[data-kcd="d"]');
+          var h = box.querySelector('[data-kcd="h"]');
+          var m = box.querySelector('[data-kcd="m"]');
+          var s = box.querySelector('[data-kcd="s"]');
+
+          if (diff <= 0) {
+            if (d) d.textContent = '00'; if (h) h.textContent = '00'; if (m) m.textContent = '00'; if (s) s.textContent = '00';
+            box.style.opacity = '0.55';
+            continue;
+          }
+          var days = Math.floor(diff / 86400000);
+          var hrs = Math.floor((diff % 86400000) / 3600000);
+          var min = Math.floor((diff % 3600000) / 60000);
+          var sec = Math.floor((diff % 60000) / 1000);
+          if (d) d.textContent = pad(days);
+          if (h) h.textContent = pad(hrs);
+          if (m) m.textContent = pad(min);
+          if (s) s.textContent = pad(sec);
+        }
+      }
+      tick();
+      setInterval(tick, 1000);
+    }
+
+    function showSlide(i) {
+      var slides = qa('[data-k-slide]');
+      var thumbs = qa('[data-k-thumb]');
+      for (var s = 0; s < slides.length; s++) {
+        slides[s].classList.toggle('on', slides[s].getAttribute('data-k-slide') === String(i));
+        var vid = slides[s].querySelector('video');
+        if (vid) {
+          if (slides[s].classList.contains('on')) { try { vid.play(); } catch (e) {} }
+          else { try { vid.pause(); } catch (e) {} }
+        }
+      }
+      for (var t = 0; t < thumbs.length; t++) {
+        thumbs[t].classList.toggle('on', thumbs[t].getAttribute('data-k-thumb') === String(i));
+      }
+    }
+
+    function getQty() {
+      var input = q('[data-k-qty-input]');
+      var n = input ? parseInt(input.value, 10) : 1;
+      if (!n || n < 1) n = 1;
+      return Math.min(5, n);
+    }
+    function setQty(n) {
+      n = Math.min(5, Math.max(1, n));
+      var input = q('[data-k-qty-input]');
+      var valEl = q('[data-k-qty-val]');
+      var minus = q('[data-k-qty-minus]');
+      var plus = q('[data-k-qty-plus]');
+      if (input) input.value = String(n);
+      if (valEl) valEl.textContent = String(n);
+      if (minus) minus.disabled = (n <= 1);
+      if (plus) plus.disabled = (n >= 5);
+    }
+
+    function openModal() {
+      var m = q('[data-k-modal]');
+      if (!m) return;
+      m.classList.add('on');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeModal() {
+      var m = q('[data-k-modal]');
+      if (!m) return;
+      m.classList.remove('on');
+      var sh = q('[data-k-sticky-sheet]');
+      if (!sh || !sh.classList.contains('k-sticky-sheet--on')) {
+        document.body.style.overflow = '';
+      }
+    }
+
+    function stickySheetIsOpen() {
+      var sh = q('[data-k-sticky-sheet]');
+      return !!(sh && sh.classList.contains('k-sticky-sheet--on'));
+    }
+
+    function openStickySheet() {
+      var sh = q('[data-k-sticky-sheet]');
+      if (!sh) return;
+      sh.classList.add('k-sticky-sheet--on');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeStickySheet() {
+      var sh = q('[data-k-sticky-sheet]');
+      if (!sh) return;
+      sh.classList.remove('k-sticky-sheet--on');
+      var m = q('[data-k-modal]');
+      if (!m || !m.classList.contains('on')) {
+        document.body.style.overflow = '';
+      }
+    }
+
+    function initReveal() {
+      var els = qa('.rev');
+      if (!els.length) return;
+      if (!('IntersectionObserver' in window)) {
+        for (var i = 0; i < els.length; i++) { els[i].classList.add('on'); }
+        return;
+      }
+      var obs = new IntersectionObserver(function (entries) {
+        for (var i = 0; i < entries.length; i++) {
+          if (entries[i].isIntersecting) {
+            entries[i].target.classList.add('on');
+            obs.unobserve(entries[i].target);
+          }
+        }
+      }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+      for (var j = 0; j < els.length; j++) { obs.observe(els[j]); }
+    }
+
+    function initStickyBar() {
+      var sticky = q('[data-k-sticky]');
+      var anchor = q('#k-atc-anchor');
+      if (!sticky || !anchor) return;
+      if (!('IntersectionObserver' in window)) return;
+      var io = new IntersectionObserver(
+        function (entries) {
+          var e = entries[0];
+          var show = !e.isIntersecting && e.boundingClientRect.top < 0;
+          sticky.classList.toggle('k-sticky--on', show);
+          root.classList.toggle('kp--sticky-bar', show);
+        },
+        { threshold: 0, rootMargin: '-40px 0px 0px 0px' }
+      );
+      io.observe(anchor);
+    }
+
+    function hid(slot) { return q('[data-k-vid][data-k-slot="' + slot + '"]'); }
+
+    function updateSummary(slot) {
+      var idEl = hid(slot);
+      if (!idEl) return;
+      var v = byId(idEl.value) || firstAvail();
+      if (!v) return;
+
+      var img = q('[data-k-sum-img="' + slot + '"]');
+      var varEl = q('[data-k-sum-var="' + slot + '"]');
+      if (img && v.featured_image && v.featured_image.src) img.src = v.featured_image.src;
+      if (varEl) varEl.textContent = (v.title && v.title !== 'Default Title') ? v.title : 'Selected';
+
+      if (img && v.image && v.image.src) img.src = v.image.src;
+      if (img && v.image && typeof v.image === 'string') img.src = v.image;
+      if (img && v.image && v.image.src) img.src = v.image.src;
+
+      var stImg = q('[data-k-st-img]');
+      var stLine = q('[data-k-st-line]');
+      var v1 = byId((hid('1') && hid('1').value) || 0);
+      var v2 = byId((hid('2') && hid('2').value) || 0);
+      if (stImg && v1 && v1.image && typeof v1.image === 'string') stImg.src = v1.image;
+      if (stImg && v1 && v1.image && v1.image.src) stImg.src = v1.image.src;
+
+      var t1 = v1 && v1.title && v1.title !== 'Default Title' ? v1.title : 'Variant 1';
+      var t2 = v2 && v2.title && v2.title !== 'Default Title' ? v2.title : 'Variant 2';
+      if (stLine) stLine.textContent = '1: ' + t1 + ' · 2: ' + t2;
+    }
+
+    function buildPicker(slot) {
+      var main = q('[data-k-picker="' + slot + '"]');
+      if (!main) return;
+
+      var sticky = q('[data-k-picker-sticky="' + slot + '"]');
+      var mounts = [main];
+      if (sticky) mounts.push(sticky);
+
+      for (var mx = 0; mx < mounts.length; mx++) {
+        mounts[mx].innerHTML = '';
+      }
+
+      if (!variants.length) {
+        main.innerHTML = '<div class="k-micro">No variants found.</div>';
+        if (sticky) sticky.innerHTML = '';
+        return;
+      }
+
+      var v0 = firstAvail();
+      if (!v0) return;
+
+      var optionCount = (v0.options && v0.options.length) ? v0.options.length : 0;
+
+      if (optionCount === 1 && v0.options[0] === 'Default Title') {
+        var msg = '<div class="k-micro">No options on this product (default title).</div>';
+        main.innerHTML = msg;
+        if (sticky) sticky.innerHTML = '';
+        var h = hid(slot);
+        if (h) h.value = String(v0.id);
+        updateSummary(slot);
+        return;
+      }
+
+      var selected = [];
+      for (var i = 0; i < optionCount; i++) {
+        selected[i] = v0.options[i] || null;
+      }
+      var h0 = hid(slot);
+      if (h0) h0.value = String(v0.id);
+
+      function buildInto(mount) {
+        for (var oi = 0; oi < optionCount; oi++) {
+          var wrap = document.createElement('div');
+          var label = document.createElement('p');
+          label.className = 'k-ol';
+          label.textContent = 'Option ' + (oi + 1);
+          wrap.appendChild(label);
+
+          var row = document.createElement('div');
+          row.className = 'k-or';
+          row.setAttribute('data-k-row', '1');
+          row.setAttribute('data-k-slot', slot);
+          row.setAttribute('data-k-oi', String(oi));
+
+          var values = getValuesForIndex(oi);
+          for (var vi = 0; vi < values.length; vi++) {
+            var btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'k-ob';
+            btn.setAttribute('data-k-opt', '1');
+            btn.setAttribute('data-k-slot', slot);
+            btn.setAttribute('data-k-oi', String(oi));
+            btn.setAttribute('data-k-val', String(values[vi]));
+            btn.textContent = String(values[vi]);
+            if (String(values[vi]) === String(selected[oi])) btn.classList.add('on');
+            row.appendChild(btn);
+          }
+
+          wrap.appendChild(row);
+          mount.appendChild(wrap);
+        }
+      }
+
+      for (mx = 0; mx < mounts.length; mx++) {
+        buildInto(mounts[mx]);
+      }
+
+      function refresh() {
+        var mi;
+        for (var oi2 = 0; oi2 < optionCount; oi2++) {
+          var row0 = main.querySelector('[data-k-oi="' + oi2 + '"]');
+          if (!row0) continue;
+          var btns0 = row0.querySelectorAll('[data-k-opt]');
+          for (var bi = 0; bi < btns0.length; bi++) {
+            var test = selected.slice();
+            test[oi2] = btns0[bi].getAttribute('data-k-val');
+            var possible = !!findAvailByPartial(test);
+            for (mi = 0; mi < mounts.length; mi++) {
+              var rowM = mounts[mi].querySelector('[data-k-oi="' + oi2 + '"]');
+              if (!rowM) continue;
+              var bM = rowM.querySelectorAll('[data-k-opt]')[bi];
+              if (bM) bM.classList.toggle('off', !possible);
+            }
+          }
+
+          var curPossible = !!findAvailByPartial(selected);
+          if (!curPossible) {
+            var firstPossible = null;
+            for (var bi2 = 0; bi2 < btns0.length; bi2++) {
+              if (!btns0[bi2].classList.contains('off')) {
+                firstPossible = btns0[bi2].getAttribute('data-k-val');
+                break;
+              }
+            }
+            if (firstPossible != null) selected[oi2] = firstPossible;
+          }
+        }
+
+        var chosen = findAvailByPartial(selected) || firstAvail();
+        var h = hid(slot);
+        if (h && chosen) h.value = String(chosen.id);
+
+        for (var oi3 = 0; oi3 < optionCount; oi3++) {
+          for (mi = 0; mi < mounts.length; mi++) {
+            var row3 = mounts[mi].querySelector('[data-k-oi="' + oi3 + '"]');
+            if (!row3) continue;
+            var btns3 = row3.querySelectorAll('[data-k-opt]');
+            for (var bi3 = 0; bi3 < btns3.length; bi3++) {
+              btns3[bi3].classList.toggle('on', btns3[bi3].getAttribute('data-k-val') === String(selected[oi3]));
+            }
+          }
+        }
+
+        updateSummary(slot);
+      }
+
+      refresh();
+      main._kSelected = selected;
+      main._kRefresh = refresh;
+    }
+
+    function shopifyRoot() {
+      var base = (window.Shopify && window.Shopify.routes && window.Shopify.routes.root) ? window.Shopify.routes.root : '/';
+      if (base.slice(-1) !== '/') base += '/';
+      return base;
+    }
+
+    function cartAddUrl() {
+      return shopifyRoot() + 'cart/add.js';
+    }
+
+    function cartJsonUrl() {
+      return shopifyRoot() + 'cart.js';
+    }
+
+    function cartSectionsParam(ctx) {
+      var el = ctx || root;
+      var raw = el.getAttribute('data-k-cart-sections');
+      if (raw == null || String(raw).trim() === '') return '';
+      return String(raw).trim();
+    }
+
+    function parseVariantsInRoot(ctx) {
+      try {
+        var ve = ctx.querySelector('[data-k-variants]');
+        var raw = ve && ve.textContent != null ? String(ve.textContent).trim() : '[]';
+        var list = JSON.parse(raw || '[]');
+        return Array.isArray(list) ? list : [];
+      } catch (e) {
+        return [];
+      }
+    }
+
+    function variantByIdInList(list, id) {
+      id = Number(id);
+      for (var i = 0; i < list.length; i++) {
+        if (list[i] && Number(list[i].id) === id) return list[i];
+      }
+      return null;
+    }
+
+    function horizonCartSectionIds() {
+      var ids = [];
+      var nodes = document.querySelectorAll('cart-items-component[data-section-id]');
+      for (var i = 0; i < nodes.length; i++) {
+        var sid = nodes[i].getAttribute('data-section-id');
+        if (sid) ids.push(sid);
+      }
+      return ids.join(',');
+    }
+
+    function updateHeaderCartCount(cart) {
+      if (!cart || typeof cart.item_count !== 'number') return;
+      var n = cart.item_count;
+      var counts = document.querySelectorAll('[data-cart-count]');
+      for (var c = 0; c < counts.length; c++) { counts[c].textContent = String(n); }
+      var bubble = document.querySelector('#cart-icon-bubble .cart-count-bubble span[aria-hidden="true"]');
+      if (bubble) bubble.textContent = String(n);
+      var bubble2 = document.querySelector('.cart-count-bubble span[aria-hidden="true"]');
+      if (bubble2 && !bubble) bubble2.textContent = String(n);
+    }
+
+    function dispatchCartChangeDetail(responseJson, cartContent) {
+      var items = (responseJson && responseJson.items) ? responseJson.items : (responseJson && responseJson.id ? [responseJson] : []);
+      var cart = cartContent;
+      if (cart && responseJson && responseJson.sections) {
+        cart = Object.assign({}, cartContent);
+        cart.sections = responseJson.sections;
+      }
+      return { baseEvent: 'variant:add', cart: cart, items: items };
+    }
+
+    function dispatchThemeCartEvents(responseJson, cartContent) {
+      var detail = dispatchCartChangeDetail(responseJson, cartContent);
+      var sections = responseJson && responseJson.sections ? responseJson.sections : undefined;
+      var itemCount =
+        cartContent && typeof cartContent.item_count === 'number' ? cartContent.item_count : 0;
+
+      try {
+        document.dispatchEvent(
+          new CustomEvent('cart:update', {
+            bubbles: true,
+            detail: {
+              resource: cartContent,
+              sourceId: 'kualley-kp',
+              data: {
+                source: 'kualley-kp',
+                itemCount: itemCount,
+                sections: sections
+              }
+            }
+          })
+        );
+      } catch (e) {}
+
+      if (cartContent) {
+        try {
+          document.dispatchEvent(new CustomEvent('cart:change', { bubbles: true, detail: detail }));
+        } catch (e) {}
+        try {
+          document.documentElement.dispatchEvent(new CustomEvent('cart:change', { bubbles: true, detail: detail }));
+        } catch (e) {}
+      }
+
+      try {
+        document.dispatchEvent(new CustomEvent('cart:refresh', { bubbles: true }));
+      } catch (e) {}
+      try {
+        document.documentElement.dispatchEvent(new CustomEvent('cart:refresh', { bubbles: true }));
+      } catch (e) {}
+
+      try {
+        document.dispatchEvent(new CustomEvent('variant:add', {
+          bubbles: true,
+          detail: { items: detail.items, cart: detail.cart }
+        }));
+      } catch (e) {}
+
+      if (window.BlueprintTheme && window.BlueprintTheme.Cart) {
+        try {
+          window.BlueprintTheme.Cart.updateCartCount();
+          window.BlueprintTheme.Cart.showCartDrawer();
+        } catch (e) {}
+      }
+    }
+
+    function addToCart(scopeRoot) {
+      var ctx = scopeRoot || root;
+      var list = parseVariantsInRoot(ctx);
+      var h1 = ctx.querySelector('[data-k-vid][data-k-slot="1"]');
+      var h2 = ctx.querySelector('[data-k-vid][data-k-slot="2"]');
+      var v1 = h1 ? String(h1.value).trim() : '';
+      var v2 = h2 ? String(h2.value).trim() : '';
+      var qtyInput = ctx.querySelector('[data-k-qty-input]');
+      var qtyN = qtyInput ? parseInt(qtyInput.value, 10) : 1;
+      if (!qtyN || qtyN < 1) qtyN = 1;
+      var qty = Math.min(5, qtyN);
+      if (!v1 || !v2) {
+        console.warn('[Kualley KP] Variantes manquantes.', { v1: v1, v2: v2 });
+        return;
+      }
+
+      var bv1 = variantByIdInList(list, v1);
+      var bv2 = variantByIdInList(list, v2);
+      if (!bv1 || !bv2) {
+        console.warn('[Kualley KP] Variantes absentes du JSON.', { v1: v1, v2: v2, n: list.length });
+        return;
+      }
+      if (!bv1.available || !bv2.available) {
+        console.warn('[Kualley KP] Variante indisponible.', { bv1: bv1, bv2: bv2 });
+        return;
+      }
+
+      var btns = Array.prototype.slice.call(ctx.querySelectorAll('[data-k-add]'));
+      for (var i = 0; i < btns.length; i++) {
+        btns[i].classList.add('kp-atc--busy');
+        btns[i].setAttribute('aria-busy', 'true');
+      }
+
+      var baseItems = { items: [{ id: Number(v1), quantity: qty }, { id: Number(v2), quantity: qty }] };
+      var sec = cartSectionsParam(ctx);
+      if (!sec) sec = horizonCartSectionIds();
+
+      function postAdd(payload) {
+        return fetch(cartAddUrl(), {
+          method: 'POST',
+          credentials: 'same-origin',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-Requested-With': 'XMLHttpRequest',
+            Accept: 'application/json'
+          },
+          body: JSON.stringify(payload)
+        }).then(function (r) {
+          return r.text().then(function (text) {
+            var data = null;
+            try {
+              data = text ? JSON.parse(text) : {};
+            } catch (e) {
+              var parseErr = new Error('Réponse panier non-JSON.');
+              parseErr._kpBody = text && text.slice ? text.slice(0, 200) : '';
+              throw parseErr;
+            }
+            if (!r.ok) {
+              var err = new Error((data && (data.description || data.message)) ? (data.description || data.message) : 'cart/add.js a échoué');
+              err._kpData = data;
+              err._kpStatus = r.status;
+              throw err;
+            }
+            return data;
+          });
+        });
+      }
+
+      var payload = Object.assign({}, baseItems);
+      if (sec) {
+        payload.sections = sec;
+        payload.sections_url = window.location.pathname || '/';
+      }
+
+      var addPromise = postAdd(payload);
+      if (sec) {
+        addPromise = addPromise.catch(function () {
+          return postAdd(baseItems);
+        });
+      }
+
+      addPromise
+        .then(function (responseJson) {
+          return fetch(cartJsonUrl(), {
+            credentials: 'same-origin',
+            headers: { Accept: 'application/json', 'X-Requested-With': 'XMLHttpRequest' }
+          }).then(function (cr) { return cr.json(); }).then(function (cartContent) {
+            updateHeaderCartCount(cartContent);
+            dispatchThemeCartEvents(responseJson, cartContent);
+          });
+        })
+        .then(function () {
+          for (var j = 0; j < btns.length; j++) {
+            btns[j].classList.remove('kp-atc--busy');
+            btns[j].removeAttribute('aria-busy');
+          }
+          closeStickySheet();
+        })
+        .catch(function (err) {
+          console.error('[Kualley KP]', err && err.message ? err.message : err, err && err._kpData ? err._kpData : '');
+          for (var k = 0; k < btns.length; k++) {
+            btns[k].classList.remove('kp-atc--busy');
+            btns[k].removeAttribute('aria-busy');
+          }
+        });
+    }
+
+    function bindKpAddToCartControls() {
+      var nodes = qa('[data-k-add]');
+      for (var i = 0; i < nodes.length; i++) {
+        if (nodes[i]._kpAtcBound) continue;
+        nodes[i]._kpAtcBound = true;
+        nodes[i].addEventListener(
+          'click',
+          function (e) {
+            if (this.classList.contains('kp-atc--busy')) return;
+            e.preventDefault();
+            e.stopPropagation();
+            e.stopImmediatePropagation();
+            var sr = this.closest('[data-kp-root]');
+            if (sr) addToCart(sr);
+          },
+          true
+        );
+        nodes[i].addEventListener(
+          'keydown',
+          function (e) {
+            if (e.key !== 'Enter' && e.key !== ' ') return;
+            if (this.classList.contains('kp-atc--busy')) return;
+            e.preventDefault();
+            e.stopPropagation();
+            e.stopImmediatePropagation();
+            var sr = this.closest('[data-kp-root]');
+            if (sr) addToCart(sr);
+          },
+          true
+        );
+      }
+    }
+
+    function bind() {
+      root.addEventListener('click', function (e) {
+        var t = e.target;
+
+        var th = closest(t, '[data-k-thumb]');
+        if (th) { showSlide(th.getAttribute('data-k-thumb')); return; }
+
+        if (closest(t, '[data-k-open-size]')) { openModal(); return; }
+        if (closest(t, '[data-k-close]')) { closeModal(); return; }
+        if (closest(t, '[data-k-open-sticky-sheet]')) { openStickySheet(); return; }
+        if (closest(t, '[data-k-close-sticky-sheet]')) { closeStickySheet(); return; }
+        var modal = q('[data-k-modal]');
+        if (modal && modal.classList.contains('on') && t === modal) { closeModal(); return; }
+
+        var tab = closest(t, '[data-k-tab]');
+        if (tab && modal) {
+          var key = tab.getAttribute('data-k-tab');
+          var tabs = modal.querySelectorAll('[data-k-tab]');
+          for (var i = 0; i < tabs.length; i++) { tabs[i].classList.toggle('on', tabs[i] === tab); }
+          var panes = modal.querySelectorAll('[data-k-pane]');
+          for (var j = 0; j < panes.length; j++) { panes[j].classList.toggle('on', panes[j].getAttribute('data-k-pane') === key); }
+          return;
+        }
+
+        var acc = closest(t, '[data-k-acc]');
+        if (acc) {
+          var item = closest(acc, '.k-ai');
+          if (!item) return;
+          var all = qa('.k-ai');
+          var isOpen = item.classList.contains('on');
+          for (var k = 0; k < all.length; k++) { all[k].classList.remove('on'); }
+          item.classList.toggle('on', !isOpen);
+          return;
+        }
+
+        var opt = closest(t, '[data-k-opt]');
+        if (opt) {
+          if (opt.classList.contains('off')) return;
+          var slot = opt.getAttribute('data-k-slot');
+          var picker = q('[data-k-picker="' + slot + '"]');
+          if (!picker || !picker._kSelected || !picker._kRefresh) return;
+
+          var oi = parseInt(opt.getAttribute('data-k-oi'), 10);
+          picker._kSelected[oi] = opt.getAttribute('data-k-val');
+          picker._kRefresh();
+          return;
+        }
+
+        if (closest(t, '[data-k-qty-minus]')) { setQty(getQty() - 1); return; }
+        if (closest(t, '[data-k-qty-plus]')) { setQty(getQty() + 1); return; }
+      });
+
+      document.addEventListener('keydown', function (e) {
+        if (e.key !== 'Escape') return;
+        if (stickySheetIsOpen()) {
+          closeStickySheet();
+          return;
+        }
+        closeModal();
+      });
+    }
+
+    function init() {
+      setTopbarHeight();
+      initCountdown();
+      bind();
+      setQty(1);
+      showSlide(0);
+      initReveal();
+      buildPicker('1');
+      buildPicker('2');
+      updateSummary('1');
+      updateSummary('2');
+      initStickyBar();
+      bindKpAddToCartControls();
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init);
+    } else {
+      init();
+    }
+
+    window.addEventListener('resize', setTopbarHeight);
+  })();
+  </script>
+
+</div>

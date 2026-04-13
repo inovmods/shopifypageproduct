@@ -1,0 +1,1280 @@
+{% comment %}
+  Kualley Solara Set — BOGO, sticky, bottom sheet. Sans barre interne (header = thème).
+  ATC : même logique que snippets/kualley-kp-compact.liquid (data-k-add + fetch cart/add.js) — ex. produit Marea.
+  {% render 'kualley-kp-complete-block' %} · kp_product · kp_home_handle
+{% endcomment %}
+{% assign kp_home_handle = kp_home_handle | default: '' %}
+{% if kp_product != blank %}
+  {% assign p = kp_product %}
+{% elsif kp_home_handle != blank %}
+  {% assign p = all_products[kp_home_handle] %}
+{% else %}
+  {% assign p = product %}
+  {% if p == blank and closest.product != blank %}
+    {% assign p = closest.product %}
+  {% endif %}
+  {% if p == blank %}
+    {% assign p = all_products['kualley-solara-set'] %}
+  {% endif %}
+  {% if p == blank %}
+    {% assign p = collections.all.products.first %}
+  {% endif %}
+{% endif %}
+
+{% if p == blank %}
+  <div class="kp kp--empty" style="padding:48px 20px;text-align:center;font-family:system-ui,sans-serif;background:#F8F5EF;color:#1C1914;">
+    <p style="margin:0;max-width:420px;margin-inline:auto;line-height:1.6;">Aucun produit à afficher. Utilisez une <strong>page produit</strong>, choisissez un produit dans la section, ou passez <code>kp_home_handle</code> / <code>kp_product</code> au render.</p>
+  </div>
+{% else %}
+{% assign base_price_cents = 7000 %}
+{% assign compare_price_cents = 10000 %}
+{% assign save_price_cents = compare_price_cents | minus: base_price_cents %}
+
+{% assign r_base = base_price_cents | modulo: 100 %}
+{% assign d_base = base_price_cents | divided_by: 100 %}
+{% assign r_cmp = compare_price_cents | modulo: 100 %}
+{% assign d_cmp = compare_price_cents | divided_by: 100 %}
+{% assign r_sav = save_price_cents | modulo: 100 %}
+{% assign d_sav = save_price_cents | divided_by: 100 %}
+
+{% assign ig_logo = 'https://cdn.shopify.com/s/files/1/1033/9418/1457/files/Instagram-Logo.wine.svg?v=1774735024' %}
+{% assign ship_logo = 'https://cdn.shopify.com/s/files/1/1033/9418/1457/files/United_States_Postal_Service-Logo.wine.svg?v=1774735024' %}
+
+{% assign pay_apple = 'https://cdn.shopify.com/s/files/1/1033/9418/1457/files/Apple_Pay-Logo.wine_1.svg?v=1774735024' %}
+{% assign pay_mc = 'https://cdn.shopify.com/s/files/1/1033/9418/1457/files/Mastercard-Logo.wine.svg?v=1774735024' %}
+{% assign pay_amex = 'https://cdn.shopify.com/s/files/1/1033/9418/1457/files/American_Express-Logo.wine_1.svg?v=1774735024' %}
+{% assign pay_shop = 'https://cdn.shopify.com/s/files/1/1033/9418/1457/files/shoppay_logo-removebg-preview.png?v=1774735059' %}
+{% assign pay_pp = 'https://cdn.shopify.com/s/files/1/1033/9418/1457/files/PayPal-Logo.wine.svg?v=1774735024' %}
+
+{% comment %} Solara — 1 vidéo + 4 images galerie {% endcomment %}
+{% assign video_1 = 'https://cdn.shopify.com/videos/c/o/v/ff2842c4f7e4443cb0fe4768dba8cea1.mp4' %}
+
+{% assign font_body = 'https://cdn.shopify.com/s/files/1/1033/9418/1457/files/amoera-Regular.ttf?v=1774791198' %}
+{% assign font_title = 'https://cdn.shopify.com/s/files/1/1033/9418/1457/files/Malline.ttf?v=1774787392' %}
+
+{% assign fallback_img = p.featured_image | image_url: width: 900 %}
+
+{% assign img_1 = 'https://cdn.shopify.com/s/files/1/1033/9418/1457/files/Generated_Image_April_06_2026_-_4_17PM.webp?v=1775677133' %}
+{% assign img_2 = 'https://cdn.shopify.com/s/files/1/1033/9418/1457/files/Generated_Image_April_06_2026_-_4_10PM.webp?v=1775677133' %}
+{% assign img_3 = 'https://cdn.shopify.com/s/files/1/1033/9418/1457/files/Generated_Image_April_06_2026_-_4_34PM.webp?v=1775677133' %}
+{% assign img_4 = 'https://cdn.shopify.com/s/files/1/1033/9418/1457/files/Generated_Image_April_06_2026_-_4_35PM.webp?v=1775677133' %}
+
+{% assign sol_model_1 = 'https://cdn.shopify.com/s/files/1/1033/9418/1457/files/Generated_Image_April_06_2026_-_4_00PM.webp?v=1775677099' %}
+{% assign sol_model_2 = 'https://cdn.shopify.com/s/files/1/1033/9418/1457/files/Generated_Image_April_06_2026_-_3_51PM.webp?v=1775677099' %}
+{% assign sol_model_3 = 'https://cdn.shopify.com/s/files/1/1033/9418/1457/files/Generated_Image_April_06_2026_-_3_57PM.webp?v=1775677099' %}
+{% assign sol_model_4 = 'https://cdn.shopify.com/s/files/1/1033/9418/1457/files/Generated_Image_April_06_2026_-_3_47PM.webp?v=1775677099' %}
+{% assign sol_ig_1 = 'https://cdn.shopify.com/s/files/1/1033/9418/1457/files/Generated_Image_April_06_2026_-_4_48PM.webp?v=1775677099' %}
+{% assign sol_ig_2 = 'https://cdn.shopify.com/s/files/1/1033/9418/1457/files/Generated_Image_April_06_2026_-_4_51PM.webp?v=1775677099' %}
+{% assign sol_ig_3 = 'https://cdn.shopify.com/s/files/1/1033/9418/1457/files/Generated_Image_April_06_2026_-_4_46PM.webp?v=1775677133' %}
+
+{% assign support_email = shop.email %}
+{% assign _kp_solara_h = kp_solara_static_handle | default: 'kualley-solara-set' %}
+{% assign _kp_prefer_fb = kp_prefer_static_variants | default: false %}
+{% assign kp_fallback_profile = kp_fallback_profile | default: '' %}
+
+<!-- KUALLEY_KP_MARK_Solara_Set no-internal-header -->
+{% comment %} data-k-prefer-variant-fallback uniquement si kp_prefer_static_variants — sinon le catalogue Shopify pilote le picker (taille × modèle). {% endcomment %}
+<div class="kp" data-kp-root data-k-cart-sections=""{% if _kp_prefer_fb %} data-k-prefer-variant-fallback{% endif %}>
+  <style>
+    @font-face{font-family:'KTitle';src:url('{{ font_title }}') format('truetype');font-weight:400;font-style:normal;font-display:swap;}
+    @font-face{font-family:'KBody';src:url('{{ font_body }}') format('truetype');font-weight:400;font-style:normal;font-display:swap;}
+    .kp{
+      --iv:#F8F5EF;--sd:#EDE4D6;--st:#C9BAA5;--wr:#A08B70;
+      --dp:#1C1914;--ch:#3A3530;--mu:#7D7268;--bd:#E2D9CC;
+      --wh:#FFFFFF;--cr:#FAF8F4;--gd:#C9A96E;--ok:#5A8A6A;
+      --r:20px;--tr:.32s cubic-bezier(.25,.46,.45,.94);--top:0px;
+      --header-safe:var(--header-group-height,var(--header-height,60px));
+      font-family:'KBody',system-ui,sans-serif;color:var(--dp);background:var(--iv);
+      -webkit-font-smoothing:antialiased;position:relative;
+    }
+    .kp *,.kp *::before,.kp *::after{box-sizing:border-box}
+    .kp img,.kp video{display:block;max-width:100%}
+    .kp .k-container{max-width:1280px;margin:0 auto;padding:0 16px}
+    @media(min-width:1024px){.kp .k-container{padding:0 48px}}
+
+    .kp .k-hero{background:var(--cr);padding:14px 0 56px}
+    .kp .k-grid{display:block}
+    @media(min-width:1024px){.kp .k-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:start}}
+
+    .kp .k-gal{margin-top:6px}
+    @media(min-width:1024px){.kp .k-gal{position:sticky;top:calc(var(--header-safe) + 18px)}}
+    .kp .k-main{position:relative;border-radius:var(--r);overflow:hidden;background:var(--sd);aspect-ratio:3/4;box-shadow:0 18px 55px rgba(28,25,20,.12)}
+    .kp .k-badge{position:absolute;top:14px;left:14px;z-index:4;background:rgba(28,25,20,.92);color:var(--gd);font-size:10px;letter-spacing:.14em;text-transform:uppercase;font-weight:900;padding:7px 12px;border-radius:999px;border:1px solid rgba(248,245,239,.12)}
+    .kp .k-slide{position:absolute;inset:0;opacity:0;transform:scale(1.01);transition:opacity .45s ease,transform .65s ease}
+    .kp .k-slide.on{opacity:1;transform:scale(1)}
+    .kp .k-slide img,.kp .k-slide video{width:100%;height:100%;object-fit:cover}
+    .kp .k-thumbs{display:flex;gap:10px;margin-top:12px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+    .kp .k-thumbs::-webkit-scrollbar{display:none}
+    .kp .k-thumb{flex-shrink:0;width:74px;height:92px;border-radius:14px;overflow:hidden;border:2px solid transparent;background:var(--sd);cursor:pointer;transition:transform var(--tr),border-color var(--tr);position:relative}
+    .kp .k-thumb:hover{transform:translateY(-2px)}
+    .kp .k-thumb.on{border-color:var(--dp)}
+    .kp .k-thumb img{width:100%;height:100%;object-fit:cover}
+    .kp .k-tag{position:absolute;left:8px;bottom:8px;font-size:10px;letter-spacing:.12em;text-transform:uppercase;font-weight:900;color:var(--iv);background:rgba(28,25,20,.78);border:1px solid rgba(248,245,239,.14);padding:4px 7px;border-radius:999px}
+
+    .kp .k-eye{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--wr);font-weight:900;margin:14px 0 8px}
+    .kp .k-rating{margin:0 0 14px}
+    .kp .k-rating__row{display:flex;align-items:center;flex-wrap:wrap;gap:8px 10px}
+    .kp .k-rating__stars{color:var(--gd);font-size:14px;letter-spacing:1px;line-height:1;flex-shrink:0}
+    .kp .k-rating__score{font-size:14px;font-weight:900;color:var(--dp);letter-spacing:.02em}
+    .kp .k-rating__sep{color:var(--st);font-weight:700;opacity:.85}
+    .kp .k-rating__proof{font-size:13px;font-weight:800;color:var(--ch);letter-spacing:.01em}
+    .kp .k-rating__hint{margin:6px 0 0;font-size:11px;color:var(--mu);line-height:1.45;max-width:42ch}
+    .kp .k-title{font-family:'KTitle',Georgia,serif;font-size:clamp(28px,4.6vw,46px);line-height:1.06;margin:0 0 10px}
+    .kp .k-sub{color:var(--mu);font-size:14px;line-height:1.75;margin:0 0 18px;max-width:58ch}
+    .kp .k-pill{display:inline-flex;align-items:center;gap:10px;padding:10px 14px;border-radius:999px;background:rgba(28,25,20,.92);color:var(--gd);border:1px solid rgba(248,245,239,.12);font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:900;margin:0 0 12px}
+
+    .kp .k-price{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin:10px 0 6px}
+    .kp .k-now{font-family:'KTitle',Georgia,serif;font-size:34px;letter-spacing:.02em}
+    .kp .k-was{font-size:16px;color:var(--st);text-decoration:line-through}
+    .kp .k-save{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ok);font-weight:900}
+    .kp .k-micro{font-size:12px;color:var(--mu);margin:0 0 16px;line-height:1.6}
+
+    .kp .k-ship{display:flex;flex-wrap:wrap;gap:10px;margin:12px 0 18px}
+    .kp .k-ship i{font-style:normal;color:var(--ok);font-weight:900}
+    .kp .k-chip{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--ch);background:rgba(255,255,255,.55);border:1px solid rgba(28,25,20,.06);padding:8px 10px;border-radius:999px}
+
+    .kp .k-paywrap{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:10px 0 18px}
+    .kp .k-pay{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+    .kp .k-pay img{height:22px;width:auto;opacity:.85;object-fit:contain}
+    .kp .k-shiplogo{display:flex;align-items:center;gap:10px}
+    .kp .k-shiplogo img{height:22px;width:auto;opacity:.80}
+
+    .kp .k-qty{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:12px 0 14px}
+    .kp .k-ql{font-size:12px;color:var(--mu);letter-spacing:.12em;text-transform:uppercase;font-weight:900}
+    .kp .k-qc{display:flex;align-items:center;gap:8px;background:var(--wh);border:1px solid var(--bd);border-radius:999px;padding:6px}
+    .kp .k-qb{width:34px;height:34px;border:none;border-radius:999px;background:rgba(28,25,20,.06);color:var(--dp);cursor:pointer;font-weight:900;transition:all var(--tr)}
+    .kp .k-qb:hover{background:rgba(28,25,20,.12)}
+    .kp .k-qv{min-width:34px;text-align:center;font-variant-numeric:tabular-nums;font-weight:900;color:var(--dp)}
+
+    .kp .k-pick{border:1px solid var(--bd);border-radius:18px;background:rgba(255,255,255,.65);padding:14px;margin:14px 0}
+    .kp .k-ph{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}
+    .kp .k-pt{font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:900;margin:0}
+    .kp .k-pr{font-size:11px;letter-spacing:.12em;text-transform:uppercase;font-weight:900;color:var(--gd);background:rgba(28,25,20,.92);border:1px solid rgba(248,245,239,.12);padding:6px 10px;border-radius:999px;white-space:nowrap}
+
+    .kp .k-sum{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.55);border:1px solid rgba(28,25,20,.06);padding:10px 12px;border-radius:16px;margin-bottom:10px}
+    .kp .k-sum__img{width:46px;height:58px;border-radius:12px;overflow:hidden;background:var(--sd);flex-shrink:0}
+    .kp .k-sum__img img{width:100%;height:100%;object-fit:cover}
+    .kp .k-sum__txt{min-width:0}
+    .kp .k-sum__name{font-weight:900;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .kp .k-sum__var{font-size:12px;color:var(--mu);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+    .kp .k-ol{font-size:11px;letter-spacing:.12em;text-transform:uppercase;font-weight:900;color:var(--mu);margin:10px 0 8px}
+    .kp .k-or{display:flex;flex-wrap:wrap;gap:8px}
+    .kp .k-ob{border:1.5px solid var(--bd);background:var(--wh);color:var(--ch);padding:11px 12px;border-radius:14px;cursor:pointer;font-size:13px;font-weight:900;transition:all var(--tr);user-select:none}
+    .kp .k-ob:hover{border-color:var(--dp);transform:translateY(-1px)}
+    .kp .k-ob.on{background:var(--dp);border-color:var(--dp);color:var(--iv)}
+    .kp .k-ob.off{opacity:.35;cursor:not-allowed;transform:none}
+
+    .kp .k-btn{width:100%;display:flex;align-items:center;justify-content:center;gap:10px;padding:16px 18px;border:none;border-radius:16px;cursor:pointer;font-size:13px;font-weight:900;letter-spacing:.14em;text-transform:uppercase;transition:all var(--tr);font-family:'KBody',system-ui,sans-serif}
+    .kp .k-btn.primary{background:var(--dp);color:var(--iv);box-shadow:0 16px 40px rgba(28,25,20,.18)}
+    .kp .k-btn.primary:hover{transform:translateY(-1px);background:var(--ch)}
+    .kp .k-btn.primary:disabled{opacity:.55;cursor:not-allowed;transform:none}
+    .kp [data-k-add].kp-atc--busy{opacity:.55;pointer-events:none;cursor:wait}
+    .kp .k-linkbtn{background:none;border:none;cursor:pointer;font-size:12px;color:var(--wr);font-weight:900;letter-spacing:.1em;text-transform:uppercase;text-decoration:underline;text-underline-offset:3px;padding:0}
+    .kp .k-atc-wrap{margin-top:18px;margin-bottom:0}
+    .shopify-section .kp [data-k-add],.shopify-block .kp [data-k-add]{display:flex!important;visibility:visible!important;opacity:1!important;max-height:none!important;clip:auto!important}
+
+    .kp .k-sticky{position:fixed;left:0;right:0;bottom:0;z-index:9995;background:rgba(248,245,239,.97);backdrop-filter:saturate(1.2) blur(12px);-webkit-backdrop-filter:saturate(1.2) blur(12px);border-top:1px solid var(--bd);padding:6px 0 calc(8px + env(safe-area-inset-bottom,0px));transform:translate3d(0,110%,0);transition:transform .32s var(--tr);visibility:hidden;pointer-events:none}
+    .kp .k-sticky.k-sticky--on{transform:translate3d(0,0,0);visibility:visible;pointer-events:auto}
+    .kp.kp--sticky-bar{padding-bottom:calc(76px + env(safe-area-inset-bottom,0px))}
+    @media(min-width:900px){.kp.kp--sticky-bar{padding-bottom:calc(72px + env(safe-area-inset-bottom,0px))}}
+    .kp .k-sticky__inner{max-width:1280px;margin:0 auto;padding:0 12px}
+    @media(min-width:1024px){.kp .k-sticky__inner{padding:0 48px}}
+    .kp .k-sticky__bar{display:flex;align-items:center;gap:8px}
+    .kp .k-sticky__hit{flex:1;min-width:0;display:flex;align-items:center;gap:10px;padding:6px 10px;border-radius:14px;border:1px solid var(--bd);background:rgba(255,255,255,.72);cursor:pointer;font:inherit;color:inherit;-webkit-tap-highlight-color:transparent;text-align:left;transition:border-color var(--tr),background var(--tr)}
+    .kp .k-sticky__hit:active{background:rgba(255,255,255,.92)}
+    .kp .k-sticky__thumb{width:40px;height:50px;border-radius:10px;object-fit:cover;flex-shrink:0;background:var(--sd);display:block}
+    .kp .k-sticky__meta{flex:1;min-width:0;display:flex;flex-direction:column;gap:1px}
+    .kp .k-sticky__eyebrow{font-size:8px;letter-spacing:.14em;text-transform:uppercase;font-weight:900;color:var(--mu);line-height:1.2}
+    .kp .k-sticky__sel{font-size:11px;font-weight:900;color:var(--dp);line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .kp .k-sticky__chev{flex-shrink:0;width:22px;height:22px;border-radius:999px;border:1px solid var(--bd);display:flex;align-items:center;justify-content:center;font-size:9px;color:var(--mu)}
+    .kp .k-sticky__cta--bar{flex-shrink:0;width:auto!important;min-width:92px;max-width:110px;padding:12px 10px!important;font-size:10px!important;letter-spacing:.1em!important;white-space:nowrap}
+    .kp .k-sticky-sheet{position:fixed;inset:0;z-index:9998;pointer-events:none}
+    .kp .k-sticky-sheet.k-sticky-sheet--on{pointer-events:auto}
+    .kp .k-sticky-sheet__backdrop{position:absolute;inset:0;background:rgba(28,25,20,.5);opacity:0;transition:opacity .28s ease}
+    .kp .k-sticky-sheet.k-sticky-sheet--on .k-sticky-sheet__backdrop{opacity:1}
+    .kp .k-sticky-sheet__panel{position:absolute;left:0;right:0;bottom:0;max-height:min(82dvh,560px);background:var(--wh);border-radius:20px 20px 0 0;box-shadow:0 -12px 40px rgba(28,25,20,.15);transform:translate3d(0,105%,0);transition:transform .34s cubic-bezier(.25,.46,.45,.94);display:flex;flex-direction:column}
+    .kp .k-sticky-sheet.k-sticky-sheet--on .k-sticky-sheet__panel{transform:translate3d(0,0,0)}
+    .kp .k-sticky-sheet__head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 16px 10px;border-bottom:1px solid rgba(28,25,20,.08);flex-shrink:0}
+    .kp .k-sticky-sheet__title{font-family:'KTitle',Georgia,serif;font-size:18px;margin:0;color:var(--dp)}
+    .kp .k-sticky-sheet__x{width:38px;height:38px;border-radius:999px;border:1px solid var(--bd);background:rgba(28,25,20,.04);cursor:pointer;font-weight:900;font-size:16px;line-height:1;color:var(--dp)}
+    .kp .k-sticky-sheet__body{padding:12px 16px calc(16px + env(safe-area-inset-bottom,0px));overflow-y:auto;-webkit-overflow-scrolling:touch;flex:1;min-height:0}
+    .kp .k-sticky-sheet__slot{display:flex;align-items:flex-start;gap:8px;margin-bottom:14px}
+    .kp .k-sticky-sheet__slot:last-of-type{margin-bottom:8px}
+    .kp .k-sticky-sheet__tag{flex-shrink:0;font-size:10px;letter-spacing:.14em;text-transform:uppercase;font-weight:900;color:var(--mu);padding-top:6px}
+    .kp .k-sticky-sheet__slot [data-k-picker-sticky]{flex:1;min-width:0}
+    .kp .k-sticky-sheet [data-k-picker-sticky] .k-ol{font-size:10px;margin:0 0 8px;letter-spacing:.1em}
+    .kp .k-sticky-sheet [data-k-picker-sticky] .k-or{gap:8px}
+    .kp .k-sticky-sheet [data-k-picker-sticky] .k-ob{padding:10px 12px;font-size:12px;border-radius:12px}
+    .kp .k-sticky-sheet__atc{margin-top:6px;padding-top:4px}
+    .kp .k-sticky-sheet__atc [data-k-add]{width:100%}
+
+    .kp .k-acc{margin-top:18px;border-top:1px solid var(--bd)}
+    .kp .k-ai{border-bottom:1px solid var(--bd)}
+    .kp .k-ab{width:100%;padding:18px 0;background:none;border:none;display:flex;justify-content:space-between;align-items:center;gap:14px;cursor:pointer;text-align:left}
+    .kp .k-aq{font-size:14px;font-weight:900;color:var(--dp)}
+    .kp .k-ax{width:30px;height:30px;border-radius:999px;border:1.5px solid var(--bd);display:flex;align-items:center;justify-content:center;font-weight:900;transition:all var(--tr);flex-shrink:0}
+    .kp .k-ap{max-height:0;overflow:hidden;transition:max-height .42s ease}
+    .kp .k-at{padding:0 0 18px;color:var(--mu);font-size:14px;line-height:1.8}
+    .kp .k-ai.on .k-ap{max-height:900px}
+    .kp .k-ai.on .k-ax{background:var(--dp);color:var(--iv);border-color:var(--dp);transform:rotate(45deg)}
+    .kp .k-spec{list-style:none;padding:0;margin:10px 0 0;display:grid;gap:10px}
+    .kp .k-spec li{display:flex;justify-content:space-between;gap:12px;background:rgba(255,255,255,.55);border:1px solid rgba(28,25,20,.06);padding:10px 12px;border-radius:14px}
+    .kp .k-spec b{color:var(--dp)}
+
+    .kp .k-social-micro{margin-top:10px;margin-bottom:10px;padding-bottom:10px;border-bottom:1px solid rgba(28,25,20,.06)}
+    .kp .k-social-micro__head{display:flex;align-items:center;gap:6px;margin:0 0 4px}
+    .kp .k-social-micro__ig{width:12px;height:12px;opacity:.72;flex-shrink:0}
+    .kp .k-social-micro__label{font-size:9px;letter-spacing:.16em;text-transform:uppercase;font-weight:900;color:var(--wr);margin:0}
+    .kp .k-social-micro__tag{margin:0 0 8px;font-size:10px;color:var(--mu);line-height:1.4;max-width:48ch}
+    .kp .k-sgrid--micro{display:flex;flex-direction:row;flex-wrap:nowrap;gap:8px;margin:0;overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;scroll-snap-type:x mandatory;scroll-padding-inline:0;padding:2px 0 6px;scrollbar-width:thin}
+    .kp .k-sgrid--micro::-webkit-scrollbar{height:5px}
+    .kp .k-sgrid--micro::-webkit-scrollbar-thumb{background:rgba(28,25,20,.18);border-radius:999px}
+    .kp .k-scard--micro{position:relative;flex:0 0 104px;width:104px;scroll-snap-align:start;border-radius:12px;overflow:hidden;background:var(--sd);aspect-ratio:4/5;box-shadow:0 6px 18px rgba(28,25,20,.08)}
+    .kp .k-scard--micro img{width:100%;height:100%;object-fit:cover;display:block}
+    .kp .k-sov--micro{position:absolute;inset:0;background:linear-gradient(to top,rgba(28,25,20,.58),transparent 52%);display:flex;align-items:flex-end;padding:6px 6px 7px}
+    .kp .k-sov--micro span{color:var(--iv);font-weight:900;letter-spacing:.1em;text-transform:uppercase;font-size:8px;line-height:1.2}
+
+    .kp .k-sec{padding:76px 0;background:var(--cr)}
+    .kp .k-hd{text-align:center;margin-bottom:32px}
+    .kp .k-he{display:block;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--wr);font-weight:900;margin-bottom:10px}
+    .kp .k-ht{font-family:'KTitle',Georgia,serif;font-size:clamp(24px,4vw,40px);line-height:1.1;margin:0}
+    .kp .k-hs{max-width:58ch;margin:12px auto 0;color:var(--mu);font-size:15px;line-height:1.75}
+    .kp .k-grid2{display:grid;gap:16px;grid-template-columns:1fr}
+    @media(min-width:900px){.kp .k-grid2{grid-template-columns:1fr 1fr;gap:22px}}
+    .kp .k-img{border-radius:20px;overflow:hidden;background:var(--sd);position:relative;min-height:420px;box-shadow:0 18px 55px rgba(28,25,20,.10)}
+    .kp .k-img img{width:100%;height:100%;object-fit:cover}
+    .kp .k-ov{position:absolute;inset:0;background:linear-gradient(to top,rgba(28,25,20,.64),transparent 55%);display:flex;align-items:flex-end;padding:16px;opacity:0;transition:opacity .35s ease}
+    .kp .k-img:hover .k-ov{opacity:1}
+    .kp .k-ov span{color:var(--iv);font-weight:900;letter-spacing:.10em;text-transform:uppercase;font-size:12px}
+
+    .kp .rev{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s ease}
+    .kp .rev.on{opacity:1;transform:translateY(0)}
+    .kp .d1{transition-delay:.08s}.kp .d2{transition-delay:.16s}.kp .d3{transition-delay:.24s}
+
+    .kp .k-modal{position:fixed;inset:0;background:rgba(28,25,20,.62);z-index:9997;display:flex;align-items:flex-end;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s ease}
+    @media(min-width:700px){.kp .k-modal{align-items:center}}
+    .kp .k-modal.on{opacity:1;pointer-events:all}
+    .kp .k-box{width:100%;max-width:760px;background:var(--wh);border-radius:18px 18px 0 0;padding:18px 18px 22px;transform:translateY(110%);transition:transform .35s ease;max-height:88vh;overflow:auto}
+    @media(min-width:700px){.kp .k-box{border-radius:18px;transform:scale(.96)} .kp .k-modal.on .k-box{transform:scale(1)}}
+    .kp .k-modal.on .k-box{transform:translateY(0)}
+    .kp .k-bh{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:6px 2px 12px;border-bottom:1px solid rgba(28,25,20,.08)}
+    .kp .k-bt{font-family:'KTitle',Georgia,serif;font-size:22px;margin:0}
+    .kp .k-x{width:36px;height:36px;border-radius:999px;border:1px solid rgba(28,25,20,.12);background:rgba(28,25,20,.04);cursor:pointer;font-weight:900}
+    .kp .k-tabs{display:flex;gap:10px;margin:14px 0}
+    .kp .k-tab{border:1px solid rgba(28,25,20,.12);background:rgba(28,25,20,.04);padding:10px 12px;border-radius:999px;cursor:pointer;font-weight:900;font-size:12px;letter-spacing:.12em;text-transform:uppercase}
+    .kp .k-tab.on{background:var(--dp);color:var(--iv);border-color:var(--dp)}
+    .kp .k-pane{display:none}
+    .kp .k-pane.on{display:block}
+    .kp table{width:100%;border-collapse:collapse;font-size:13px;margin-top:10px;border-radius:16px;overflow:hidden;border:1px solid rgba(28,25,20,.10)}
+    .kp th,.kp td{padding:10px 12px;border-bottom:1px solid rgba(28,25,20,.08);text-align:left}
+    .kp th{background:var(--sd);font-size:11px;letter-spacing:.12em;text-transform:uppercase;font-weight:900}
+    .kp .k-chart-wrap{overflow-x:auto;margin-top:8px;-webkit-overflow-scrolling:touch}
+    .kp .k-chart-wrap table{min-width:520px;font-size:12px}
+    .kp .k-sq-intro{margin:0 0 12px;color:var(--mu);font-size:13px;line-height:1.65}
+    .kp .k-sq{display:grid;gap:14px;margin-top:6px}
+    .kp .k-sq__field label{display:block;font-size:11px;letter-spacing:.12em;text-transform:uppercase;font-weight:900;color:var(--mu);margin-bottom:6px}
+    .kp .k-sq__hint{font-weight:600;opacity:.65;text-transform:none;letter-spacing:0}
+    .kp .k-sq__field input,.kp .k-sq__field select{width:100%;padding:11px 12px;border-radius:14px;border:1.5px solid var(--bd);background:var(--wh);font-family:inherit;font-size:14px;color:var(--dp)}
+    .kp .k-sq__field input:focus,.kp .k-sq__field select:focus{outline:2px solid rgba(201,169,110,.45);outline-offset:2px}
+    .kp .k-sq__btn{margin-top:4px;width:100%}
+    .kp .k-sq-result{margin-top:14px;padding:14px 16px;border-radius:16px;background:rgba(90,138,106,.1);border:1px solid rgba(90,138,106,.28);font-size:14px;line-height:1.55;color:var(--dp);display:none}
+    .kp .k-sq-result.on{display:block}
+    .kp .k-sq-note{margin-top:12px;font-size:12px;color:var(--mu);line-height:1.5}
+  </style>
+
+  <div class="k-hero">
+    <div class="k-container">
+      <div class="k-grid">
+        <div class="k-gal">
+          <div class="k-main" data-k-gallery>
+            <span class="k-badge">Solara · String neck</span>
+            <div class="k-slide on" data-k-slide="0"><video playsinline muted loop autoplay preload="metadata" poster="{{ img_1 }}" src="{{ video_1 }}"></video></div>
+            <div class="k-slide" data-k-slide="1"><img src="{{ sol_model_1 }}" alt="{{ p.title | escape }} — look 1" loading="eager" width="900" height="1200"></div>
+            <div class="k-slide" data-k-slide="2"><img src="{{ sol_model_2 }}" alt="{{ p.title | escape }} — look 2" loading="lazy" width="900" height="1200"></div>
+            <div class="k-slide" data-k-slide="3"><img src="{{ sol_model_3 }}" alt="{{ p.title | escape }} — look 3" loading="lazy" width="900" height="1200"></div>
+            <div class="k-slide" data-k-slide="4"><img src="{{ sol_model_4 }}" alt="{{ p.title | escape }} — look 4" loading="lazy" width="900" height="1200"></div>
+            <div class="k-slide" data-k-slide="5"><img src="{{ img_1 }}" alt="{{ p.title | escape }}" loading="lazy" width="900" height="1200"></div>
+            <div class="k-slide" data-k-slide="6"><img src="{{ img_2 }}" alt="{{ p.title | escape }}" loading="lazy" width="900" height="1200"></div>
+            <div class="k-slide" data-k-slide="7"><img src="{{ img_3 }}" alt="{{ p.title | escape }}" loading="lazy" width="900" height="1200"></div>
+            <div class="k-slide" data-k-slide="8"><img src="{{ img_4 }}" alt="{{ p.title | escape }}" loading="lazy" width="900" height="1200"></div>
+          </div>
+          <div class="k-thumbs" aria-label="Gallery thumbnails">
+            <div class="k-thumb on" data-k-thumb="0"><img src="{{ img_1 }}" alt="Video"><span class="k-tag">Video</span></div>
+            <div class="k-thumb" data-k-thumb="1"><img src="{{ sol_model_1 }}" alt="Look 1"></div>
+            <div class="k-thumb" data-k-thumb="2"><img src="{{ sol_model_2 }}" alt="Look 2"></div>
+            <div class="k-thumb" data-k-thumb="3"><img src="{{ sol_model_3 }}" alt="Look 3"></div>
+            <div class="k-thumb" data-k-thumb="4"><img src="{{ sol_model_4 }}" alt="Look 4"></div>
+            <div class="k-thumb" data-k-thumb="5"><img src="{{ img_1 }}" alt="Variant 1"></div>
+            <div class="k-thumb" data-k-thumb="6"><img src="{{ img_2 }}" alt="Variant 2"></div>
+            <div class="k-thumb" data-k-thumb="7"><img src="{{ img_3 }}" alt="Variant 3"></div>
+            <div class="k-thumb" data-k-thumb="8"><img src="{{ img_4 }}" alt="Variant 4"></div>
+          </div>
+        </div>
+
+        <div class="k-info" id="k-atc-anchor">
+          <p class="k-eye">Kualley — Resort Swimwear</p>
+          <div class="k-rating" role="group" aria-label="Customer rating 4.8 out of 5, over 10,000 verified customers">
+            <div class="k-rating__row">
+              <span class="k-rating__stars" aria-hidden="true">★★★★★</span>
+              <strong class="k-rating__score">4.8/5</strong>
+              <span class="k-rating__sep" aria-hidden="true">·</span>
+              <span class="k-rating__proof">10,000+ verified customers</span>
+            </div>
+            <p class="k-rating__hint">Average from verified post-purchase reviews.</p>
+          </div>
+          <h1 class="k-title">{{ p.title }}</h1>
+
+          <p class="k-sub">{{ p.description | strip_html | truncate: 160 }}</p>
+
+          <div class="k-pill">Buy 1 Get 1 Free — Free shipping — Automatic at checkout</div>
+
+          <div class="k-price">
+            <span class="k-now">${{ d_base }}.{% if r_base < 10 %}0{% endif %}{{ r_base }}</span>
+            <span class="k-was">${{ d_cmp }}.{% if r_cmp < 10 %}0{% endif %}{{ r_cmp }}</span>
+            <span class="k-save">Save ${{ d_sav }}.{% if r_sav < 10 %}0{% endif %}{{ r_sav }} (30%)</span>
+          </div>
+
+          <div class="k-ship">
+            <div class="k-chip"><i>✓</i> Free shipping</div>
+            <div class="k-chip"><i>✓</i> Prep: 3 days</div>
+            <div class="k-chip"><i>✓</i> Ships in: 5–7 days</div>
+          </div>
+
+          <div class="k-paywrap">
+            <div class="k-shiplogo">
+              <img src="{{ ship_logo }}" alt="USPS" loading="lazy">
+              <span style="font-size:12px;color:var(--mu);letter-spacing:.08em;text-transform:uppercase;font-weight:900;">Tracked delivery</span>
+            </div>
+            <div class="k-pay" aria-label="Payment methods">
+              <img src="{{ pay_apple }}" alt="Apple Pay" loading="lazy">
+              <img src="{{ pay_shop }}" alt="Shop Pay" loading="lazy">
+              <img src="{{ pay_pp }}" alt="PayPal" loading="lazy">
+              <img src="{{ pay_mc }}" alt="Mastercard" loading="lazy">
+              <img src="{{ pay_amex }}" alt="Amex" loading="lazy">
+            </div>
+          </div>
+
+          <div class="k-qty">
+            <div>
+              <div class="k-ql">Sets quantity</div>
+            </div>
+            <div class="k-qc" data-k-qty>
+              <button class="k-qb" type="button" data-k-qty-minus>−</button>
+              <div class="k-qv" data-k-qty-val>1</div>
+              <button class="k-qb" type="button" data-k-qty-plus>+</button>
+              <input type="hidden" value="1" data-k-qty-input>
+            </div>
+          </div>
+
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin:6px 0 10px;">
+            <div class="k-ql" style="margin:0;">Size guide</div>
+            <button class="k-linkbtn" type="button" data-k-open-size>Open guide</button>
+          </div>
+
+          <div class="k-pick" data-k-slot="1">
+            <div class="k-ph"><p class="k-pt">Bikini #1</p><span class="k-pr">Paid</span></div>
+            <div class="k-sum">
+              <div class="k-sum__img"><img src="{{ fallback_img }}" alt="Selected" loading="lazy" data-k-sum-img="1"></div>
+              <div class="k-sum__txt">
+                <div class="k-sum__name">{{ p.title }}</div>
+                <div class="k-sum__var" data-k-sum-var="1">Select options</div>
+              </div>
+            </div>
+            <div data-k-picker="1"></div>
+            <input type="hidden" data-k-vid data-k-slot="1" value="{{ p.selected_or_first_available_variant.id }}">
+          </div>
+
+          <div class="k-pick" data-k-slot="2">
+            <div class="k-ph"><p class="k-pt">Bikini #2</p><span class="k-pr">Free</span></div>
+            <div class="k-sum">
+              <div class="k-sum__img"><img src="{{ fallback_img }}" alt="Selected" loading="lazy" data-k-sum-img="2"></div>
+              <div class="k-sum__txt">
+                <div class="k-sum__name">{{ p.title }}</div>
+                <div class="k-sum__var" data-k-sum-var="2">Select options</div>
+              </div>
+            </div>
+            <div data-k-picker="2"></div>
+            <input type="hidden" data-k-vid data-k-slot="2" value="{{ p.selected_or_first_available_variant.id }}">
+          </div>
+          <div class="k-atc-wrap">
+            <span class="k-btn primary" role="button" tabindex="0" data-k-add>Add 2 bikinis to cart</span>
+          </div>
+
+          <div class="k-social-micro">
+            <div class="k-social-micro__head rev">
+              <img class="k-social-micro__ig" src="{{ ig_logo }}" alt="" width="12" height="12" loading="lazy">
+              <p class="k-social-micro__label">As seen on social</p>
+            </div>
+            <p class="k-social-micro__tag rev d1">Premium on camera—made to read luxe in feed and real life.</p>
+            <div class="k-sgrid k-sgrid--micro" role="region" aria-label="As seen on social — swipe horizontally">
+              <div class="k-scard k-scard--micro rev d1">
+                <img src="{{ sol_ig_1 }}" alt="Solara on social" loading="lazy" width="208" height="260">
+                <div class="k-sov k-sov--micro"><span>Solara glow</span></div>
+              </div>
+              <div class="k-scard k-scard--micro rev d2">
+                <img src="{{ sol_ig_2 }}" alt="Solara on social" loading="lazy" width="208" height="260">
+                <div class="k-sov k-sov--micro"><span>Golden hour</span></div>
+              </div>
+              <div class="k-scard k-scard--micro rev d3">
+                <img src="{{ sol_ig_3 }}" alt="Solara on social" loading="lazy" width="208" height="260">
+                <div class="k-sov k-sov--micro"><span>Resort feed</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="k-acc">
+            <div class="k-ai">
+              <button class="k-ab" type="button" data-k-acc><span class="k-aq">Materials &amp; specs</span><span class="k-ax">+</span></button>
+              <div class="k-ap"><div class="k-at">
+                <ul class="k-spec">
+                  <li><b>Neckline</b><span>String neck</span></li>
+                  <li><b>Details</b><span>Bandage</span></li>
+                  <li><b>Occasion</b><span>Beach, wedding, vacation, holiday, pool party, spa &amp; hot springs, water sports, daily fashion, cruise</span></li>
+                  <li><b>Number of pieces</b><span>2 piece set</span></li>
+                  <li><b>High-concerned chemical</b><span>None</span></li>
+                  <li><b>Craft of weaving</b><span>Tatting</span></li>
+                  <li><b>Style</b><span>Elegant fashion</span></li>
+                  <li><b>Fit</b><span>True to size</span></li>
+                  <li><b>Material</b><span>Polyester</span></li>
+                  <li><b>With pad</b><span>Yes</span></li>
+                  <li><b>Support type</b><span>Wire free</span></li>
+                  <li><b>Waist</b><span>Low waist</span></li>
+                  <li><b>Item type</b><span>Bikini set</span></li>
+                </ul>
+              </div></div>
+            </div>
+            <div class="k-ai">
+              <button class="k-ab" type="button" data-k-acc><span class="k-aq">Shipping</span><span class="k-ax">+</span></button>
+              <div class="k-ap"><div class="k-at">
+                <p><b>Free shipping</b> on every order.</p>
+                <p><b>Processing:</b> 3 days. <b>Shipping:</b> 5–7 business days.</p>
+              </div></div>
+            </div>
+            <div class="k-ai">
+              <button class="k-ab" type="button" data-k-acc><span class="k-aq">Returns</span><span class="k-ax">+</span></button>
+              <div class="k-ap"><div class="k-at">
+                <p>Contact us at <b>{{ support_email }}</b> within <b>7 days</b> of delivery.</p>
+              </div></div>
+            </div>
+            <div class="k-ai">
+              <button class="k-ab" type="button" data-k-acc><span class="k-aq">Brand story</span><span class="k-ax">+</span></button>
+              <div class="k-ap"><div class="k-at">
+                <p><b>Kualley</b> is a small-batch coastal studio — clean lines, flattering fit, elevated feel.</p>
+                <p><b>Founder:</b> first collection by an American designer in her 30s — inspired by the ocean, light, and salt-air minimalism. Made with intention, not mass-produced.</p>
+              </div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <section class="k-sec">
+    <div class="k-container">
+      <div class="k-hd rev">
+        <span class="k-he">Atelier-level details</span>
+        <h2 class="k-ht">Made like a rare summer piece</h2>
+        <p class="k-hs">Small batches, handcrafted finish, ocean-inspired lines.</p>
+      </div>
+      <div class="k-grid2">
+        <div class="k-img rev d1">
+          <img src="{{ sol_model_1 }}" alt="Solara set detail" loading="lazy">
+          <div class="k-ov"><span>String neck · bandage</span></div>
+        </div>
+        <div class="k-img rev d2">
+          <img src="{{ sol_model_2 }}" alt="Solara fit" loading="lazy">
+          <div class="k-ov"><span>True to size</span></div>
+        </div>
+        <div class="k-img rev d3">
+          <img src="{{ sol_model_3 }}" alt="Solara texture" loading="lazy">
+          <div class="k-ov"><span>Tatting craft</span></div>
+        </div>
+        <div class="k-img rev d1">
+          <img src="{{ sol_model_4 }}" alt="Solara editorial" loading="lazy">
+          <div class="k-ov"><span>Elegant fashion</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="k-modal" data-k-modal>
+    <div class="k-box" role="dialog" aria-modal="true" aria-label="Size guide">
+      <div class="k-bh">
+        <h3 class="k-bt">Size guide</h3>
+        <button class="k-x" type="button" data-k-close>✕</button>
+      </div>
+      <div class="k-tabs">
+        <button class="k-tab on" type="button" data-k-tab="chart">Size chart</button>
+        <button class="k-tab" type="button" data-k-tab="helper">Size helper</button>
+        <button class="k-tab" type="button" data-k-tab="tips">Fit tips</button>
+      </div>
+      <div class="k-pane on" data-k-pane="chart">
+        <p style="margin:0 0 8px;color:var(--mu);font-size:13px;line-height:1.6;">Use bust / waist / hips (cm or in). Between sizes? Size up. Manual measurement tolerance <b>1–3 cm</b>.</p>
+        <div class="k-chart-wrap">
+          <table aria-label="Solara size chart">
+            <thead>
+              <tr>
+                <th>Size</th><th>US</th><th>UK/AU</th><th>Bust cm</th><th>Bust in</th><th>Waist cm</th><th>Waist in</th><th>Hips cm</th><th>Hips in</th><th>Cups</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td><b>S</b></td><td>2–4</td><td>6–8</td><td>72–80</td><td>28–31</td><td>60–66</td><td>24–26</td><td>78–85</td><td>31–33</td><td>A–B</td></tr>
+              <tr><td><b>M</b></td><td>4–6</td><td>8–10</td><td>80–88</td><td>31–35</td><td>64–70</td><td>25–28</td><td>85–91</td><td>33–36</td><td>B–C</td></tr>
+              <tr><td><b>L</b></td><td>6–8</td><td>10–12</td><td>88–95</td><td>35–37</td><td>68–74</td><td>27–30</td><td>91–97</td><td>36–38</td><td>C–D</td></tr>
+              <tr><td><b>XL</b></td><td>8–10</td><td>12–14</td><td>95–103</td><td>37–40</td><td>72–78</td><td>28–31</td><td>97–105</td><td>38–41</td><td>D–E</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="k-pane" data-k-pane="helper">
+        <p class="k-sq-intro">A quick questionnaire to suggest a <b>starting size</b> — use it with the chart, not instead of it.</p>
+        <div class="k-sq">
+          <div class="k-sq__field">
+            <label>Height <span class="k-sq__hint">cm or ft/in</span></label>
+            <input type="text" data-k-sq-height placeholder="e.g. 170 cm or 5 ft 7 in" autocomplete="off">
+          </div>
+          <div class="k-sq__field">
+            <label>Weight <span class="k-sq__hint">kg or lb</span></label>
+            <input type="text" data-k-sq-weight placeholder="e.g. 58 kg or 128 lb" autocomplete="off">
+          </div>
+          <div class="k-sq__field">
+            <label>Bra cup size</label>
+            <select data-k-sq-cup>
+              <option value="">Select</option>
+              <option value="A">A</option>
+              <option value="B">B</option>
+              <option value="C">C</option>
+              <option value="D">D</option>
+              <option value="DD">DD / E</option>
+            </select>
+          </div>
+          <button type="button" class="k-btn primary k-sq__btn" data-k-sq-submit>Suggest my size</button>
+          <div class="k-sq-result" data-k-sq-result role="status"></div>
+          <p class="k-sq-note">This tool is guidance only. Fit can vary by body shape; when in doubt, size up for comfort.</p>
+        </div>
+      </div>
+      <div class="k-pane" data-k-pane="tips">
+        <p style="margin:0;color:var(--mu);font-size:14px;line-height:1.8;">Low waist · string neck · light padding, wire free. If you’re between sizes, choose the larger size. Bandage details add stretch but the chart is your best reference.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="k-sticky" data-k-sticky>
+    <div class="k-sticky__inner">
+      <div class="k-sticky__bar">
+        <button type="button" class="k-sticky__hit" data-k-open-sticky-sheet aria-label="Choose bikini options">
+          <img class="k-sticky__thumb" data-k-st-img src="{{ fallback_img }}" alt="" width="40" height="50" loading="lazy">
+          <span class="k-sticky__meta">
+            <span class="k-sticky__eyebrow">2 bikinis · BOGO</span>
+            <span class="k-sticky__sel" data-k-st-line>Tap to choose options</span>
+          </span>
+          <span class="k-sticky__chev" aria-hidden="true">▾</span>
+        </button>
+        <span class="k-btn primary k-sticky__cta k-sticky__cta--bar" role="button" tabindex="0" data-k-add>Add</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="k-sticky-sheet" data-k-sticky-sheet>
+    <div class="k-sticky-sheet__backdrop" data-k-close-sticky-sheet tabindex="-1" aria-hidden="true"></div>
+    <div class="k-sticky-sheet__panel" role="dialog" aria-modal="true" aria-label="Choose bikini options">
+      <div class="k-sticky-sheet__head">
+        <h2 class="k-sticky-sheet__title">Your selection</h2>
+        <button type="button" class="k-sticky-sheet__x" data-k-close-sticky-sheet aria-label="Close">✕</button>
+      </div>
+      <div class="k-sticky-sheet__body">
+        <div class="k-sticky-sheet__slot">
+          <span class="k-sticky-sheet__tag" aria-hidden="true">#1</span>
+          <div data-k-picker-sticky="1"></div>
+        </div>
+        <div class="k-sticky-sheet__slot">
+          <span class="k-sticky-sheet__tag" aria-hidden="true">#2</span>
+          <div data-k-picker-sticky="2"></div>
+        </div>
+        <div class="k-sticky-sheet__atc">
+          <span class="k-btn primary" role="button" tabindex="0" data-k-add>Add 2 bikinis</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% comment %} Inline variant fallback (évite {% render %} si le snippet n’est pas sur le thème) {% endcomment %}
+  {% if p != blank %}
+    {% assign _kpf_prof = kp_fallback_profile | default: '' | strip | downcase %}
+    {% assign _kpf_h = p.handle %}
+    {% assign _kpf_sol = kp_solara_static_handle | default: 'kualley-solara-set' %}
+    {% assign _kpf_mar = kp_marea_static_handle | default: 'kualley-marea-set' %}
+    {% if _kpf_prof == 'solara' or _kpf_h == _kpf_sol %}
+      <script type="application/json" data-k-variant-fallback>
+[{"id":53475051700561,"title":"XS / Style 1","options":["XS","Style 1"],"available":true},{"id":53475051733329,"title":"XS / Style 2","options":["XS","Style 2"],"available":true},{"id":53475051798865,"title":"XS / Style 3","options":["XS","Style 3"],"available":true},{"id":53475051176273,"title":"S / Style 1","options":["S","Style 1"],"available":true},{"id":53475051209041,"title":"S / Style 2","options":["S","Style 2"],"available":true},{"id":53475051274577,"title":"S / Style 3","options":["S","Style 3"],"available":true},{"id":53475051569489,"title":"M / Style 1","options":["M","Style 1"],"available":true},{"id":53475051602257,"title":"M / Style 2","options":["M","Style 2"],"available":true},{"id":53475051667793,"title":"M / Style 3","options":["M","Style 3"],"available":true},{"id":53475051438417,"title":"L / Style 1","options":["L","Style 1"],"available":true},{"id":53475051471185,"title":"L / Style 2","options":["L","Style 2"],"available":true},{"id":53475051536721,"title":"L / Style 3","options":["L","Style 3"],"available":true},{"id":53475051307345,"title":"XL / Style 1","options":["XL","Style 1"],"available":true},{"id":53475051340113,"title":"XL / Style 2","options":["XL","Style 2"],"available":true},{"id":53475051405649,"title":"XL / Style 3","options":["XL","Style 3"],"available":true}]
+      </script>
+    {% elsif _kpf_prof == 'marea' or _kpf_h == _kpf_mar %}
+      <script type="application/json" data-k-variant-fallback>
+[{"id":53407000592721,"title":"S / Style 1","options":["S","Style 1"],"available":true},{"id":53407000625489,"title":"S / Style 2","options":["S","Style 2"],"available":true},{"id":53407000658257,"title":"S / Style 3","options":["S","Style 3"],"available":true},{"id":53407000789329,"title":"M / Style 1","options":["M","Style 1"],"available":true},{"id":53407000822097,"title":"M / Style 2","options":["M","Style 2"],"available":true},{"id":53407000854865,"title":"M / Style 3","options":["M","Style 3"],"available":true},{"id":53407000691025,"title":"L / Style 1","options":["L","Style 1"],"available":true},{"id":53407000723793,"title":"L / Style 2","options":["L","Style 2"],"available":true},{"id":53407000756561,"title":"L / Style 3","options":["L","Style 3"],"available":true}]
+      </script>
+    {% endif %}
+  {% endif %}
+  <script type="application/json" data-k-variants>
+    {{ p.variants | json | replace: '</', '<\/' }}
+  </script>
+
+  <script>
+  (function () {
+    var root = null;
+    var variants = [];
+
+    function q(sel, ctx) {
+      var r = ctx || root;
+      if (!r || !r.querySelector) return null;
+      return r.querySelector(sel);
+    }
+    function qa(sel, ctx) {
+      var r = ctx || root;
+      if (!r || !r.querySelectorAll) return [];
+      return Array.prototype.slice.call(r.querySelectorAll(sel));
+    }
+    function closest(el, sel) {
+      if (!el) return null;
+      if (el.closest) return el.closest(sel);
+      while (el && el.nodeType === 1) {
+        if (el.matches && el.matches(sel)) return el;
+        el = el.parentNode;
+      }
+      return null;
+    }
+  
+    function firstAvail() {
+      for (var i = 0; i < variants.length; i++) {
+        if (variants[i] && variants[i].available) return variants[i];
+      }
+      return variants[0] || null;
+    }
+    function byId(id) {
+      id = Number(id);
+      for (var i = 0; i < variants.length; i++) {
+        if (Number(variants[i].id) === id) return variants[i];
+      }
+      return null;
+    }
+    function uniq(arr) {
+      var out = [], seen = {};
+      for (var i = 0; i < arr.length; i++) {
+        var k = String(arr[i]);
+        if (!seen[k]) { seen[k] = 1; out.push(arr[i]); }
+      }
+      return out;
+    }
+    function getValuesForIndex(idx) {
+      var vals = [];
+      for (var i = 0; i < variants.length; i++) {
+        var v = variants[i];
+        if (v && v.options && v.options[idx] != null) vals.push(v.options[idx]);
+      }
+      return uniq(vals);
+    }
+    function findAvailByPartial(partial) {
+      for (var i = 0; i < variants.length; i++) {
+        var v = variants[i];
+        if (!v || !v.available) continue;
+        var ok = true;
+        for (var j = 0; j < partial.length; j++) {
+          if (partial[j] && v.options[j] !== partial[j]) { ok = false; break; }
+        }
+        if (ok) return v;
+      }
+      return null;
+    }
+  
+    function setTopbarHeight() {
+      root.style.setProperty('--top', '0px');
+    }
+
+    function parseRoughKg(str) {
+      if (!str || typeof str !== 'string') return null;
+      var s = str.toLowerCase().replace(/,/g, '.');
+      var m = s.match(/[\d.]+/);
+      if (!m) return null;
+      var n = parseFloat(m[0]);
+      if (isNaN(n)) return null;
+      if (s.indexOf('lb') !== -1) return n * 0.453592;
+      return n;
+    }
+
+    function parseRoughCm(str) {
+      if (!str || typeof str !== 'string') return null;
+      var s = str.toLowerCase();
+      var m;
+      if (s.indexOf('cm') !== -1) {
+        m = s.match(/[\d.]+/);
+        return m ? parseFloat(m[0]) : null;
+      }
+      if (s.indexOf('ft') !== -1 || s.indexOf("'") !== -1) {
+        var ft = 0;
+        var inch = 0;
+        m = s.match(/(\d+)\s*ft/);
+        if (m) ft = parseInt(m[1], 10);
+        m = s.match(/(\d+)\s*(in|\u201d|")/);
+        if (m) inch = parseInt(m[1], 10);
+        m = s.match(/(\d+)\s*'\s*(\d+)/);
+        if (m) {
+          ft = parseInt(m[1], 10);
+          inch = parseInt(m[2], 10);
+        }
+        if (!ft && !inch) {
+          m = s.match(/(\d+)\s*'\s*(\d*)/);
+          if (m) {
+            ft = parseInt(m[1], 10);
+            if (m[2]) inch = parseInt(m[2], 10);
+          }
+        }
+        return Math.round((ft * 12 + inch) * 2.54) || null;
+      }
+      m = s.match(/[\d.]+/);
+      return m ? parseFloat(m[0]) : null;
+    }
+
+    function suggestSolaraSize(cup, heightStr, weightStr) {
+      var c = (cup || '').toUpperCase();
+      var base = 'M';
+      if (c === 'A' || c === 'B') base = 'S';
+      else if (c === 'C') base = 'M';
+      else if (c === 'D') base = 'L';
+      else if (c === 'DD') base = 'XL';
+      var kg = parseRoughKg(weightStr);
+      var cm = parseRoughCm(heightStr);
+      if (kg && kg >= 82) {
+        if (base === 'S') base = 'M';
+        else if (base === 'M' && kg >= 92) base = 'L';
+        else if (base === 'L' && kg >= 100) base = 'XL';
+      }
+      if (cm && cm >= 175 && kg && kg >= 68 && base === 'S') base = 'M';
+      return base;
+    }
+
+    function initSizeHelper() {
+      var btn = q('[data-k-sq-submit]');
+      var res = q('[data-k-sq-result]');
+      if (!btn || !res || btn._kSqBound) return;
+      btn._kSqBound = true;
+      btn.addEventListener('click', function () {
+        var cupEl = q('[data-k-sq-cup]');
+        var hEl = q('[data-k-sq-height]');
+        var wEl = q('[data-k-sq-weight]');
+        var cup = cupEl ? cupEl.value : '';
+        var hs = hEl ? String(hEl.value || '').trim() : '';
+        var ws = wEl ? String(wEl.value || '').trim() : '';
+        if (!cup) {
+          res.innerHTML = 'Select your bra cup size so we can suggest a starting point.';
+          res.classList.add('on');
+          return;
+        }
+        var sz = suggestSolaraSize(cup, hs, ws);
+        res.innerHTML =
+          '<strong>Suggested starting size: ' +
+          sz +
+          '</strong><br>Match this with the <b>Size chart</b> (bust, waist, hips). Allow <b>1–3 cm</b> measurement variance.';
+        res.classList.add('on');
+      });
+    }
+
+    function showSlide(i) {
+      var slides = qa('[data-k-slide]');
+      var thumbs = qa('[data-k-thumb]');
+      for (var s = 0; s < slides.length; s++) {
+        slides[s].classList.toggle('on', slides[s].getAttribute('data-k-slide') === String(i));
+        var vid = slides[s].querySelector('video');
+        if (vid) {
+          if (slides[s].classList.contains('on')) { try { vid.play(); } catch (e) {} }
+          else { try { vid.pause(); } catch (e) {} }
+        }
+      }
+      for (var t = 0; t < thumbs.length; t++) {
+        thumbs[t].classList.toggle('on', thumbs[t].getAttribute('data-k-thumb') === String(i));
+      }
+    }
+  
+    function getQty() {
+      var input = q('[data-k-qty-input]');
+      var n = input ? parseInt(input.value, 10) : 1;
+      if (!n || n < 1) n = 1;
+      return Math.min(5, n);
+    }
+    function setQty(n) {
+      n = Math.min(5, Math.max(1, n));
+      var input = q('[data-k-qty-input]');
+      var valEl = q('[data-k-qty-val]');
+      var minus = q('[data-k-qty-minus]');
+      var plus = q('[data-k-qty-plus]');
+      if (input) input.value = String(n);
+      if (valEl) valEl.textContent = String(n);
+      if (minus) minus.disabled = (n <= 1);
+      if (plus) plus.disabled = (n >= 5);
+    }
+  
+    function openModal() {
+      var m = q('[data-k-modal]');
+      if (!m) return;
+      m.classList.add('on');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeModal() {
+      var m = q('[data-k-modal]');
+      if (!m) return;
+      m.classList.remove('on');
+      var sh = q('[data-k-sticky-sheet]');
+      if (!sh || !sh.classList.contains('k-sticky-sheet--on')) {
+        document.body.style.overflow = '';
+      }
+    }
+
+    function stickySheetIsOpen() {
+      var sh = q('[data-k-sticky-sheet]');
+      return !!(sh && sh.classList.contains('k-sticky-sheet--on'));
+    }
+
+    function openStickySheet() {
+      var sh = q('[data-k-sticky-sheet]');
+      if (!sh) return;
+      sh.classList.add('k-sticky-sheet--on');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeStickySheet() {
+      var sh = q('[data-k-sticky-sheet]');
+      if (!sh) return;
+      sh.classList.remove('k-sticky-sheet--on');
+      var m = q('[data-k-modal]');
+      if (!m || !m.classList.contains('on')) {
+        document.body.style.overflow = '';
+      }
+    }
+  
+    function initReveal() {
+      var els = qa('.rev');
+      if (!els.length) return;
+      if (!('IntersectionObserver' in window)) {
+        for (var i = 0; i < els.length; i++) { els[i].classList.add('on'); }
+        return;
+      }
+      var obs = new IntersectionObserver(function (entries) {
+        for (var i = 0; i < entries.length; i++) {
+          if (entries[i].isIntersecting) {
+            entries[i].target.classList.add('on');
+            obs.unobserve(entries[i].target);
+          }
+        }
+      }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+      for (var j = 0; j < els.length; j++) { obs.observe(els[j]); }
+    }
+
+    function initStickyBar() {
+      var sticky = q('[data-k-sticky]');
+      var anchor = q('#k-atc-anchor');
+      if (!sticky || !anchor) return;
+      if (!('IntersectionObserver' in window)) return;
+      var io = new IntersectionObserver(
+        function (entries) {
+          var e = entries[0];
+          var show = !e.isIntersecting && e.boundingClientRect.top < 0;
+          sticky.classList.toggle('k-sticky--on', show);
+          root.classList.toggle('kp--sticky-bar', show);
+        },
+        { threshold: 0, rootMargin: '-40px 0px 0px 0px' }
+      );
+      io.observe(anchor);
+    }
+  
+    function hid(slot) { return q('[data-k-vid][data-k-slot="' + slot + '"]'); }
+  
+    function updateSummary(slot) {
+      var idEl = hid(slot);
+      if (!idEl) return;
+      var v = byId(idEl.value) || firstAvail();
+      if (!v) return;
+  
+      var img = q('[data-k-sum-img="' + slot + '"]');
+      var varEl = q('[data-k-sum-var="' + slot + '"]');
+      if (img && v.featured_image && v.featured_image.src) img.src = v.featured_image.src;
+      if (varEl) varEl.textContent = (v.title && v.title !== 'Default Title') ? v.title : 'Selected';
+  
+      if (img && v.image && v.image.src) img.src = v.image.src;
+      if (img && v.image && typeof v.image === 'string') img.src = v.image;
+      if (img && v.image && v.image.src) img.src = v.image.src;
+  
+      var stImg = q('[data-k-st-img]');
+      var stLine = q('[data-k-st-line]');
+      var v1 = byId((hid('1') && hid('1').value) || 0);
+      var v2 = byId((hid('2') && hid('2').value) || 0);
+      if (stImg && v1 && v1.image && typeof v1.image === 'string') stImg.src = v1.image;
+      if (stImg && v1 && v1.image && v1.image.src) stImg.src = v1.image.src;
+  
+      var t1 = v1 && v1.title && v1.title !== 'Default Title' ? v1.title : 'Variant 1';
+      var t2 = v2 && v2.title && v2.title !== 'Default Title' ? v2.title : 'Variant 2';
+      if (stLine) stLine.textContent = '1: ' + t1 + ' · 2: ' + t2;
+    }
+  
+    function buildPicker(slot) {
+      var main = q('[data-k-picker="' + slot + '"]');
+      if (!main) return;
+  
+      var sticky = q('[data-k-picker-sticky="' + slot + '"]');
+      var mounts = [main];
+      if (sticky) mounts.push(sticky);
+  
+      for (var mx = 0; mx < mounts.length; mx++) {
+        mounts[mx].innerHTML = '';
+      }
+  
+      if (!variants.length) {
+        main.innerHTML = '<div class="k-micro">No variants found.</div>';
+        if (sticky) sticky.innerHTML = '';
+        return;
+      }
+  
+      var v0 = firstAvail();
+      if (!v0) return;
+  
+      var optionCount = (v0.options && v0.options.length) ? v0.options.length : 0;
+  
+      if (optionCount === 1 && v0.options[0] === 'Default Title') {
+        var msg = '<div class="k-micro">No options on this product (default title).</div>';
+        main.innerHTML = msg;
+        if (sticky) sticky.innerHTML = '';
+        var h = hid(slot);
+        if (h) h.value = String(v0.id);
+        updateSummary(slot);
+        return;
+      }
+  
+      var selected = [];
+      for (var i = 0; i < optionCount; i++) {
+        selected[i] = v0.options[i] || null;
+      }
+      var h0 = hid(slot);
+      if (h0) h0.value = String(v0.id);
+  
+      function buildInto(mount) {
+        for (var oi = 0; oi < optionCount; oi++) {
+          var wrap = document.createElement('div');
+          var label = document.createElement('p');
+          label.className = 'k-ol';
+          label.textContent = 'Option ' + (oi + 1);
+          wrap.appendChild(label);
+  
+          var row = document.createElement('div');
+          row.className = 'k-or';
+          row.setAttribute('data-k-row', '1');
+          row.setAttribute('data-k-slot', slot);
+          row.setAttribute('data-k-oi', String(oi));
+  
+          var values = getValuesForIndex(oi);
+          for (var vi = 0; vi < values.length; vi++) {
+            var btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'k-ob';
+            btn.setAttribute('data-k-opt', '1');
+            btn.setAttribute('data-k-slot', slot);
+            btn.setAttribute('data-k-oi', String(oi));
+            btn.setAttribute('data-k-val', String(values[vi]));
+            btn.textContent = String(values[vi]);
+            if (String(values[vi]) === String(selected[oi])) btn.classList.add('on');
+            row.appendChild(btn);
+          }
+  
+          wrap.appendChild(row);
+          mount.appendChild(wrap);
+        }
+      }
+  
+      for (mx = 0; mx < mounts.length; mx++) {
+        buildInto(mounts[mx]);
+      }
+  
+      function refresh() {
+        var mi;
+        for (var oi2 = 0; oi2 < optionCount; oi2++) {
+          var row0 = main.querySelector('[data-k-oi="' + oi2 + '"]');
+          if (!row0) continue;
+          var btns0 = row0.querySelectorAll('[data-k-opt]');
+          for (var bi = 0; bi < btns0.length; bi++) {
+            var test = selected.slice();
+            test[oi2] = btns0[bi].getAttribute('data-k-val');
+            var possible = !!findAvailByPartial(test);
+            for (mi = 0; mi < mounts.length; mi++) {
+              var rowM = mounts[mi].querySelector('[data-k-oi="' + oi2 + '"]');
+              if (!rowM) continue;
+              var bM = rowM.querySelectorAll('[data-k-opt]')[bi];
+              if (bM) bM.classList.toggle('off', !possible);
+            }
+          }
+  
+          var curPossible = !!findAvailByPartial(selected);
+          if (!curPossible) {
+            var firstPossible = null;
+            for (var bi2 = 0; bi2 < btns0.length; bi2++) {
+              if (!btns0[bi2].classList.contains('off')) {
+                firstPossible = btns0[bi2].getAttribute('data-k-val');
+                break;
+              }
+            }
+            if (firstPossible != null) selected[oi2] = firstPossible;
+          }
+        }
+  
+        var chosen = findAvailByPartial(selected) || firstAvail();
+        var h = hid(slot);
+        if (h && chosen) h.value = String(chosen.id);
+  
+        for (var oi3 = 0; oi3 < optionCount; oi3++) {
+          for (mi = 0; mi < mounts.length; mi++) {
+            var row3 = mounts[mi].querySelector('[data-k-oi="' + oi3 + '"]');
+            if (!row3) continue;
+            var btns3 = row3.querySelectorAll('[data-k-opt]');
+            for (var bi3 = 0; bi3 < btns3.length; bi3++) {
+              btns3[bi3].classList.toggle('on', btns3[bi3].getAttribute('data-k-val') === String(selected[oi3]));
+            }
+          }
+        }
+  
+        updateSummary(slot);
+      }
+  
+      refresh();
+      main._kSelected = selected;
+      main._kRefresh = refresh;
+    }
+  
+    function shopifyRoot() {
+      var base = (window.Shopify && window.Shopify.routes && window.Shopify.routes.root) ? window.Shopify.routes.root : '/';
+      if (base.slice(-1) !== '/') base += '/';
+      return base;
+    }
+
+    function parseFallbackVariantList(ctx) {
+      try {
+        var fe = ctx.querySelector('[data-k-variant-fallback]');
+        var raw = fe && fe.textContent ? String(fe.textContent).trim() : '';
+        var fb = raw ? JSON.parse(raw) : [];
+        return Array.isArray(fb) ? fb : [];
+      } catch (e) {
+        return [];
+      }
+    }
+
+    function parseVariantsInRoot(ctx) {
+      try {
+        if (ctx && ctx.hasAttribute && ctx.hasAttribute('data-k-prefer-variant-fallback')) {
+          var preferred = parseFallbackVariantList(ctx);
+          if (preferred.length) return preferred;
+        }
+        var ve = ctx.querySelector('[data-k-variants]');
+        var list = JSON.parse(ve && ve.textContent ? ve.textContent : '[]');
+        list = Array.isArray(list) ? list : [];
+        if (!list.length) {
+          var fb = parseFallbackVariantList(ctx);
+          if (fb.length) list = fb;
+        }
+        return list;
+      } catch (e) {
+        return [];
+      }
+    }
+
+    function variantByIdInList(list, id) {
+      id = Number(id);
+      for (var i = 0; i < list.length; i++) {
+        if (list[i] && Number(list[i].id) === id) return list[i];
+      }
+      return null;
+    }
+
+    function addToCart(scopeRoot) {
+      var ctx = scopeRoot || root;
+      if (!ctx) return;
+      var list = parseVariantsInRoot(ctx);
+      var h1 = ctx.querySelector('[data-k-vid][data-k-slot="1"]');
+      var h2 = ctx.querySelector('[data-k-vid][data-k-slot="2"]');
+      var v1 = h1 ? String(h1.value).trim() : '';
+      var v2 = h2 ? String(h2.value).trim() : '';
+      var qtyInput = ctx.querySelector('[data-k-qty-input]');
+      var qtyN = qtyInput ? parseInt(qtyInput.value, 10) : 1;
+      if (!qtyN || qtyN < 1) qtyN = 1;
+      var qty = Math.min(5, qtyN);
+
+      if (!v1 || !v2) {
+        openStickySheet();
+        return;
+      }
+
+      var id1 = Number(v1);
+      var id2 = Number(v2);
+      if (!Number.isFinite(id1) || !Number.isFinite(id2)) {
+        openStickySheet();
+        return;
+      }
+
+      var bv1 = variantByIdInList(list, v1);
+      var bv2 = variantByIdInList(list, v2);
+      if (bv1 && bv1.available === false) return;
+      if (bv2 && bv2.available === false) return;
+
+      /* Panier Shopify : une URL, pas d’AJAX — ça marche toujours */
+      window.location.assign(shopifyRoot() + 'cart/' + id1 + ':' + qty + ',' + id2 + ':' + qty);
+    }
+
+    function bindKpAddToCartControls() {
+      if (!root) return;
+      var nodes = qa('[data-k-add]');
+      for (var ni = 0; ni < nodes.length; ni++) {
+        if (nodes[ni]._kpAtcBound) continue;
+        nodes[ni]._kpAtcBound = true;
+        nodes[ni].addEventListener(
+          'click',
+          function (e) {
+            if (this.classList.contains('kp-atc--busy')) return;
+            e.preventDefault();
+            e.stopPropagation();
+            e.stopImmediatePropagation();
+            var sr = this.closest('[data-kp-root]');
+            if (sr) addToCart(sr);
+          },
+          true
+        );
+        nodes[ni].addEventListener(
+          'keydown',
+          function (e) {
+            if (e.key !== 'Enter' && e.key !== ' ') return;
+            if (this.classList.contains('kp-atc--busy')) return;
+            e.preventDefault();
+            e.stopPropagation();
+            e.stopImmediatePropagation();
+            var sr2 = this.closest('[data-kp-root]');
+            if (sr2) addToCart(sr2);
+          },
+          true
+        );
+      }
+    }
+
+    function bind() {
+      root.addEventListener('click', function (e) {
+        var t = e.target;
+
+        var th = closest(t, '[data-k-thumb]');
+        if (th) { showSlide(th.getAttribute('data-k-thumb')); return; }
+  
+        if (closest(t, '[data-k-open-size]')) { openModal(); return; }
+        if (closest(t, '[data-k-close]')) { closeModal(); return; }
+        if (closest(t, '[data-k-open-sticky-sheet]')) { openStickySheet(); return; }
+        if (closest(t, '[data-k-close-sticky-sheet]')) { closeStickySheet(); return; }
+        var modal = q('[data-k-modal]');
+        if (modal && modal.classList.contains('on') && t === modal) { closeModal(); return; }
+  
+        var tab = closest(t, '[data-k-tab]');
+        if (tab && modal) {
+          var key = tab.getAttribute('data-k-tab');
+          var tabs = modal.querySelectorAll('[data-k-tab]');
+          for (var i = 0; i < tabs.length; i++) { tabs[i].classList.toggle('on', tabs[i] === tab); }
+          var panes = modal.querySelectorAll('[data-k-pane]');
+          for (var j = 0; j < panes.length; j++) { panes[j].classList.toggle('on', panes[j].getAttribute('data-k-pane') === key); }
+          return;
+        }
+  
+        var acc = closest(t, '[data-k-acc]');
+        if (acc) {
+          var item = closest(acc, '.k-ai');
+          if (!item) return;
+          var all = qa('.k-ai');
+          var isOpen = item.classList.contains('on');
+          for (var k = 0; k < all.length; k++) { all[k].classList.remove('on'); }
+          item.classList.toggle('on', !isOpen);
+          return;
+        }
+  
+        var opt = closest(t, '[data-k-opt]');
+        if (opt) {
+          if (opt.classList.contains('off')) return;
+          var slot = opt.getAttribute('data-k-slot');
+          var picker = q('[data-k-picker="' + slot + '"]');
+          if (!picker || !picker._kSelected || !picker._kRefresh) return;
+  
+          var oi = parseInt(opt.getAttribute('data-k-oi'), 10);
+          picker._kSelected[oi] = opt.getAttribute('data-k-val');
+          picker._kRefresh();
+          return;
+        }
+  
+        if (closest(t, '[data-k-qty-minus]')) { setQty(getQty() - 1); return; }
+        if (closest(t, '[data-k-qty-plus]')) { setQty(getQty() + 1); return; }
+      });
+  
+      document.addEventListener('keydown', function (e) {
+        if (e.key !== 'Escape') return;
+        if (stickySheetIsOpen()) {
+          closeStickySheet();
+          return;
+        }
+        closeModal();
+      });
+    }
+  
+    function init() {
+      var el = document.querySelector('.kp[data-kp-root]');
+      if (!el) return;
+      if (el._kpInited) {
+        root = el;
+        bindKpAddToCartControls();
+        return;
+      }
+      el._kpInited = true;
+      root = el;
+      try {
+        var ve = root.querySelector('[data-k-variants]');
+        variants = JSON.parse(ve && ve.textContent ? ve.textContent : '[]');
+      } catch (e) {
+        variants = [];
+      }
+      if (root.hasAttribute('data-k-prefer-variant-fallback')) {
+        var pref = parseFallbackVariantList(root);
+        if (pref.length) variants = pref;
+      } else if (!variants.length) {
+        variants = parseFallbackVariantList(root);
+      }
+      setTopbarHeight();
+      bind();
+      setQty(1);
+      showSlide(0);
+      initReveal();
+      buildPicker('1');
+      buildPicker('2');
+      updateSummary('1');
+      updateSummary('2');
+      initStickyBar();
+      initSizeHelper();
+      bindKpAddToCartControls();
+    }
+
+    function bootKp() {
+      init();
+      if (!root) {
+        if (typeof bootKp.n !== 'number') bootKp.n = 0;
+        bootKp.n++;
+        if (bootKp.n < 60) setTimeout(bootKp, 50);
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', bootKp);
+    } else {
+      bootKp();
+    }
+
+    window.addEventListener('resize', function () {
+      if (root) setTopbarHeight();
+    });
+  })();
+  </script>
+
+</div>
+{% endif %}

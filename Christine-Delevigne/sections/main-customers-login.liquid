@@ -1,0 +1,198 @@
+<div class="container section">
+  <div class="customer-login">
+    <div class="customer-login__wrapper">
+      <header class="customer-login__header text-center mb-lg">
+        <h1 class="h2">{{ 'customer.login.title' | t }}</h1>
+      </header>
+
+      <div class="customer-login__forms grid grid--2-col">
+        <!-- Login Form -->
+        <div class="customer-login__form">
+          <h2 class="h4 mb-md">{{ 'customer.login.returning_customer' | t }}</h2>
+          
+          {%- form 'customer_login' -%}
+            {%- if form.errors -%}
+              <div class="form-errors mb-md">
+                {{ form.errors | default_errors }}
+              </div>
+            {%- endif -%}
+
+            <div class="form-field">
+              <label for="customer-email" class="form-label">
+                {{ 'customer.login.email' | t }}
+              </label>
+              <input type="email" 
+                     name="customer[email]" 
+                     id="customer-email"
+                     class="form-input"
+                     autocomplete="email"
+                     required>
+            </div>
+
+            <div class="form-field">
+              <label for="customer-password" class="form-label">
+                {{ 'customer.login.password' | t }}
+              </label>
+              <input type="password" 
+                     name="customer[password]" 
+                     id="customer-password"
+                     class="form-input"
+                     autocomplete="current-password"
+                     required>
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" class="button button--large">
+                {{ 'customer.login.sign_in' | t }}
+              </button>
+              
+              <p class="mt-md">
+                <a href="#recover" class="text-link">
+                  {{ 'customer.login.forgot_password' | t }}
+                </a>
+              </p>
+            </div>
+          {%- endform -%}
+        </div>
+
+        <!-- Register Form -->
+        <div class="customer-register__form">
+          <h2 class="h4 mb-md">{{ 'customer.register.new_customer' | t }}</h2>
+          
+          <div class="register-content">
+            <p class="mb-md">{{ 'customer.register.description' | t }}</p>
+            
+            <a href="{{ routes.account_register_url }}" class="button button--secondary button--large">
+              {{ 'customer.register.create_account' | t }}
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Password Recovery Form -->
+      <div id="recover" class="customer-recover" style="display: none;">
+        <h2 class="h4 mb-md text-center">{{ 'customer.recover_password.title' | t }}</h2>
+        
+        {%- form 'recover_customer_password' -%}
+          {%- if form.posted_successfully? -%}
+            <div class="form-success mb-md">
+              <p>{{ 'customer.recover_password.success' | t }}</p>
+            </div>
+          {%- endif -%}
+
+          {%- if form.errors -%}
+            <div class="form-errors mb-md">
+              {{ form.errors | default_errors }}
+            </div>
+          {%- endif -%}
+
+          <div class="form-field">
+            <label for="recover-email" class="form-label">
+              {{ 'customer.recover_password.email' | t }}
+            </label>
+            <input type="email" 
+                   name="email" 
+                   id="recover-email"
+                   class="form-input"
+                   autocomplete="email"
+                   required>
+          </div>
+
+          <div class="form-actions text-center">
+            <button type="submit" class="button">
+              {{ 'customer.recover_password.submit' | t }}
+            </button>
+            
+            <p class="mt-md">
+              <a href="#login" class="text-link">
+                {{ 'customer.recover_password.cancel' | t }}
+              </a>
+            </p>
+          </div>
+        {%- endform -%}
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .customer-login__wrapper {
+    max-width: 80rem;
+    margin: 0 auto;
+  }
+
+  .customer-login__forms {
+    gap: var(--spacing-xl);
+  }
+
+  .form-errors,
+  .form-success {
+    padding: var(--spacing-md);
+    border-radius: var(--border-radius);
+    margin-bottom: var(--spacing-md);
+  }
+
+  .form-errors {
+    background-color: rgba(244, 67, 54, 0.1);
+    border: 1px solid var(--color-error);
+    color: var(--color-error);
+  }
+
+  .form-success {
+    background-color: rgba(76, 175, 80, 0.1);
+    border: 1px solid var(--color-success);
+    color: var(--color-success);
+  }
+
+  .customer-recover {
+    max-width: 40rem;
+    margin: var(--spacing-xl) auto 0;
+    padding: var(--spacing-lg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-lg);
+  }
+
+  .register-content {
+    text-align: center;
+  }
+
+  @media (max-width: 768px) {
+    .customer-login__forms {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<script>
+  // Handle password recovery toggle
+  document.addEventListener('DOMContentLoaded', function() {
+    const recoverLinks = document.querySelectorAll('a[href="#recover"]');
+    const loginLinks = document.querySelectorAll('a[href="#login"]');
+    const loginForm = document.querySelector('.customer-login__forms');
+    const recoverForm = document.querySelector('.customer-recover');
+
+    recoverLinks.forEach(link => {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        loginForm.style.display = 'none';
+        recoverForm.style.display = 'block';
+      });
+    });
+
+    loginLinks.forEach(link => {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        loginForm.style.display = 'grid';
+        recoverForm.style.display = 'none';
+      });
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Customer Login",
+  "class": "shopify-section--main-customers-login",
+  "tag": "section"
+}
+{% endschema %} 

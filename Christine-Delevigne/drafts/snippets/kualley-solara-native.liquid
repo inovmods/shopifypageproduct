@@ -1,0 +1,632 @@
+{% comment %}
+  Solara — même présentation que le bloc Kualley, achat via formulaire produit Shopify natif (pas de JS panier).
+  Usage : {% render 'kualley-solara-native', kp_product: product %}
+  Sur page produit sans argument : le produit courant est utilisé.
+{% endcomment %}
+{% assign kp_home_handle = kp_home_handle | default: '' %}
+{% if kp_product != blank %}
+  {% assign p = kp_product %}
+{% elsif kp_home_handle != blank %}
+  {% assign p = all_products[kp_home_handle] %}
+{% else %}
+  {% assign p = product %}
+  {% if p == blank and closest.product != blank %}
+    {% assign p = closest.product %}
+  {% endif %}
+{% endif %}
+
+{% if p == blank %}
+  <div class="kp kp--empty kp--solara-native" style="padding:48px 20px;text-align:center;font-family:system-ui,sans-serif;background:#F8F5EF;color:#1C1914;">
+    <p style="margin:0;max-width:420px;margin-inline:auto;line-height:1.6;">Choisissez un produit (section) ou affichez ce bloc sur une <strong>page produit</strong>.</p>
+  </div>
+{% else %}
+{% assign form_id = 'KualleySolaraNative-' | append: p.id %}
+{% assign support_email = shop.email %}
+
+{% assign ig_logo = 'https://cdn.shopify.com/s/files/1/1033/9418/1457/files/Instagram-Logo.wine.svg?v=1774735024' %}
+{% assign ship_logo = 'https://cdn.shopify.com/s/files/1/1033/9418/1457/files/United_States_Postal_Service-Logo.wine.svg?v=1774735024' %}
+{% assign pay_apple = 'https://cdn.shopify.com/s/files/1/1033/9418/1457/files/Apple_Pay-Logo.wine.svg?v=1774735024' %}
+{% assign pay_mc = 'https://cdn.shopify.com/s/files/1/1033/9418/1457/files/Mastercard-Logo.wine.svg?v=1774735024' %}
+{% assign pay_amex = 'https://cdn.shopify.com/s/files/1/1033/9418/1457/files/American_Express-Logo.wine_1.svg?v=1774735024' %}
+{% assign pay_shop = 'https://cdn.shopify.com/s/files/1/1033/9418/1457/files/shoppay_logo-removebg-preview.png?v=1774735059' %}
+{% assign pay_pp = 'https://cdn.shopify.com/s/files/1/1033/9418/1457/files/PayPal-Logo.wine.svg?v=1774735024' %}
+
+{% assign video_1 = 'https://cdn.shopify.com/videos/c/o/v/ff2842c4f7e4443cb0fe4768dba8cea1.mp4' %}
+{% assign font_body = 'https://cdn.shopify.com/s/files/1/1033/9418/1457/files/amoera-Regular.ttf?v=1774791198' %}
+{% assign font_title = 'https://cdn.shopify.com/s/files/1/1033/9418/1457/files/Malline.ttf?v=1774787392' %}
+{% assign fallback_img = p.featured_image | image_url: width: 900 %}
+{% assign img_1 = 'https://cdn.shopify.com/s/files/1/1033/9418/1457/files/Generated_Image_April_06_2026_-_4_17PM.webp?v=1775677133' %}
+{% assign img_2 = 'https://cdn.shopify.com/s/files/1/1033/9418/1457/files/Generated_Image_April_06_2026_-_4_10PM.webp?v=1775677133' %}
+{% assign img_3 = 'https://cdn.shopify.com/s/files/1/1033/9418/1457/files/Generated_Image_April_06_2026_-_4_34PM.webp?v=1775677133' %}
+{% assign img_4 = 'https://cdn.shopify.com/s/files/1/1033/9418/1457/files/Generated_Image_April_06_2026_-_4_35PM.webp?v=1775677133' %}
+{% assign sol_model_1 = 'https://cdn.shopify.com/s/files/1/1033/9418/1457/files/Generated_Image_April_06_2026_-_4_00PM.webp?v=1775677099' %}
+{% assign sol_model_2 = 'https://cdn.shopify.com/s/files/1/1033/9418/1457/files/Generated_Image_April_06_2026_-_3_51PM.webp?v=1775677099' %}
+{% assign sol_model_3 = 'https://cdn.shopify.com/s/files/1/1033/9418/1457/files/Generated_Image_April_06_2026_-_3_57PM.webp?v=1775677099' %}
+{% assign sol_model_4 = 'https://cdn.shopify.com/s/files/1/1033/9418/1457/files/Generated_Image_April_06_2026_-_3_47PM.webp?v=1775677099' %}
+{% assign sol_ig_1 = 'https://cdn.shopify.com/s/files/1/1033/9418/1457/files/Generated_Image_April_06_2026_-_4_48PM.webp?v=1775677099' %}
+{% assign sol_ig_2 = 'https://cdn.shopify.com/s/files/1/1033/9418/1457/files/Generated_Image_April_06_2026_-_4_51PM.webp?v=1775677099' %}
+{% assign sol_ig_3 = 'https://cdn.shopify.com/s/files/1/1033/9418/1457/files/Generated_Image_April_06_2026_-_4_46PM.webp?v=1775677133' %}
+
+<div class="kp kp--solara-native" id="kp-solara-native-{{ p.id }}">
+  <style>
+    @font-face{font-family:'KTitle';src:url('{{ font_title }}') format('truetype');font-weight:400;font-style:normal;font-display:swap;}
+    @font-face{font-family:'KBody';src:url('{{ font_body }}') format('truetype');font-weight:400;font-style:normal;font-display:swap;}
+    .kp.kp--solara-native{
+      --iv:#F8F5EF;--sd:#EDE4D6;--st:#C9BAA5;--wr:#A08B70;
+      --dp:#1C1914;--ch:#3A3530;--mu:#7D7268;--bd:#E2D9CC;
+      --wh:#FFFFFF;--cr:#FAF8F4;--gd:#C9A96E;--ok:#5A8A6A;
+      --r:20px;--tr:.32s cubic-bezier(.25,.46,.45,.94);
+      --header-safe:var(--header-group-height,var(--header-height,60px));
+      font-family:'KBody',system-ui,sans-serif;color:var(--dp);background:var(--iv);
+      -webkit-font-smoothing:antialiased;position:relative;
+    }
+    .kp.kp--solara-native *,.kp.kp--solara-native *::before,.kp.kp--solara-native *::after{box-sizing:border-box}
+    .kp.kp--solara-native img,.kp.kp--solara-native video{display:block;max-width:100%}
+    .kp.kp--solara-native .k-container{max-width:1280px;margin:0 auto;padding:0 16px}
+    @media(min-width:1024px){.kp.kp--solara-native .k-container{padding:0 48px}}
+    .kp.kp--solara-native .k-hero{background:var(--cr);padding:14px 0 56px}
+    .kp.kp--solara-native .k-grid{display:block}
+    @media(min-width:1024px){.kp.kp--solara-native .k-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:start}}
+    .kp.kp--solara-native .k-gal{margin-top:6px}
+    @media(min-width:1024px){.kp.kp--solara-native .k-gal{position:sticky;top:calc(var(--header-safe) + 18px)}}
+    .kp.kp--solara-native .k-main{position:relative;border-radius:var(--r);overflow:hidden;background:var(--sd);aspect-ratio:3/4;box-shadow:0 18px 55px rgba(28,25,20,.12)}
+    .kp.kp--solara-native .k-badge{position:absolute;top:14px;left:14px;z-index:4;background:rgba(28,25,20,.92);color:var(--gd);font-size:10px;letter-spacing:.14em;text-transform:uppercase;font-weight:900;padding:7px 12px;border-radius:999px;border:1px solid rgba(248,245,239,.12)}
+    .kp.kp--solara-native .k-slide{position:absolute;inset:0;opacity:0;transform:scale(1.01);transition:opacity .45s ease,transform .65s ease}
+    .kp.kp--solara-native .k-slide.on{opacity:1;transform:scale(1)}
+    .kp.kp--solara-native .k-slide img,.kp.kp--solara-native .k-slide video{width:100%;height:100%;object-fit:cover}
+    .kp.kp--solara-native .k-thumbs{display:flex;gap:10px;margin-top:12px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+    .kp.kp--solara-native .k-thumbs::-webkit-scrollbar{display:none}
+    .kp.kp--solara-native .k-thumb{flex-shrink:0;width:74px;height:92px;border-radius:14px;overflow:hidden;border:2px solid transparent;background:var(--sd);cursor:pointer;transition:transform var(--tr),border-color var(--tr);position:relative}
+    .kp.kp--solara-native .k-thumb:hover{transform:translateY(-2px)}
+    .kp.kp--solara-native .k-thumb.on{border-color:var(--dp)}
+    .kp.kp--solara-native .k-thumb img{width:100%;height:100%;object-fit:cover}
+    .kp.kp--solara-native .k-tag{position:absolute;left:8px;bottom:8px;font-size:10px;letter-spacing:.12em;text-transform:uppercase;font-weight:900;color:var(--iv);background:rgba(28,25,20,.78);border:1px solid rgba(248,245,239,.14);padding:4px 7px;border-radius:999px}
+    .kp.kp--solara-native .k-eye{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--wr);font-weight:900;margin:14px 0 8px}
+    .kp.kp--solara-native .k-rating{margin:0 0 14px}
+    .kp.kp--solara-native .k-rating__row{display:flex;align-items:center;flex-wrap:wrap;gap:8px 10px}
+    .kp.kp--solara-native .k-rating__stars{color:var(--gd);font-size:14px;letter-spacing:1px;line-height:1;flex-shrink:0}
+    .kp.kp--solara-native .k-rating__score{font-size:14px;font-weight:900;color:var(--dp);letter-spacing:.02em}
+    .kp.kp--solara-native .k-rating__sep{color:var(--st);font-weight:700;opacity:.85}
+    .kp.kp--solara-native .k-rating__proof{font-size:13px;font-weight:800;color:var(--ch);letter-spacing:.01em}
+    .kp.kp--solara-native .k-rating__hint{margin:6px 0 0;font-size:11px;color:var(--mu);line-height:1.45;max-width:42ch}
+    .kp.kp--solara-native .k-title{font-family:'KTitle',Georgia,serif;font-size:clamp(28px,4.6vw,46px);line-height:1.06;margin:0 0 10px}
+    .kp.kp--solara-native .k-sub{color:var(--mu);font-size:14px;line-height:1.75;margin:0 0 18px;max-width:58ch}
+    .kp.kp--solara-native .k-pill{display:inline-flex;align-items:center;gap:10px;padding:10px 14px;border-radius:999px;background:rgba(28,25,20,.92);color:var(--gd);border:1px solid rgba(248,245,239,.12);font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:900;margin:0 0 12px}
+    .kp.kp--solara-native .k-price{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin:10px 0 6px}
+    .kp.kp--solara-native .k-now{font-family:'KTitle',Georgia,serif;font-size:34px;letter-spacing:.02em}
+    .kp.kp--solara-native .k-was{font-size:16px;color:var(--st);text-decoration:line-through}
+    .kp.kp--solara-native .k-save{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ok);font-weight:900}
+    .kp.kp--solara-native .k-ship{display:flex;flex-wrap:wrap;gap:10px;margin:12px 0 18px}
+    .kp.kp--solara-native .k-ship i{font-style:normal;color:var(--ok);font-weight:900}
+    .kp.kp--solara-native .k-chip{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--ch);background:rgba(255,255,255,.55);border:1px solid rgba(28,25,20,.06);padding:8px 10px;border-radius:999px}
+    .kp.kp--solara-native .k-paywrap{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:10px 0 18px}
+    .kp.kp--solara-native .k-pay{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+    .kp.kp--solara-native .k-pay img{height:22px;width:auto;opacity:.85;object-fit:contain}
+    .kp.kp--solara-native .k-shiplogo{display:flex;align-items:center;gap:10px}
+    .kp.kp--solara-native .k-shiplogo img{height:22px;width:auto;opacity:.80}
+    .kp.kp--solara-native .k-linkbtn{background:none;border:none;cursor:pointer;font-size:12px;color:var(--wr);font-weight:900;letter-spacing:.1em;text-transform:uppercase;text-decoration:underline;text-underline-offset:3px;padding:0}
+    .kp.kp--solara-native .k-native-form{margin-top:8px;display:grid;gap:16px}
+    .kp.kp--solara-native .k-native-form label.k-ol{display:block;font-size:11px;letter-spacing:.12em;text-transform:uppercase;font-weight:900;color:var(--mu);margin:0 0 8px}
+    .kp.kp--solara-native .k-native-select,.kp.kp--solara-native .k-native-qty{width:100%;padding:12px 14px;border-radius:14px;border:1.5px solid var(--bd);background:var(--wh);font-family:inherit;font-size:14px;color:var(--dp)}
+    .kp.kp--solara-native .k-native-select:focus,.kp.kp--solara-native .k-native-qty:focus{outline:2px solid rgba(201,169,110,.45);outline-offset:2px}
+    .kp.kp--solara-native .k-btn{width:100%;display:flex;align-items:center;justify-content:center;gap:10px;padding:16px 18px;border:none;border-radius:16px;cursor:pointer;font-size:13px;font-weight:900;letter-spacing:.14em;text-transform:uppercase;transition:all var(--tr);font-family:'KBody',system-ui,sans-serif}
+    .kp.kp--solara-native .k-btn.primary{background:var(--dp);color:var(--iv);box-shadow:0 16px 40px rgba(28,25,20,.18)}
+    .kp.kp--solara-native .k-btn.primary:hover{transform:translateY(-1px);background:var(--ch)}
+    .kp.kp--solara-native .k-btn.primary:disabled{opacity:.55;cursor:not-allowed;transform:none}
+    .kp.kp--solara-native .k-native-form .shopify-payment-button{margin-top:4px}
+    .kp.kp--solara-native .k-atc-wrap{margin-top:4px;margin-bottom:0}
+    .kp.kp--solara-native .k-acc{margin-top:18px;border-top:1px solid var(--bd)}
+    .kp.kp--solara-native .k-ai{border-bottom:1px solid var(--bd)}
+    .kp.kp--solara-native .k-ab{width:100%;padding:18px 0;background:none;border:none;display:flex;justify-content:space-between;align-items:center;gap:14px;cursor:pointer;text-align:left}
+    .kp.kp--solara-native .k-aq{font-size:14px;font-weight:900;color:var(--dp)}
+    .kp.kp--solara-native .k-ax{width:30px;height:30px;border-radius:999px;border:1.5px solid var(--bd);display:flex;align-items:center;justify-content:center;font-weight:900;transition:all var(--tr);flex-shrink:0}
+    .kp.kp--solara-native .k-ap{max-height:0;overflow:hidden;transition:max-height .42s ease}
+    .kp.kp--solara-native .k-at{padding:0 0 18px;color:var(--mu);font-size:14px;line-height:1.8}
+    .kp.kp--solara-native .k-ai.on .k-ap{max-height:900px}
+    .kp.kp--solara-native .k-ai.on .k-ax{background:var(--dp);color:var(--iv);border-color:var(--dp);transform:rotate(45deg)}
+    .kp.kp--solara-native .k-spec{list-style:none;padding:0;margin:10px 0 0;display:grid;gap:10px}
+    .kp.kp--solara-native .k-spec li{display:flex;justify-content:space-between;gap:12px;background:rgba(255,255,255,.55);border:1px solid rgba(28,25,20,.06);padding:10px 12px;border-radius:14px}
+    .kp.kp--solara-native .k-spec b{color:var(--dp)}
+    .kp.kp--solara-native .k-social-micro{margin-top:12px;margin-bottom:10px;padding-bottom:10px;border-bottom:1px solid rgba(28,25,20,.06)}
+    .kp.kp--solara-native .k-social-micro__head{display:flex;align-items:center;gap:6px;margin:0 0 4px}
+    .kp.kp--solara-native .k-social-micro__ig{width:12px;height:12px;opacity:.72;flex-shrink:0}
+    .kp.kp--solara-native .k-social-micro__label{font-size:9px;letter-spacing:.16em;text-transform:uppercase;font-weight:900;color:var(--wr);margin:0}
+    .kp.kp--solara-native .k-social-micro__tag{margin:0 0 8px;font-size:10px;color:var(--mu);line-height:1.4;max-width:48ch}
+    .kp.kp--solara-native .k-sgrid--micro{display:flex;flex-direction:row;flex-wrap:nowrap;gap:8px;margin:0;overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;scroll-snap-type:x mandatory;padding:2px 0 6px;scrollbar-width:thin}
+    .kp.kp--solara-native .k-sgrid--micro::-webkit-scrollbar{height:5px}
+    .kp.kp--solara-native .k-sgrid--micro::-webkit-scrollbar-thumb{background:rgba(28,25,20,.18);border-radius:999px}
+    .kp.kp--solara-native .k-scard--micro{position:relative;flex:0 0 104px;width:104px;scroll-snap-align:start;border-radius:12px;overflow:hidden;background:var(--sd);aspect-ratio:4/5;box-shadow:0 6px 18px rgba(28,25,20,.08)}
+    .kp.kp--solara-native .k-scard--micro img{width:100%;height:100%;object-fit:cover;display:block}
+    .kp.kp--solara-native .k-sov--micro{position:absolute;inset:0;background:linear-gradient(to top,rgba(28,25,20,.58),transparent 52%);display:flex;align-items:flex-end;padding:6px 6px 7px}
+    .kp.kp--solara-native .k-sov--micro span{color:var(--iv);font-weight:900;letter-spacing:.1em;text-transform:uppercase;font-size:8px;line-height:1.2}
+    .kp.kp--solara-native .k-sec{padding:76px 0;background:var(--cr)}
+    .kp.kp--solara-native .k-hd{text-align:center;margin-bottom:32px}
+    .kp.kp--solara-native .k-he{display:block;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--wr);font-weight:900;margin-bottom:10px}
+    .kp.kp--solara-native .k-ht{font-family:'KTitle',Georgia,serif;font-size:clamp(24px,4vw,40px);line-height:1.1;margin:0}
+    .kp.kp--solara-native .k-hs{max-width:58ch;margin:12px auto 0;color:var(--mu);font-size:15px;line-height:1.75}
+    .kp.kp--solara-native .k-grid2{display:grid;gap:16px;grid-template-columns:1fr}
+    @media(min-width:900px){.kp.kp--solara-native .k-grid2{grid-template-columns:1fr 1fr;gap:22px}}
+    .kp.kp--solara-native .k-img{border-radius:20px;overflow:hidden;background:var(--sd);position:relative;min-height:420px;box-shadow:0 18px 55px rgba(28,25,20,.10)}
+    .kp.kp--solara-native .k-img img{width:100%;height:100%;object-fit:cover}
+    .kp.kp--solara-native .k-ov{position:absolute;inset:0;background:linear-gradient(to top,rgba(28,25,20,.64),transparent 55%);display:flex;align-items:flex-end;padding:16px;opacity:0;transition:opacity .35s ease}
+    .kp.kp--solara-native .k-img:hover .k-ov{opacity:1}
+    .kp.kp--solara-native .k-ov span{color:var(--iv);font-weight:900;letter-spacing:.10em;text-transform:uppercase;font-size:12px}
+    .kp.kp--solara-native .rev{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s ease}
+    .kp.kp--solara-native .rev.on{opacity:1;transform:translateY(0)}
+    .kp.kp--solara-native .d1{transition-delay:.08s}.kp.kp--solara-native .d2{transition-delay:.16s}.kp.kp--solara-native .d3{transition-delay:.24s}
+    .kp.kp--solara-native .k-modal{position:fixed;inset:0;background:rgba(28,25,20,.62);z-index:9997;display:flex;align-items:flex-end;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s ease}
+    @media(min-width:700px){.kp.kp--solara-native .k-modal{align-items:center}}
+    .kp.kp--solara-native .k-modal.on{opacity:1;pointer-events:all}
+    .kp.kp--solara-native .k-box{width:100%;max-width:760px;background:var(--wh);border-radius:18px 18px 0 0;padding:18px 18px 22px;transform:translateY(110%);transition:transform .35s ease;max-height:88vh;overflow:auto}
+    @media(min-width:700px){.kp.kp--solara-native .k-box{border-radius:18px;transform:scale(.96)} .kp.kp--solara-native .k-modal.on .k-box{transform:scale(1)}}
+    .kp.kp--solara-native .k-modal.on .k-box{transform:translateY(0)}
+    .kp.kp--solara-native .k-bh{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:6px 2px 12px;border-bottom:1px solid rgba(28,25,20,.08)}
+    .kp.kp--solara-native .k-bt{font-family:'KTitle',Georgia,serif;font-size:22px;margin:0}
+    .kp.kp--solara-native .k-x{width:36px;height:36px;border-radius:999px;border:1px solid rgba(28,25,20,.12);background:rgba(28,25,20,.04);cursor:pointer;font-weight:900}
+    .kp.kp--solara-native .k-tabs{display:flex;gap:10px;margin:14px 0;flex-wrap:wrap}
+    .kp.kp--solara-native .k-tab{border:1px solid rgba(28,25,20,.12);background:rgba(28,25,20,.04);padding:10px 12px;border-radius:999px;cursor:pointer;font-weight:900;font-size:12px;letter-spacing:.12em;text-transform:uppercase}
+    .kp.kp--solara-native .k-tab.on{background:var(--dp);color:var(--iv);border-color:var(--dp)}
+    .kp.kp--solara-native .k-pane{display:none}
+    .kp.kp--solara-native .k-pane.on{display:block}
+    .kp.kp--solara-native table{width:100%;border-collapse:collapse;font-size:13px;margin-top:10px;border-radius:16px;overflow:hidden;border:1px solid rgba(28,25,20,.10)}
+    .kp.kp--solara-native th,.kp.kp--solara-native td{padding:10px 12px;border-bottom:1px solid rgba(28,25,20,.08);text-align:left}
+    .kp.kp--solara-native th{background:var(--sd);font-size:11px;letter-spacing:.12em;text-transform:uppercase;font-weight:900}
+    .kp.kp--solara-native .k-chart-wrap{overflow-x:auto;margin-top:8px;-webkit-overflow-scrolling:touch}
+    .kp.kp--solara-native .k-chart-wrap table{min-width:520px;font-size:12px}
+    .kp.kp--solara-native .k-sq-intro{margin:0 0 12px;color:var(--mu);font-size:13px;line-height:1.65}
+    .kp.kp--solara-native .k-sq{display:grid;gap:14px;margin-top:6px}
+    .kp.kp--solara-native .k-sq__field label{display:block;font-size:11px;letter-spacing:.12em;text-transform:uppercase;font-weight:900;color:var(--mu);margin-bottom:6px}
+    .kp.kp--solara-native .k-sq__hint{font-weight:600;opacity:.65;text-transform:none;letter-spacing:0}
+    .kp.kp--solara-native .k-sq__field input,.kp.kp--solara-native .k-sq__field select{width:100%;padding:11px 12px;border-radius:14px;border:1.5px solid var(--bd);background:var(--wh);font-family:inherit;font-size:14px;color:var(--dp)}
+    .kp.kp--solara-native .k-sq__btn{margin-top:4px;width:100%}
+    .kp.kp--solara-native .k-sq-result{margin-top:14px;padding:14px 16px;border-radius:16px;background:rgba(90,138,106,.1);border:1px solid rgba(90,138,106,.28);font-size:14px;line-height:1.55;color:var(--dp);display:none}
+    .kp.kp--solara-native .k-sq-result.on{display:block}
+    .kp.kp--solara-native .k-sq-note{margin-top:12px;font-size:12px;color:var(--mu);line-height:1.5}
+  </style>
+
+  <div class="k-hero">
+    <div class="k-container">
+      <div class="k-grid">
+        <div class="k-gal">
+          <div class="k-main" data-k-gallery>
+            <span class="k-badge">Solara · String neck</span>
+            <div class="k-slide on" data-k-slide="0"><video playsinline muted loop autoplay preload="metadata" poster="{{ img_1 }}" src="{{ video_1 }}"></video></div>
+            <div class="k-slide" data-k-slide="1"><img src="{{ sol_model_1 }}" alt="{{ p.title | escape }} — look 1" loading="eager" width="900" height="1200"></div>
+            <div class="k-slide" data-k-slide="2"><img src="{{ sol_model_2 }}" alt="{{ p.title | escape }} — look 2" loading="lazy" width="900" height="1200"></div>
+            <div class="k-slide" data-k-slide="3"><img src="{{ sol_model_3 }}" alt="{{ p.title | escape }} — look 3" loading="lazy" width="900" height="1200"></div>
+            <div class="k-slide" data-k-slide="4"><img src="{{ sol_model_4 }}" alt="{{ p.title | escape }} — look 4" loading="lazy" width="900" height="1200"></div>
+            <div class="k-slide" data-k-slide="5"><img src="{{ img_1 }}" alt="{{ p.title | escape }}" loading="lazy" width="900" height="1200"></div>
+            <div class="k-slide" data-k-slide="6"><img src="{{ img_2 }}" alt="{{ p.title | escape }}" loading="lazy" width="900" height="1200"></div>
+            <div class="k-slide" data-k-slide="7"><img src="{{ img_3 }}" alt="{{ p.title | escape }}" loading="lazy" width="900" height="1200"></div>
+            <div class="k-slide" data-k-slide="8"><img src="{{ img_4 }}" alt="{{ p.title | escape }}" loading="lazy" width="900" height="1200"></div>
+          </div>
+          <div class="k-thumbs" aria-label="Gallery thumbnails">
+            <div class="k-thumb on" data-k-thumb="0"><img src="{{ img_1 }}" alt="Video"><span class="k-tag">Video</span></div>
+            <div class="k-thumb" data-k-thumb="1"><img src="{{ sol_model_1 }}" alt="Look 1"></div>
+            <div class="k-thumb" data-k-thumb="2"><img src="{{ sol_model_2 }}" alt="Look 2"></div>
+            <div class="k-thumb" data-k-thumb="3"><img src="{{ sol_model_3 }}" alt="Look 3"></div>
+            <div class="k-thumb" data-k-thumb="4"><img src="{{ sol_model_4 }}" alt="Look 4"></div>
+            <div class="k-thumb" data-k-thumb="5"><img src="{{ img_1 }}" alt="Variant 1"></div>
+            <div class="k-thumb" data-k-thumb="6"><img src="{{ img_2 }}" alt="Variant 2"></div>
+            <div class="k-thumb" data-k-thumb="7"><img src="{{ img_3 }}" alt="Variant 3"></div>
+            <div class="k-thumb" data-k-thumb="8"><img src="{{ img_4 }}" alt="Variant 4"></div>
+          </div>
+        </div>
+
+        <div class="k-info">
+          <p class="k-eye">Kualley — Resort Swimwear</p>
+          <div class="k-rating" role="group" aria-label="Customer rating 4.8 out of 5, over 10,000 verified customers">
+            <div class="k-rating__row">
+              <span class="k-rating__stars" aria-hidden="true">★★★★★</span>
+              <strong class="k-rating__score">4.8/5</strong>
+              <span class="k-rating__sep" aria-hidden="true">·</span>
+              <span class="k-rating__proof">10,000+ verified customers</span>
+            </div>
+            <p class="k-rating__hint">Average from verified post-purchase reviews.</p>
+          </div>
+          <h1 class="k-title">{{ p.title }}</h1>
+          <p class="k-sub">{{ p.description | strip_html | truncate: 160 }}</p>
+          <div class="k-pill">Buy 1 Get 1 Free — Free shipping — Automatic at checkout</div>
+
+          {% assign _v0 = p.selected_or_first_available_variant %}
+          <div class="k-price">
+            {% if p.price_varies %}
+              <span class="k-now">From {{ p.price_min | money }}</span>
+            {% else %}
+              <span class="k-now">{{ _v0.price | money }}</span>
+            {% endif %}
+            {% if _v0.compare_at_price > _v0.price %}
+              <span class="k-was">{{ _v0.compare_at_price | money }}</span>
+              {% assign _save = _v0.compare_at_price | minus: _v0.price %}
+              <span class="k-save">Save {{ _save | money }}</span>
+            {% endif %}
+          </div>
+
+          <div class="k-ship">
+            <div class="k-chip"><i>✓</i> Free shipping</div>
+            <div class="k-chip"><i>✓</i> Prep: 3 days</div>
+            <div class="k-chip"><i>✓</i> Ships in: 5–7 days</div>
+          </div>
+          <div class="k-paywrap">
+            <div class="k-shiplogo">
+              <img src="{{ ship_logo }}" alt="USPS" loading="lazy">
+              <span style="font-size:12px;color:var(--mu);letter-spacing:.08em;text-transform:uppercase;font-weight:900;">Tracked delivery</span>
+            </div>
+            <div class="k-pay" aria-label="Payment methods">
+              <img src="{{ pay_apple }}" alt="Apple Pay" loading="lazy">
+              <img src="{{ pay_shop }}" alt="Shop Pay" loading="lazy">
+              <img src="{{ pay_pp }}" alt="PayPal" loading="lazy">
+              <img src="{{ pay_mc }}" alt="Mastercard" loading="lazy">
+              <img src="{{ pay_amex }}" alt="Amex" loading="lazy">
+            </div>
+          </div>
+
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin:6px 0 10px;">
+            <div class="k-ql" style="margin:0;font-size:12px;color:var(--mu);letter-spacing:.12em;text-transform:uppercase;font-weight:900;">Size guide</div>
+            <button class="k-linkbtn" type="button" data-k-open-size>Open guide</button>
+          </div>
+
+          {% form 'product', p, id: form_id, class: 'k-native-form' %}
+            <label class="k-ol" for="Variant-{{ form_id }}">Variant</label>
+            <select name="id" id="Variant-{{ form_id }}" class="k-native-select">
+              {% for variant in p.variants %}
+                <option
+                  value="{{ variant.id }}"
+                  {% if variant == p.selected_or_first_available_variant %}selected="selected"{% endif %}
+                  {% unless variant.available %}disabled{% endunless %}
+                >
+                  {{ variant.title }} — {% if variant.available %}{{ variant.price | money }}{% else %}Sold out{% endif %}
+                </option>
+              {% endfor %}
+            </select>
+
+            <label class="k-ol" for="Qty-{{ form_id }}">Quantity</label>
+            <input
+              id="Qty-{{ form_id }}"
+              class="k-native-qty"
+              type="number"
+              name="quantity"
+              min="1"
+              value="1"
+              inputmode="numeric"
+            >
+
+            <div class="k-atc-wrap">
+              <button type="submit" name="add" class="k-btn primary" {% unless p.available %}disabled{% endunless %}>
+                Add to cart
+              </button>
+            </div>
+
+            {{ form | payment_button }}
+          {% endform %}
+
+          <div class="k-social-micro">
+            <div class="k-social-micro__head rev">
+              <img class="k-social-micro__ig" src="{{ ig_logo }}" alt="" width="12" height="12" loading="lazy">
+              <p class="k-social-micro__label">As seen on social</p>
+            </div>
+            <p class="k-social-micro__tag rev d1">Premium on camera—made to read luxe in feed and real life.</p>
+            <div class="k-sgrid k-sgrid--micro" role="region" aria-label="As seen on social — swipe horizontally">
+              <div class="k-scard k-scard--micro rev d1">
+                <img src="{{ sol_ig_1 }}" alt="Solara on social" loading="lazy" width="208" height="260">
+                <div class="k-sov k-sov--micro"><span>Solara glow</span></div>
+              </div>
+              <div class="k-scard k-scard--micro rev d2">
+                <img src="{{ sol_ig_2 }}" alt="Solara on social" loading="lazy" width="208" height="260">
+                <div class="k-sov k-sov--micro"><span>Golden hour</span></div>
+              </div>
+              <div class="k-scard k-scard--micro rev d3">
+                <img src="{{ sol_ig_3 }}" alt="Solara on social" loading="lazy" width="208" height="260">
+                <div class="k-sov k-sov--micro"><span>Resort feed</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="k-acc">
+            <div class="k-ai">
+              <button class="k-ab" type="button" data-k-acc><span class="k-aq">Materials &amp; specs</span><span class="k-ax">+</span></button>
+              <div class="k-ap"><div class="k-at">
+                <ul class="k-spec">
+                  <li><b>Neckline</b><span>String neck</span></li>
+                  <li><b>Details</b><span>Bandage</span></li>
+                  <li><b>Fit</b><span>True to size</span></li>
+                  <li><b>Material</b><span>Polyester</span></li>
+                  <li><b>Item type</b><span>Bikini set</span></li>
+                </ul>
+              </div></div>
+            </div>
+            <div class="k-ai">
+              <button class="k-ab" type="button" data-k-acc><span class="k-aq">Shipping</span><span class="k-ax">+</span></button>
+              <div class="k-ap"><div class="k-at">
+                <p><b>Free shipping</b> on every order.</p>
+                <p><b>Processing:</b> 3 days. <b>Shipping:</b> 5–7 business days.</p>
+              </div></div>
+            </div>
+            <div class="k-ai">
+              <button class="k-ab" type="button" data-k-acc><span class="k-aq">Returns</span><span class="k-ax">+</span></button>
+              <div class="k-ap"><div class="k-at">
+                <p>Contact us at <b>{{ support_email }}</b> within <b>7 days</b> of delivery.</p>
+              </div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <section class="k-sec">
+    <div class="k-container">
+      <div class="k-hd rev">
+        <span class="k-he">Atelier-level details</span>
+        <h2 class="k-ht">Made like a rare summer piece</h2>
+        <p class="k-hs">Small batches, handcrafted finish, ocean-inspired lines.</p>
+      </div>
+      <div class="k-grid2">
+        <div class="k-img rev d1">
+          <img src="{{ sol_model_1 }}" alt="Solara set detail" loading="lazy">
+          <div class="k-ov"><span>String neck · bandage</span></div>
+        </div>
+        <div class="k-img rev d2">
+          <img src="{{ sol_model_2 }}" alt="Solara fit" loading="lazy">
+          <div class="k-ov"><span>True to size</span></div>
+        </div>
+        <div class="k-img rev d3">
+          <img src="{{ sol_model_3 }}" alt="Solara texture" loading="lazy">
+          <div class="k-ov"><span>Tatting craft</span></div>
+        </div>
+        <div class="k-img rev d1">
+          <img src="{{ sol_model_4 }}" alt="Solara editorial" loading="lazy">
+          <div class="k-ov"><span>Elegant fashion</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="k-modal" data-k-modal>
+    <div class="k-box" role="dialog" aria-modal="true" aria-label="Size guide">
+      <div class="k-bh">
+        <h3 class="k-bt">Size guide</h3>
+        <button class="k-x" type="button" data-k-close>✕</button>
+      </div>
+      <div class="k-tabs">
+        <button class="k-tab on" type="button" data-k-tab="chart">Size chart</button>
+        <button class="k-tab" type="button" data-k-tab="helper">Size helper</button>
+        <button class="k-tab" type="button" data-k-tab="tips">Fit tips</button>
+      </div>
+      <div class="k-pane on" data-k-pane="chart">
+        <p style="margin:0 0 8px;color:var(--mu);font-size:13px;line-height:1.6;">Use bust / waist / hips (cm or in). Between sizes? Size up. Manual measurement tolerance <b>1–3 cm</b>.</p>
+        <div class="k-chart-wrap">
+          <table aria-label="Solara size chart">
+            <thead>
+              <tr>
+                <th>Size</th><th>US</th><th>UK/AU</th><th>Bust cm</th><th>Bust in</th><th>Waist cm</th><th>Waist in</th><th>Hips cm</th><th>Hips in</th><th>Cups</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td><b>S</b></td><td>2–4</td><td>6–8</td><td>72–80</td><td>28–31</td><td>60–66</td><td>24–26</td><td>78–85</td><td>31–33</td><td>A–B</td></tr>
+              <tr><td><b>M</b></td><td>4–6</td><td>8–10</td><td>80–88</td><td>31–35</td><td>64–70</td><td>25–28</td><td>85–91</td><td>33–36</td><td>B–C</td></tr>
+              <tr><td><b>L</b></td><td>6–8</td><td>10–12</td><td>88–95</td><td>35–37</td><td>68–74</td><td>27–30</td><td>91–97</td><td>36–38</td><td>C–D</td></tr>
+              <tr><td><b>XL</b></td><td>8–10</td><td>12–14</td><td>95–103</td><td>37–40</td><td>72–78</td><td>28–31</td><td>97–105</td><td>38–41</td><td>D–E</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="k-pane" data-k-pane="helper">
+        <p class="k-sq-intro">A quick questionnaire to suggest a <b>starting size</b> — use it with the chart, not instead of it.</p>
+        <div class="k-sq">
+          <div class="k-sq__field">
+            <label>Height <span class="k-sq__hint">cm or ft/in</span></label>
+            <input type="text" data-k-sq-height placeholder="e.g. 170 cm or 5 ft 7 in" autocomplete="off">
+          </div>
+          <div class="k-sq__field">
+            <label>Weight <span class="k-sq__hint">kg or lb</span></label>
+            <input type="text" data-k-sq-weight placeholder="e.g. 58 kg or 128 lb" autocomplete="off">
+          </div>
+          <div class="k-sq__field">
+            <label>Bra cup size</label>
+            <select data-k-sq-cup>
+              <option value="">Select</option>
+              <option value="A">A</option>
+              <option value="B">B</option>
+              <option value="C">C</option>
+              <option value="D">D</option>
+              <option value="DD">DD / E</option>
+            </select>
+          </div>
+          <button type="button" class="k-btn primary k-sq__btn" data-k-sq-submit>Suggest my size</button>
+          <div class="k-sq-result" data-k-sq-result role="status"></div>
+          <p class="k-sq-note">This tool is guidance only. When in doubt, size up for comfort.</p>
+        </div>
+      </div>
+      <div class="k-pane" data-k-pane="tips">
+        <p style="margin:0;color:var(--mu);font-size:14px;line-height:1.8;">Low waist · string neck · light padding, wire free. If you’re between sizes, choose the larger size.</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+  (function () {
+    var root = document.getElementById('kp-solara-native-{{ p.id }}');
+    if (!root) return;
+
+    function q(sel) { return root.querySelector(sel); }
+    function qa(sel) { return Array.prototype.slice.call(root.querySelectorAll(sel)); }
+    function closest(el, sel) {
+      if (!el) return null;
+      if (el.closest) return el.closest(sel);
+      while (el && el.nodeType === 1) {
+        if (el.matches && el.matches(sel)) return el;
+        el = el.parentNode;
+      }
+      return null;
+    }
+
+    function parseRoughKg(str) {
+      if (!str || typeof str !== 'string') return null;
+      var s = str.toLowerCase().replace(/,/g, '.');
+      var m = s.match(/[\d.]+/);
+      if (!m) return null;
+      var n = parseFloat(m[0]);
+      if (isNaN(n)) return null;
+      if (s.indexOf('lb') !== -1) return n * 0.453592;
+      return n;
+    }
+
+    function parseRoughCm(str) {
+      if (!str || typeof str !== 'string') return null;
+      var s = str.toLowerCase();
+      var m;
+      if (s.indexOf('cm') !== -1) {
+        m = s.match(/[\d.]+/);
+        return m ? parseFloat(m[0]) : null;
+      }
+      if (s.indexOf('ft') !== -1 || s.indexOf("'") !== -1) {
+        var ft = 0, inch = 0;
+        m = s.match(/(\d+)\s*ft/);
+        if (m) ft = parseInt(m[1], 10);
+        m = s.match(/(\d+)\s*'\s*(\d+)/);
+        if (m) { ft = parseInt(m[1], 10); inch = parseInt(m[2], 10); }
+        return Math.round((ft * 12 + inch) * 2.54) || null;
+      }
+      m = s.match(/[\d.]+/);
+      return m ? parseFloat(m[0]) : null;
+    }
+
+    function suggestSolaraSize(cup, heightStr, weightStr) {
+      var c = (cup || '').toUpperCase();
+      var base = 'M';
+      if (c === 'A' || c === 'B') base = 'S';
+      else if (c === 'C') base = 'M';
+      else if (c === 'D') base = 'L';
+      else if (c === 'DD') base = 'XL';
+      var kg = parseRoughKg(weightStr);
+      var cm = parseRoughCm(heightStr);
+      if (kg && kg >= 82) {
+        if (base === 'S') base = 'M';
+        else if (base === 'M' && kg >= 92) base = 'L';
+        else if (base === 'L' && kg >= 100) base = 'XL';
+      }
+      if (cm && cm >= 175 && kg && kg >= 68 && base === 'S') base = 'M';
+      return base;
+    }
+
+    function initSizeHelper() {
+      var btn = q('[data-k-sq-submit]');
+      var res = q('[data-k-sq-result]');
+      if (!btn || !res || btn._kSqBound) return;
+      btn._kSqBound = true;
+      btn.addEventListener('click', function () {
+        var cupEl = q('[data-k-sq-cup]');
+        var hEl = q('[data-k-sq-height]');
+        var wEl = q('[data-k-sq-weight]');
+        var cup = cupEl ? cupEl.value : '';
+        var hs = hEl ? String(hEl.value || '').trim() : '';
+        var ws = wEl ? String(wEl.value || '').trim() : '';
+        if (!cup) {
+          res.textContent = 'Select your bra cup size so we can suggest a starting point.';
+          res.classList.add('on');
+          return;
+        }
+        var sz = suggestSolaraSize(cup, hs, ws);
+        res.innerHTML = '<strong>Suggested starting size: ' + sz + '</strong><br>Match with the <b>Size chart</b>. Allow <b>1–3 cm</b> variance.';
+        res.classList.add('on');
+      });
+    }
+
+    function showSlide(i) {
+      qa('[data-k-slide]').forEach(function (sl) {
+        sl.classList.toggle('on', sl.getAttribute('data-k-slide') === String(i));
+        var vid = sl.querySelector('video');
+        if (vid) {
+          try { sl.classList.contains('on') ? vid.play() : vid.pause(); } catch (e) {}
+        }
+      });
+      qa('[data-k-thumb]').forEach(function (th) {
+        th.classList.toggle('on', th.getAttribute('data-k-thumb') === String(i));
+      });
+    }
+
+    function openModal() {
+      var m = q('[data-k-modal]');
+      if (!m) return;
+      m.classList.add('on');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+      var m = q('[data-k-modal]');
+      if (!m) return;
+      m.classList.remove('on');
+      document.body.style.overflow = '';
+    }
+
+    function initReveal() {
+      var els = qa('.rev');
+      if (!els.length) return;
+      if (!('IntersectionObserver' in window)) {
+        for (var i = 0; i < els.length; i++) els[i].classList.add('on');
+        return;
+      }
+      var obs = new IntersectionObserver(function (entries) {
+        for (var j = 0; j < entries.length; j++) {
+          if (entries[j].isIntersecting) {
+            entries[j].target.classList.add('on');
+            obs.unobserve(entries[j].target);
+          }
+        }
+      }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+      for (var k = 0; k < els.length; k++) obs.observe(els[k]);
+    }
+
+    root.addEventListener('click', function (e) {
+      var t = e.target;
+      var th = closest(t, '[data-k-thumb]');
+      if (th) {
+        showSlide(th.getAttribute('data-k-thumb'));
+        return;
+      }
+      if (closest(t, '[data-k-open-size]')) {
+        openModal();
+        return;
+      }
+      if (closest(t, '[data-k-close]')) {
+        closeModal();
+        return;
+      }
+      var modal = q('[data-k-modal]');
+      if (modal && modal.classList.contains('on') && t === modal) {
+        closeModal();
+        return;
+      }
+      var tab = closest(t, '[data-k-tab]');
+      if (tab && modal) {
+        var key = tab.getAttribute('data-k-tab');
+        qa('[data-k-tab]').forEach(function (x) { x.classList.toggle('on', x === tab); });
+        qa('[data-k-pane]').forEach(function (p) {
+          p.classList.toggle('on', p.getAttribute('data-k-pane') === key);
+        });
+        return;
+      }
+      var acc = closest(t, '[data-k-acc]');
+      if (acc) {
+        var item = closest(acc, '.k-ai');
+        if (!item) return;
+        var all = qa('.k-ai');
+        var isOpen = item.classList.contains('on');
+        for (var i = 0; i < all.length; i++) all[i].classList.remove('on');
+        item.classList.toggle('on', !isOpen);
+      }
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key !== 'Escape') return;
+      closeModal();
+    });
+
+    showSlide(0);
+    initReveal();
+    initSizeHelper();
+  })();
+  </script>
+</div>
+{% endif %}

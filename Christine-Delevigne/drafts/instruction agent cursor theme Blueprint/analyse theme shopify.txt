@@ -1,0 +1,200 @@
+Complete Analysis of the Shopify Impact Theme
+1. General Theme Structure
+A complete Shopify theme consists of several key folders and files, organized as follows:
+
+layout/
+Contains the main theme files that define the overall page structure.
+
+theme.liquid: The main layout that wraps all page content, including header, footer, global scripts.
+
+checkout.liquid (optional): Customization of the checkout page.
+
+templates/
+Liquid files defining different page types.
+Examples:
+
+index.liquid (homepage)
+
+product.liquid (product page)
+
+collection.liquid (collection page)
+
+cart.liquid (cart page)
+
+page.liquid (standard pages)
+
+blog.liquid (blog listing)
+
+article.liquid (blog article)
+
+sections/
+Contains modular dynamic sections that merchants can add, remove, or reorder from the Shopify editor.
+Common examples in Impact:
+
+header.liquid
+
+footer.liquid
+
+featured-product.liquid
+
+slideshow.liquid
+
+collection-list.liquid
+
+newsletter.liquid
+
+testimonial.liquid
+
+product-template.liquid (product page section)
+
+snippets/
+Reusable code fragments included in multiple sections or templates.
+Examples:
+
+product-card.liquid (product card used in collections)
+
+social-icons.liquid (social media icons)
+
+icon-search.liquid, icon-cart.liquid, etc.
+
+assets/
+Contains all static files: CSS, JS, images, fonts, 3D files, JSON, etc.
+
+theme.css or theme.scss.liquid
+
+theme.js
+
+Images (logos, backgrounds, sprites)
+
+Fonts (usually imported via Google Fonts or local files)
+
+config/
+Theme configuration files.
+
+settings_schema.json: Defines the structure of options available in the Shopify editor (sections, blocks, settings).
+
+settings_data.json: Stores user-saved data (colors, texts, images...).
+
+locales/: Theme translation files.
+
+2. Detailed Analysis of Impact Theme Elements and Features
+2.1 Main Layout — theme.liquid
+Complete HTML structure with inclusion of head, scripts, and body.
+
+Includes partials for header and footer via {% section 'header' %} and {% section 'footer' %}.
+
+Loads essential CSS and JS files.
+
+Manages SEO metadata (title, description, open graph) via Liquid variables.
+
+Injects page-specific content with {{ content_for_layout }}.
+
+Supports Google Analytics and other marketing pixels.
+
+2.2 Header — sections/header.liquid
+Configurable logo (image upload via customizer).
+
+Dynamic main menu (Shopify configurable menus).
+
+Responsive menu with hamburger on mobile.
+
+Integrated search bar (activatable).
+
+Cart icon with item count.
+
+Sticky header support (fixed on scroll) via JS/CSS.
+
+2.3 Footer — sections/footer.liquid
+Dynamic columns of links (customizable menus).
+
+Newsletter signup area (form connected to mailing service).
+
+Social media icons (configurable icons and links).
+
+Dynamic legal notices and copyright.
+
+2.4 Homepage — templates/index.liquid and related sections
+Modular composition with customizable sections in config/settings_schema.json.
+
+Common sections in Impact:
+
+Slideshow (image slider with title, subtitle, CTA button, animation)
+
+Featured Collection (highlight a collection)
+
+Featured Product (highlight a product)
+
+Image with Text (mixed image + text section)
+
+Testimonials (customer reviews)
+
+Newsletter Signup
+
+Rich Text (formatted free text)
+
+All these sections have editable parameters: images, titles, texts, links, visibility, order, colors.
+
+2.5 Product Page — templates/product.liquid + sections/product-template.liquid
+Product images display (gallery, zoom).
+
+Variant selector (size, color).
+
+Dynamic pricing (sale, crossed-out price).
+
+“Add to cart” button.
+
+Description and technical info (tabs or accordions).
+
+Related product suggestions (cross-sell).
+
+Customer reviews (optional).
+
+2.6 Collection Page — templates/collection.liquid + sections
+Product list displayed in grid layout.
+
+Filters and sorting (price, popularity, newness).
+
+Pagination or infinite loading (lazy load).
+
+Option to add short description at top or bottom.
+
+2.7 JavaScript and Animations — assets/theme.js
+Handles user interactions (menus, modals, sliders).
+
+Scroll effects (fade, slide, sticky header).
+
+Load optimization (lazy loading images).
+
+Support for integrated Shopify apps.
+
+2.8 CSS and Styles — assets/theme.scss.liquid or theme.css
+Responsive styles for mobile/tablet/desktop.
+
+Flexible grid for products, sections, images.
+
+Modern, harmonious typography.
+
+Dynamic colors via Liquid variables (editable in editor).
+
+2.9 Configuration — config/settings_schema.json
+Defines all theme sections and their parameters (text, images, links, colors).
+
+Allows Shopify admin to customize theme without code.
+
+Sections can be enabled, disabled, reordered in editor.
+
+Supports dynamic blocks in sections (e.g., sliders with multiple editable slides).
+
+3. Recommendations for Creation by Cursor.ai
+Strictly respect the above detailed structure to guarantee full Shopify compatibility.
+
+Code sections as independent, customizable Liquid blocks, with clear settings and blocks defined in JSON.
+
+Include all required page templates and properly link them to the main layout.
+
+Ensure a responsive, modern design inspired by Impact but potentially enriched (3D, animations, etc.).
+
+Optimize for performance, SEO, and accessibility.
+
+Deliver the theme as a complete ZIP file, ready for import into Shopify.
+

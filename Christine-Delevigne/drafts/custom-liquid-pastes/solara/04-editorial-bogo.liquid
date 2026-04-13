@@ -1,0 +1,91 @@
+{% comment %}
+  Kualley Solara — grille éditoriale « Made like a rare summer piece » (même look que kualley-kp-complete-block).
+  Coller après 03. Révélation au scroll (.rev).
+{% endcomment %}
+{% assign font_body = 'https://cdn.shopify.com/s/files/1/1033/9418/1457/files/amoera-Regular.ttf?v=1774791198' %}
+{% assign font_title = 'https://cdn.shopify.com/s/files/1/1033/9418/1457/files/Malline.ttf?v=1774787392' %}
+{% assign sol_model_1 = 'https://cdn.shopify.com/s/files/1/1033/9418/1457/files/Generated_Image_April_06_2026_-_4_00PM.webp?v=1775677099' %}
+{% assign sol_model_2 = 'https://cdn.shopify.com/s/files/1/1033/9418/1457/files/Generated_Image_April_06_2026_-_3_51PM.webp?v=1775677099' %}
+{% assign sol_model_3 = 'https://cdn.shopify.com/s/files/1/1033/9418/1457/files/Generated_Image_April_06_2026_-_3_57PM.webp?v=1775677099' %}
+{% assign sol_model_4 = 'https://cdn.shopify.com/s/files/1/1033/9418/1457/files/Generated_Image_April_06_2026_-_3_47PM.webp?v=1775677099' %}
+
+<div class="kp kp-paste kp-paste--editorial">
+  <style>
+    @font-face{font-family:'KTitle';src:url('{{ font_title }}') format('truetype');font-weight:400;font-style:normal;font-display:swap;}
+    @font-face{font-family:'KBody';src:url('{{ font_body }}') format('truetype');font-weight:400;font-style:normal;font-display:swap;}
+    .kp.kp-paste--editorial{
+      --iv:#F8F5EF;--sd:#EDE4D6;--wr:#A08B70;--dp:#1C1914;--mu:#7D7268;--cr:#FAF8F4;
+      font-family:'KBody',system-ui,sans-serif;color:var(--dp);background:var(--cr);
+      -webkit-font-smoothing:antialiased;position:relative;
+    }
+    .kp.kp-paste--editorial *,.kp.kp-paste--editorial *::before,.kp.kp-paste--editorial *::after{box-sizing:border-box}
+    .kp.kp-paste--editorial img{display:block;max-width:100%}
+    .kp.kp-paste--editorial .k-container{max-width:1280px;margin:0 auto;padding:0 16px}
+    @media(min-width:1024px){.kp.kp-paste--editorial .k-container{padding:0 48px}}
+    .kp.kp-paste--editorial .k-sec{padding:76px 0;background:var(--cr)}
+    .kp.kp-paste--editorial .k-hd{text-align:center;margin-bottom:32px}
+    .kp.kp-paste--editorial .k-he{display:block;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--wr);font-weight:900;margin-bottom:10px}
+    .kp.kp-paste--editorial .k-ht{font-family:'KTitle',Georgia,serif;font-size:clamp(24px,4vw,40px);line-height:1.1;margin:0}
+    .kp.kp-paste--editorial .k-hs{max-width:58ch;margin:12px auto 0;color:var(--mu);font-size:15px;line-height:1.75}
+    .kp.kp-paste--editorial .k-grid2{display:grid;gap:16px;grid-template-columns:1fr}
+    @media(min-width:900px){.kp.kp-paste--editorial .k-grid2{grid-template-columns:1fr 1fr;gap:22px}}
+    .kp.kp-paste--editorial .k-img{border-radius:20px;overflow:hidden;background:var(--sd);position:relative;min-height:420px;box-shadow:0 18px 55px rgba(28,25,20,.10)}
+    .kp.kp-paste--editorial .k-img img{width:100%;height:100%;object-fit:cover}
+    .kp.kp-paste--editorial .k-ov{position:absolute;inset:0;background:linear-gradient(to top,rgba(28,25,20,.64),transparent 55%);display:flex;align-items:flex-end;padding:16px;opacity:0;transition:opacity .35s ease}
+    .kp.kp-paste--editorial .k-img:hover .k-ov{opacity:1}
+    .kp.kp-paste--editorial .k-ov span{color:var(--iv);font-weight:900;letter-spacing:.10em;text-transform:uppercase;font-size:12px}
+    .kp.kp-paste--editorial .rev{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s ease}
+    .kp.kp-paste--editorial .rev.on{opacity:1;transform:translateY(0)}
+    .kp.kp-paste--editorial .d1{transition-delay:.08s}.kp.kp-paste--editorial .d2{transition-delay:.16s}.kp.kp-paste--editorial .d3{transition-delay:.24s}
+  </style>
+
+  <section class="k-sec">
+    <div class="k-container">
+      <div class="k-hd rev">
+        <span class="k-he">Atelier-level details</span>
+        <h2 class="k-ht">Made like a rare summer piece</h2>
+        <p class="k-hs">Small batches, handcrafted finish, ocean-inspired lines.</p>
+      </div>
+      <div class="k-grid2">
+        <div class="k-img rev d1">
+          <img src="{{ sol_model_1 }}" alt="Solara set detail" loading="lazy">
+          <div class="k-ov"><span>String neck · bandage</span></div>
+        </div>
+        <div class="k-img rev d2">
+          <img src="{{ sol_model_2 }}" alt="Solara fit" loading="lazy">
+          <div class="k-ov"><span>True to size</span></div>
+        </div>
+        <div class="k-img rev d3">
+          <img src="{{ sol_model_3 }}" alt="Solara texture" loading="lazy">
+          <div class="k-ov"><span>Tatting craft</span></div>
+        </div>
+        <div class="k-img rev d1">
+          <img src="{{ sol_model_4 }}" alt="Solara editorial" loading="lazy">
+          <div class="k-ov"><span>Elegant fashion</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+  (function(){
+    var root=document.currentScript&&document.currentScript.closest('.kp-paste--editorial');
+    if(!root)return;
+    var els=root.querySelectorAll('.rev');
+    if(!els.length)return;
+    if(!('IntersectionObserver'in window)){
+      for(var i=0;i<els.length;i++)els[i].classList.add('on');
+      return;
+    }
+    var obs=new IntersectionObserver(function(entries){
+      for(var j=0;j<entries.length;j++){
+        if(entries[j].isIntersecting){
+          entries[j].target.classList.add('on');
+          obs.unobserve(entries[j].target);
+        }
+      }
+    },{threshold:0.12,rootMargin:'0px 0px -60px 0px'});
+    for(var k=0;k<els.length;k++)obs.observe(els[k]);
+  })();
+  </script>
+</div>

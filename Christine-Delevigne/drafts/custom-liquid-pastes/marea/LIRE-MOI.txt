@@ -1,0 +1,14 @@
+Marea — même principe que le dossier Solara (Liquid personnalisé)
+
+1. Ouvre le fichier : 01-marea-bogo-complet.liquid
+2. Sélectionne TOUT le contenu (du premier {% au dernier </div> / script).
+3. Dans Shopify : thème → personnaliser → page produit Marea → Ajouter un bloc → Liquid personnalisé → colle.
+
+C’est UN SEUL fichier (comme ton gros bloc Solara « build 2026-04-07 »), pas plusieurs morceaux ni script Python.
+
+Contenu par rapport à ton ancien collage Marea :
+- même structure (topbar, galerie, BOGO, sticky, sheet, section sociale pleine largeur, éditorial, guide tailles)
+- en plus : étoiles / avis (4.8, 10k+ clients) sous la ligne « Kualley — Resort Swimwear »
+- en plus : bandeau « As seen on social » compact sous le bouton d’ajout au panier (scroll horizontal)
+
+Si tu utilises le modèle JSON du thème (product.marea.json) avec la section Kualley PDP, tu n’as pas besoin de ce fichier : c’est déjà géré par snippets/kualley-kp-compact.liquid.

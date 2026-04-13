@@ -1,0 +1,116 @@
+{% comment %}
+  Kualley Solara — galerie uniquement (même look que snippets/kualley-kp-complete-block.liquid).
+  Coller dans « Liquid personnalisé ». Ordre : 01 puis 02 (achat + JS BOGO).
+  Option : change kp_paste_handle si tu n’es pas sur la page produit.
+{% endcomment %}
+{% assign kp_paste_handle = 'kualley-solara-set' %}
+{% assign p = product %}
+{% if p == blank and closest.product != blank %}
+  {% assign p = closest.product %}
+{% endif %}
+{% if p == blank and kp_paste_handle != blank %}
+  {% assign p = all_products[kp_paste_handle] %}
+{% endif %}
+{% if p == blank %}
+  {% assign p = collections.all.products.first %}
+{% endif %}
+
+{% assign video_1 = 'https://cdn.shopify.com/videos/c/o/v/ff2842c4f7e4443cb0fe4768dba8cea1.mp4' %}
+{% assign font_body = 'https://cdn.shopify.com/s/files/1/1033/9418/1457/files/amoera-Regular.ttf?v=1774791198' %}
+{% assign font_title = 'https://cdn.shopify.com/s/files/1/1033/9418/1457/files/Malline.ttf?v=1774787392' %}
+{% assign img_1 = 'https://cdn.shopify.com/s/files/1/1033/9418/1457/files/Generated_Image_April_06_2026_-_4_17PM.webp?v=1775677133' %}
+{% assign img_2 = 'https://cdn.shopify.com/s/files/1/1033/9418/1457/files/Generated_Image_April_06_2026_-_4_10PM.webp?v=1775677133' %}
+{% assign img_3 = 'https://cdn.shopify.com/s/files/1/1033/9418/1457/files/Generated_Image_April_06_2026_-_4_34PM.webp?v=1775677133' %}
+{% assign img_4 = 'https://cdn.shopify.com/s/files/1/1033/9418/1457/files/Generated_Image_April_06_2026_-_4_35PM.webp?v=1775677133' %}
+{% assign sol_model_1 = 'https://cdn.shopify.com/s/files/1/1033/9418/1457/files/Generated_Image_April_06_2026_-_4_00PM.webp?v=1775677099' %}
+{% assign sol_model_2 = 'https://cdn.shopify.com/s/files/1/1033/9418/1457/files/Generated_Image_April_06_2026_-_3_51PM.webp?v=1775677099' %}
+{% assign sol_model_3 = 'https://cdn.shopify.com/s/files/1/1033/9418/1457/files/Generated_Image_April_06_2026_-_3_57PM.webp?v=1775677099' %}
+{% assign sol_model_4 = 'https://cdn.shopify.com/s/files/1/1033/9418/1457/files/Generated_Image_April_06_2026_-_3_47PM.webp?v=1775677099' %}
+{% assign t_alt = p.title | default: 'Solara' %}
+
+<div class="kp kp-paste kp-paste--gallery">
+  <style>
+    @font-face{font-family:'KTitle';src:url('{{ font_title }}') format('truetype');font-weight:400;font-style:normal;font-display:swap;}
+    @font-face{font-family:'KBody';src:url('{{ font_body }}') format('truetype');font-weight:400;font-style:normal;font-display:swap;}
+    .kp.kp-paste--gallery{
+      --iv:#F8F5EF;--sd:#EDE4D6;--dp:#1C1914;--bd:#E2D9CC;
+      --wh:#FFFFFF;--cr:#FAF8F4;--gd:#C9A96E;
+      --r:20px;--tr:.32s cubic-bezier(.25,.46,.45,.94);
+      --header-safe:var(--header-group-height,var(--header-height,60px));
+      font-family:'KBody',system-ui,sans-serif;color:var(--dp);background:var(--iv);
+      -webkit-font-smoothing:antialiased;position:relative;
+    }
+    .kp.kp-paste--gallery *,.kp.kp-paste--gallery *::before,.kp.kp-paste--gallery *::after{box-sizing:border-box}
+    .kp.kp-paste--gallery img,.kp.kp-paste--gallery video{display:block;max-width:100%}
+    .kp.kp-paste--gallery .k-container{max-width:1280px;margin:0 auto;padding:0 16px}
+    @media(min-width:1024px){.kp.kp-paste--gallery .k-container{padding:0 48px}}
+    .kp.kp-paste--gallery .k-hero{background:var(--cr);padding:14px 0 56px}
+    .kp.kp-paste--gallery .k-gal{margin-top:6px}
+    @media(min-width:1024px){.kp.kp-paste--gallery .k-gal{position:sticky;top:calc(var(--header-safe) + 18px)}}
+    .kp.kp-paste--gallery .k-main{position:relative;border-radius:var(--r);overflow:hidden;background:var(--sd);aspect-ratio:3/4;box-shadow:0 18px 55px rgba(28,25,20,.12)}
+    .kp.kp-paste--gallery .k-badge{position:absolute;top:14px;left:14px;z-index:4;background:rgba(28,25,20,.92);color:var(--gd);font-size:10px;letter-spacing:.14em;text-transform:uppercase;font-weight:900;padding:7px 12px;border-radius:999px;border:1px solid rgba(248,245,239,.12)}
+    .kp.kp-paste--gallery .k-slide{position:absolute;inset:0;opacity:0;transform:scale(1.01);transition:opacity .45s ease,transform .65s ease}
+    .kp.kp-paste--gallery .k-slide.on{opacity:1;transform:scale(1)}
+    .kp.kp-paste--gallery .k-slide img,.kp.kp-paste--gallery .k-slide video{width:100%;height:100%;object-fit:cover}
+    .kp.kp-paste--gallery .k-thumbs{display:flex;gap:10px;margin-top:12px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+    .kp.kp-paste--gallery .k-thumbs::-webkit-scrollbar{display:none}
+    .kp.kp-paste--gallery .k-thumb{flex-shrink:0;width:74px;height:92px;border-radius:14px;overflow:hidden;border:2px solid transparent;background:var(--sd);cursor:pointer;transition:transform var(--tr),border-color var(--tr);position:relative}
+    .kp.kp-paste--gallery .k-thumb:hover{transform:translateY(-2px)}
+    .kp.kp-paste--gallery .k-thumb.on{border-color:var(--dp)}
+    .kp.kp-paste--gallery .k-thumb img{width:100%;height:100%;object-fit:cover}
+    .kp.kp-paste--gallery .k-tag{position:absolute;left:8px;bottom:8px;font-size:10px;letter-spacing:.12em;text-transform:uppercase;font-weight:900;color:var(--iv);background:rgba(28,25,20,.78);border:1px solid rgba(248,245,239,.14);padding:4px 7px;border-radius:999px}
+  </style>
+
+  <div class="k-hero">
+    <div class="k-container">
+      <div class="k-gal">
+        <div class="k-main" data-k-gallery>
+          <span class="k-badge">Solara · String neck</span>
+          <div class="k-slide on" data-k-slide="0"><video playsinline muted loop autoplay preload="metadata" poster="{{ img_1 }}" src="{{ video_1 }}"></video></div>
+          <div class="k-slide" data-k-slide="1"><img src="{{ sol_model_1 }}" alt="{{ t_alt | escape }} — look 1" loading="eager" width="900" height="1200"></div>
+          <div class="k-slide" data-k-slide="2"><img src="{{ sol_model_2 }}" alt="{{ t_alt | escape }} — look 2" loading="lazy" width="900" height="1200"></div>
+          <div class="k-slide" data-k-slide="3"><img src="{{ sol_model_3 }}" alt="{{ t_alt | escape }} — look 3" loading="lazy" width="900" height="1200"></div>
+          <div class="k-slide" data-k-slide="4"><img src="{{ sol_model_4 }}" alt="{{ t_alt | escape }} — look 4" loading="lazy" width="900" height="1200"></div>
+          <div class="k-slide" data-k-slide="5"><img src="{{ img_1 }}" alt="{{ t_alt | escape }}" loading="lazy" width="900" height="1200"></div>
+          <div class="k-slide" data-k-slide="6"><img src="{{ img_2 }}" alt="{{ t_alt | escape }}" loading="lazy" width="900" height="1200"></div>
+          <div class="k-slide" data-k-slide="7"><img src="{{ img_3 }}" alt="{{ t_alt | escape }}" loading="lazy" width="900" height="1200"></div>
+          <div class="k-slide" data-k-slide="8"><img src="{{ img_4 }}" alt="{{ t_alt | escape }}" loading="lazy" width="900" height="1200"></div>
+        </div>
+        <div class="k-thumbs" aria-label="Gallery thumbnails">
+          <div class="k-thumb on" data-k-thumb="0"><img src="{{ img_1 }}" alt="Video"><span class="k-tag">Video</span></div>
+          <div class="k-thumb" data-k-thumb="1"><img src="{{ sol_model_1 }}" alt="Look 1"></div>
+          <div class="k-thumb" data-k-thumb="2"><img src="{{ sol_model_2 }}" alt="Look 2"></div>
+          <div class="k-thumb" data-k-thumb="3"><img src="{{ sol_model_3 }}" alt="Look 3"></div>
+          <div class="k-thumb" data-k-thumb="4"><img src="{{ sol_model_4 }}" alt="Look 4"></div>
+          <div class="k-thumb" data-k-thumb="5"><img src="{{ img_1 }}" alt="Variant 1"></div>
+          <div class="k-thumb" data-k-thumb="6"><img src="{{ img_2 }}" alt="Variant 2"></div>
+          <div class="k-thumb" data-k-thumb="7"><img src="{{ img_3 }}" alt="Variant 3"></div>
+          <div class="k-thumb" data-k-thumb="8"><img src="{{ img_4 }}" alt="Variant 4"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+  (function(){
+    var root=document.currentScript&&document.currentScript.closest('.kp-paste--gallery');
+    if(!root)return;
+    function qa(sel){return Array.prototype.slice.call(root.querySelectorAll(sel));}
+    function showSlide(i){
+      qa('[data-k-slide]').forEach(function(el){
+        el.classList.toggle('on',el.getAttribute('data-k-slide')===String(i));
+        var vid=el.querySelector('video');
+        if(vid){try{el.classList.contains('on')?vid.play():vid.pause();}catch(e){}}
+      });
+      qa('[data-k-thumb]').forEach(function(t){
+        t.classList.toggle('on',t.getAttribute('data-k-thumb')===String(i));
+      });
+    }
+    root.addEventListener('click',function(e){
+      var th=e.target.closest('[data-k-thumb]');
+      if(th&&root.contains(th))showSlide(th.getAttribute('data-k-thumb'));
+    });
+    showSlide(0);
+  })();
+  </script>
+</div>

@@ -1,0 +1,1341 @@
+{% comment %}
+  Catherine Delevigne — premium product page (Collier Amulette Coeur and house PDP).
+  Uses snippet: catherine-delevigne-product-fragment
+{% endcomment %}
+{% liquid
+  assign p = product
+  if p == blank and closest.product != blank
+    assign p = closest.product
+  endif
+  if section.settings.featured_product != blank
+    assign p = section.settings.featured_product
+  endif
+  if p == blank
+    assign p = collections.all.products.first
+  endif
+
+  assign product_form_id = 'cdl-product-form-' | append: section.id
+  assign current_variant = p.selected_or_first_available_variant
+
+  assign du1 = 'https://cdn.shopify.com/s/files/1/0985/0997/9992/files/Generated_Image_April_12_2026_-_3_55PM.webp?v=1776003328'
+  assign du2 = 'https://cdn.shopify.com/s/files/1/0985/0997/9992/files/Generated_Image_April_12_2026_-_4_05PM.webp?v=1776003328'
+  assign du3 = 'https://cdn.shopify.com/s/files/1/0985/0997/9992/files/Generated_Image_April_12_2026_-_4_10PM.webp?v=1776003328'
+  assign du4 = 'https://cdn.shopify.com/s/files/1/0985/0997/9992/files/Generated_Image_March_28_2026_-_9_51PM.webp?v=1776003328'
+  assign du5 = 'https://cdn.shopify.com/s/files/1/0985/0997/9992/files/Generated_Image_April_12_2026_-_4_00PM.webp?v=1776003328'
+  assign du6 = 'https://cdn.shopify.com/s/files/1/0985/0997/9992/files/Generated_Image_April_12_2026_-_3_59PM.webp?v=1776003329'
+
+  assign u1 = section.settings.gallery_1 | default: du1
+  assign u2 = section.settings.gallery_2 | default: du2
+  assign u3 = section.settings.gallery_3 | default: du3
+  assign u4 = section.settings.gallery_4 | default: du4
+  assign u5 = section.settings.gallery_5 | default: du5
+  assign u6 = section.settings.gallery_6 | default: du6
+
+  assign gallery_joined = u1 | append: '§§§' | append: u2 | append: '§§§' | append: u3 | append: '§§§' | append: u4 | append: '§§§' | append: u5 | append: '§§§' | append: u6
+  assign gallery_arr = gallery_joined | split: '§§§'
+
+  assign ed_visual_a = gallery_arr[1] | default: u2
+  assign ed_visual_b = gallery_arr[3] | default: u4
+  assign ed_visual_c = gallery_arr[5] | default: u6
+
+  assign default_ig_1 = 'https://cdn.shopify.com/s/files/1/0985/0997/9992/files/Generated_Image_April_12_2026_-_4_51PM.jpg?v=1776005866'
+  assign default_ig_2 = 'https://cdn.shopify.com/s/files/1/0985/0997/9992/files/Generated_Image_April_12_2026_-_4_53PM.jpg?v=1776005866'
+  assign default_ig_3 = 'https://cdn.shopify.com/s/files/1/0985/0997/9992/files/Generated_Image_April_12_2026_-_4_55PM.jpg?v=1776005866'
+  assign ig_tile_a = section.settings.ig_image_1 | default: default_ig_1
+  assign ig_tile_b = section.settings.ig_image_2 | default: default_ig_2
+  assign ig_tile_c = section.settings.ig_image_3 | default: default_ig_3
+%}
+
+{% if p == blank %}
+  <div class="cdl-pdp" style="padding:3rem 1.5rem;text-align:center;font-family:system-ui,sans-serif;">
+    <p>Add this section on a product page or pick a product in the section settings.</p>
+  </div>
+{% else %}
+  {% render 'catherine-delevigne-product-fragment', fragment: 'styles', section_id: section.id %}
+
+  <div
+    class="cdl-pdp"
+    data-cdl-pdp
+    data-section-id="{{ section.id }}"
+    data-cdl-fixed-gallery
+    {% if section.settings.unlock_shopify_gallery %}
+      data-cdl-allow-variant-media="true"
+    {% endif %}
+  >
+    <div class="cdl-pdp__container">
+      {% liquid
+        assign brand_logo_src = section.settings.brand_logo_url
+        if brand_logo_src == blank
+          assign brand_logo_src = 'https://cdn.shopify.com/s/files/1/0985/0997/9992/files/Generated_Image_April_12_2026_-_4_59PM.svg?v=1776006107'
+        endif
+      %}
+      {% if section.settings.show_brand_logo %}
+        <div style="padding-top:1rem;margin-bottom:-0.5rem;">
+          <img
+            src="{{ brand_logo_src }}"
+            alt="{{ shop.name }}"
+            width="120"
+            height="40"
+            loading="eager"
+            style="height:32px;width:auto;opacity:0.92;"
+          >
+        </div>
+      {% endif %}
+
+      <div class="cdl-pdp__hero">
+        <div class="cdl-pdp__hero-grid">
+          <div class="cdl-pdp__gallery-col" data-cdl-reveal data-cdl-reveal-delay="1">
+            <div class="cdl-pdp__main-shot" data-cdl-main-media>
+              {% assign hero_src = gallery_arr | first %}
+              <img
+                src="{{ hero_src | append: '&width=1400' }}"
+                alt="{{ p.title | escape }}"
+                width="900"
+                height="1125"
+                loading="eager"
+                data-cdl-main-img
+              >
+            </div>
+            <div class="cdl-pdp__thumbs" role="tablist" aria-label="Gallery">
+              {% for url in gallery_arr %}
+                {% if url != blank %}
+                  <button
+                    type="button"
+                    class="cdl-pdp__thumb{% if forloop.first %} is-active{% endif %}"
+                    data-cdl-thumb
+                    data-src="{{ url | append: '&width=1400' }}"
+                    data-w="900"
+                    data-h="1125"
+                    data-alt="{{ p.title | escape }}"
+                    aria-label="Image {{ forloop.index }}"
+                  >
+                    <img src="{{ url | append: '&width=240' }}" alt="" loading="{% if forloop.first %}eager{% else %}lazy{% endif %}" width="100" height="100">
+                  </button>
+                {% endif %}
+              {% endfor %}
+            </div>
+          </div>
+
+          <div class="cdl-pdp__info-col" data-cdl-reveal="slide-left" data-cdl-reveal-delay="2">
+            <p class="cdl-pdp__eyebrow">{{ section.settings.eyebrow | default: 'Christine de Levigne · Handmade' }}</p>
+            <h1 class="cdl-pdp__title">{{ p.title }}</h1>
+
+            {% if section.settings.show_rating_block %}
+              <div class="cdl-pdp__rating-block">
+                <div class="cdl-pdp__star-wrap" aria-label="{{ section.settings.rating_value }} out of 5 stars">
+                  <span class="cdl-pdp__star-bg" aria-hidden="true">★★★★★</span>
+                  <span
+                    class="cdl-pdp__star-fg"
+                    aria-hidden="true"
+                    style="--cdl-star-pct: {{ section.settings.rating_star_percent }}%;"
+                    >★★★★★</span
+                  >
+                </div>
+                <span class="cdl-pdp__rating-num">{{ section.settings.rating_value }}</span>
+                <span class="cdl-pdp__rating-dot" aria-hidden="true"></span>
+                <span class="cdl-pdp__rating-count">{{ section.settings.rating_count_label }}</span>
+              </div>
+              {% if section.settings.rating_footnote != blank %}
+                <p class="cdl-pdp__rating-note">{{ section.settings.rating_footnote }}</p>
+              {% endif %}
+            {% endif %}
+
+            <p class="cdl-pdp__descriptor">{{ section.settings.short_descriptor }}</p>
+
+            {% if section.settings.show_offer_banner %}
+              <div class="cdl-pdp__offer">
+                <div class="cdl-pdp__offer-inner">
+                  <span class="cdl-pdp__offer-kicker">{{ section.settings.offer_kicker }}</span>
+                  <strong>{{ section.settings.offer_headline }}</strong>
+                  <span class="cdl-pdp__offer-sub">{{ section.settings.offer_subline }}</span>
+                </div>
+              </div>
+            {% endif %}
+
+            <div class="cdl-pdp__badge-row">
+              <span class="cdl-pdp__badge cdl-pdp__badge--accent">{{ section.settings.badge_small_batch | default: 'Small-batch atelier' }}</span>
+              <span class="cdl-pdp__badge">{{ section.settings.badge_keepsake | default: 'Keepsake piece' }}</span>
+            </div>
+
+            <div class="cdl-pdp__price-row" data-cdl-price-row>
+              <span class="cdl-pdp__price" data-cdl-price>{{ current_variant.price | money }}</span>
+              {% if current_variant.compare_at_price > current_variant.price %}
+                <span class="cdl-pdp__compare" data-cdl-compare>{{ current_variant.compare_at_price | money }}</span>
+              {% endif %}
+            </div>
+
+            {% if section.settings.show_delivery_estimate %}
+              <div
+                class="cdl-pdp__delivery-card"
+                data-cdl-delivery
+                data-prep-min="{{ section.settings.delivery_prep_days_min }}"
+                data-prep-max="{{ section.settings.delivery_prep_days_max }}"
+                data-transit-min="{{ section.settings.delivery_transit_days_min }}"
+                data-transit-max="{{ section.settings.delivery_transit_days_max }}"
+                data-locale="en-US"
+              >
+                <div class="cdl-pdp__delivery-icon" aria-hidden="true">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 6v6l4 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.5"/>
+                  </svg>
+                </div>
+                <div class="cdl-pdp__delivery-copy">
+                  <span class="cdl-pdp__delivery-kicker">{{ section.settings.delivery_kicker }}</span>
+                  <p class="cdl-pdp__delivery-lines">
+                    <strong data-cdl-dispatch-range>{{ section.settings.delivery_loading_text }}</strong><br>
+                    <span data-cdl-arrival-range></span>
+                  </p>
+                  <span class="cdl-pdp__delivery-fine">{{ section.settings.delivery_fineprint }}</span>
+                </div>
+              </div>
+            {% endif %}
+
+            {% form 'product', p, id: product_form_id, class: 'cdl-pdp__form', novalidate: 'novalidate' %}
+              <input type="hidden" name="id" value="{{ current_variant.id }}" data-cdl-variant-id>
+
+              {% unless p.has_only_default_variant %}
+                {% for option in p.options_with_values %}
+                  <fieldset class="cdl-pdp__option-fieldset" style="border:none;padding:0;margin:0 0 1rem;">
+                    <legend class="cdl-pdp__field-label">{{ option.name }}</legend>
+                    <div class="cdl-pdp__opts">
+                      {% for value in option.values %}
+                        <input
+                          class="cdl-pdp__opt"
+                          type="radio"
+                          id="{{ section.id }}-opt-{{ option.position }}-{{ forloop.index }}"
+                          name="option-{{ option.position }}"
+                          value="{{ value | escape }}"
+                          data-cdl-option="{{ option.position }}"
+                          {% if option.selected_value == value %}checked{% endif %}
+                        >
+                        <label class="cdl-pdp__opt-label" for="{{ section.id }}-opt-{{ option.position }}-{{ forloop.index }}">{{ value }}</label>
+                      {% endfor %}
+                    </div>
+                  </fieldset>
+                {% endfor %}
+              {% endunless %}
+
+              <span class="cdl-pdp__field-label">{{ 'products.product.quantity.label' | t | default: 'Quantity' }}</span>
+              <div class="cdl-pdp__qty" data-cdl-qty>
+                <button type="button" data-cdl-qty-dec aria-label="Decrease quantity">−</button>
+                <input type="number" name="quantity" value="1" min="1" data-cdl-qty-input aria-label="Quantity">
+                <button type="button" data-cdl-qty-inc aria-label="Increase quantity">+</button>
+              </div>
+
+              <button
+                type="submit"
+                name="add"
+                class="cdl-pdp__submit"
+                data-cdl-submit
+                {% if current_variant.available == false %}disabled{% endif %}
+              >
+                {% if current_variant.available %}
+                  {{ section.settings.add_to_cart_label | default: 'Add to bag' }}
+                {% else %}
+                  {{ 'products.product.sold_out' | t | default: 'Sold out' }}
+                {% endif %}
+              </button>
+            {% endform %}
+
+            {% render 'catherine-delevigne-product-fragment',
+              fragment: 'instagram',
+              section_id: section.id,
+              settings: section.settings,
+              ig_override_1: ig_tile_a,
+              ig_override_2: ig_tile_b,
+              ig_override_3: ig_tile_c
+            %}
+
+            <div class="cdl-pdp__acc-root" data-cdl-accordion data-cdl-reveal>
+              <details class="cdl-pdp__details">
+                <summary class="cdl-pdp__acc-sum">
+                  <span>{{ section.settings.acc_story_title }}</span>
+                  <span class="cdl-pdp__acc-chev" aria-hidden="true"></span>
+                </summary>
+                <div class="cdl-pdp__acc-body">
+                  {% if section.settings.story_voice_lead != blank %}
+                    <p class="cdl-pdp__acc-lead">{{ section.settings.story_voice_lead }}</p>
+                  {% endif %}
+                  <h4 class="cdl-pdp__acc-h">{{ section.settings.intro_heading }}</h4>
+                  <div>{{ section.settings.emotional_intro }}</div>
+                  <h4 class="cdl-pdp__acc-h">{{ section.settings.color_story_heading }}</h4>
+                  <div>{{ section.settings.variant_color_story }}</div>
+                  <h4 class="cdl-pdp__acc-h">{{ section.settings.atelier_heading }}</h4>
+                  <div>{{ section.settings.atelier_note }}</div>
+                </div>
+              </details>
+
+              <details class="cdl-pdp__details">
+                <summary class="cdl-pdp__acc-sum">
+                  <span>{{ section.settings.details_heading }}</span>
+                  <span class="cdl-pdp__acc-chev" aria-hidden="true"></span>
+                </summary>
+                <div class="cdl-pdp__acc-body">
+                  <div>{{ section.settings.details_intro }}</div>
+                  <table class="cdl-pdp__details-table">
+                    <tbody>
+                      <tr>
+                        <th scope="row">{{ section.settings.row_structure_label }}</th>
+                        <td>{{ section.settings.row_structure_value }}</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">{{ section.settings.row_finish_label }}</th>
+                        <td>{{ section.settings.row_finish_value }}</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">{{ section.settings.row_style_label }}</th>
+                        <td>{{ section.settings.row_style_value }}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </details>
+
+              <details class="cdl-pdp__details">
+                <summary class="cdl-pdp__acc-sum">
+                  <span>{{ section.settings.size_heading }}</span>
+                  <span class="cdl-pdp__acc-chev" aria-hidden="true"></span>
+                </summary>
+                <div class="cdl-pdp__acc-body">
+                  <div>{{ section.settings.size_copy }}</div>
+                </div>
+              </details>
+
+              <details class="cdl-pdp__details">
+                <summary class="cdl-pdp__acc-sum">
+                  <span>{{ section.settings.shipping_heading }}</span>
+                  <span class="cdl-pdp__acc-chev" aria-hidden="true"></span>
+                </summary>
+                <div class="cdl-pdp__acc-body">
+                  <div>{{ section.settings.shipping_copy }}</div>
+                </div>
+              </details>
+
+              <details class="cdl-pdp__details">
+                <summary class="cdl-pdp__acc-sum">
+                  <span>{{ section.settings.founder_heading }}</span>
+                  <span class="cdl-pdp__acc-chev" aria-hidden="true"></span>
+                </summary>
+                <div class="cdl-pdp__acc-body">
+                  <div>{{ section.settings.founder_note }}</div>
+                </div>
+              </details>
+
+              <details class="cdl-pdp__details">
+                <summary class="cdl-pdp__acc-sum">
+                  <span>{{ section.settings.gift_heading }}</span>
+                  <span class="cdl-pdp__acc-chev" aria-hidden="true"></span>
+                </summary>
+                <div class="cdl-pdp__acc-body">
+                  <div>{{ section.settings.gift_note }}</div>
+                </div>
+              </details>
+            </div>
+
+            {% render 'catherine-delevigne-product-fragment', fragment: 'shipping_badge', section_id: section.id, settings: section.settings %}
+            <p class="cdl-pdp__handmade">{{ section.settings.handmade_note }}</p>
+
+            {% render 'catherine-delevigne-product-fragment', fragment: 'payments', section_id: section.id, settings: section.settings %}
+          </div>
+        </div>
+      </div>
+
+      <div class="cdl-pdp__experience" data-cdl-reveal>
+        <div class="cdl-pdp__experience-inner">
+          <div class="cdl-pdp__seal" aria-hidden="true">
+            <svg class="cdl-pdp__seal-svg" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="60" cy="60" r="56" fill="none" stroke="currentColor" stroke-width="0.75" opacity="0.25"/>
+              <circle cx="60" cy="60" r="48" fill="none" stroke="currentColor" stroke-width="0.5" opacity="0.35"/>
+              <path d="M60 28 L68 48 L88 48 L72 60 L78 80 L60 68 L42 80 L48 60 L32 48 L52 48 Z" fill="none" stroke="currentColor" stroke-width="1" stroke-linejoin="round" opacity="0.4"/>
+            </svg>
+          </div>
+
+          <div class="cdl-pdp__trust-bar">
+            <div class="cdl-pdp__trust-item">
+              <span class="cdl-pdp__trust-ic" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 3c-2.5 3-6 4.2-6 9a6 6 0 1012 0c0-4.8-3.5-6-6-9z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>
+              </span>
+              <span class="cdl-pdp__trust-t">{{ section.settings.trust_1_title }}</span>
+              <span class="cdl-pdp__trust-d">{{ section.settings.trust_1_text }}</span>
+            </div>
+            <div class="cdl-pdp__trust-item">
+              <span class="cdl-pdp__trust-ic" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 21s7-4.5 7-11a7 7 0 10-14 0c0 6.5 7 11 7 11z" stroke="currentColor" stroke-width="1.3"/><circle cx="12" cy="10" r="2.5" stroke="currentColor" stroke-width="1.3"/></svg>
+              </span>
+              <span class="cdl-pdp__trust-t">{{ section.settings.trust_2_title }}</span>
+              <span class="cdl-pdp__trust-d">{{ section.settings.trust_2_text }}</span>
+            </div>
+            <div class="cdl-pdp__trust-item">
+              <span class="cdl-pdp__trust-ic" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M3 10h2l2-5h10l2 5h2v8H3V10z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><circle cx="7.5" cy="17.5" r="1.5" fill="currentColor"/><circle cx="16.5" cy="17.5" r="1.5" fill="currentColor"/></svg>
+              </span>
+              <span class="cdl-pdp__trust-t">{{ section.settings.trust_3_title }}</span>
+              <span class="cdl-pdp__trust-d">{{ section.settings.trust_3_text }}</span>
+            </div>
+            <div class="cdl-pdp__trust-item">
+              <span class="cdl-pdp__trust-ic" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M4 10h16v10a1 1 0 01-1 1H5a1 1 0 01-1-1V10z" stroke="currentColor" stroke-width="1.3"/><path d="M8 10V8a4 4 0 018 0v2" stroke="currentColor" stroke-width="1.3"/><path d="M12 14v3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+              </span>
+              <span class="cdl-pdp__trust-t">{{ section.settings.trust_4_title }}</span>
+              <span class="cdl-pdp__trust-d">{{ section.settings.trust_4_text }}</span>
+            </div>
+          </div>
+
+          <header class="cdl-pdp__story-head">
+            <p class="cdl-pdp__story-eyebrow">{{ section.settings.story_band_eyebrow }}</p>
+            <h2 class="cdl-pdp__story-title">{{ section.settings.story_band_title }}</h2>
+            <p class="cdl-pdp__story-sub">{{ section.settings.story_band_sub }}</p>
+          </header>
+
+          <div class="cdl-pdp__story-cards" data-cdl-story-scroll>
+            <article class="cdl-pdp__story-card">
+              {% assign si1 = section.settings.story_card_1_image | default: ed_visual_a %}
+              <div class="cdl-pdp__story-card-media">
+                <img src="{{ si1 | append: '&width=800' }}" alt="" loading="lazy" width="400" height="500">
+                {% if section.settings.story_card_1_badge != blank %}
+                  <span class="cdl-pdp__story-badge">{{ section.settings.story_card_1_badge }}</span>
+                {% endif %}
+              </div>
+              <h3 class="cdl-pdp__story-card-title">{{ section.settings.story_card_1_title }}</h3>
+              <p class="cdl-pdp__story-card-text">{{ section.settings.story_card_1_text }}</p>
+            </article>
+            <article class="cdl-pdp__story-card">
+              {% assign si2 = section.settings.story_card_2_image | default: ed_visual_b %}
+              <div class="cdl-pdp__story-card-media">
+                <img src="{{ si2 | append: '&width=800' }}" alt="" loading="lazy" width="400" height="500">
+                {% if section.settings.story_card_2_badge != blank %}
+                  <span class="cdl-pdp__story-badge">{{ section.settings.story_card_2_badge }}</span>
+                {% endif %}
+              </div>
+              <h3 class="cdl-pdp__story-card-title">{{ section.settings.story_card_2_title }}</h3>
+              <p class="cdl-pdp__story-card-text">{{ section.settings.story_card_2_text }}</p>
+            </article>
+            <article class="cdl-pdp__story-card">
+              {% assign si3 = section.settings.story_card_3_image | default: ed_visual_c %}
+              <div class="cdl-pdp__story-card-media">
+                <img src="{{ si3 | append: '&width=800' }}" alt="" loading="lazy" width="400" height="500">
+                {% if section.settings.story_card_3_badge != blank %}
+                  <span class="cdl-pdp__story-badge">{{ section.settings.story_card_3_badge }}</span>
+                {% endif %}
+              </div>
+              <h3 class="cdl-pdp__story-card-title">{{ section.settings.story_card_3_title }}</h3>
+              <p class="cdl-pdp__story-card-text">{{ section.settings.story_card_3_text }}</p>
+            </article>
+          </div>
+        </div>
+      </div>
+
+      <div class="cdl-pdp__rail-outer cdl-pdp__rail-outer--framed" data-cdl-reveal>
+        <div class="cdl-pdp__rail-head">
+          <h2 class="cdl-pdp__rail-title">{{ section.settings.rail_title }}</h2>
+          <span class="cdl-pdp__rail-hint">{{ section.settings.rail_hint }}</span>
+        </div>
+        <p class="cdl-pdp__rail-dek">{{ section.settings.rail_dek }}</p>
+        <div class="cdl-pdp__rail" data-cdl-rail>
+          <div class="cdl-pdp__rail-track" data-cdl-marquee-track>
+            {% for i in (1..2) %}
+              {% for url in gallery_arr %}
+                {% if url != blank %}
+                  <div class="cdl-pdp__rail-card">
+                    <img src="{{ url | append: '&width=900' }}" alt="{{ p.title | escape }}" loading="lazy" width="360" height="450">
+                  </div>
+                {% endif %}
+              {% endfor %}
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script type="application/json" data-cdl-variants-json>
+      {{ p.variants | json }}
+    </script>
+    <script>
+      (function () {
+        var root = document.querySelector('[data-cdl-pdp][data-section-id="{{ section.id }}"]');
+        if (!root) return;
+        var fixedGallery = root.hasAttribute('data-cdl-fixed-gallery') && !root.hasAttribute('data-cdl-allow-variant-media');
+        var variantsEl = root.querySelector('[data-cdl-variants-json]');
+        var variants = [];
+        try {
+          variants = JSON.parse(variantsEl.textContent || '[]');
+        } catch (e) {}
+        var form = root.querySelector('#{{ product_form_id }}');
+        var idInput = root.querySelector('[data-cdl-variant-id]');
+        var priceEl = root.querySelector('[data-cdl-price]');
+        var compareRow = root.querySelector('[data-cdl-price-row]');
+        var submitBtn = root.querySelector('[data-cdl-submit]');
+        var mainImg = root.querySelector('[data-cdl-main-img]');
+        var currencyCode = {{ shop.currency | json }};
+        var localeTag = {{ shop.locale | default: 'en' | json }};
+
+        function formatMoney(cents) {
+          try {
+            return new Intl.NumberFormat(localeTag || undefined, {
+              style: 'currency',
+              currency: currencyCode
+            }).format(cents / 100);
+          } catch (e) {
+            return (cents / 100).toFixed(2) + ' ' + currencyCode;
+          }
+        }
+
+        function getSelectedOptions() {
+          var opts = {};
+          root.querySelectorAll('[data-cdl-option]').forEach(function (inp) {
+            if (inp.checked) opts['option' + inp.getAttribute('data-cdl-option')] = inp.value;
+          });
+          return opts;
+        }
+
+        function findVariant() {
+          var sel = getSelectedOptions();
+          return variants.find(function (vr) {
+            for (var k in sel) {
+              if (!Object.prototype.hasOwnProperty.call(sel, k)) continue;
+              if (String(vr[k]) !== String(sel[k])) return false;
+            }
+            return true;
+          });
+        }
+
+        function applyVariant(vr) {
+          if (!vr || !idInput) return;
+          idInput.value = vr.id;
+          if (priceEl) priceEl.textContent = formatMoney(vr.price);
+          var existingCompare = root.querySelector('[data-cdl-compare]');
+          if (vr.compare_at_price && vr.compare_at_price > vr.price) {
+            if (!existingCompare) {
+              var span = document.createElement('span');
+              span.className = 'cdl-pdp__compare';
+              span.setAttribute('data-cdl-compare', '');
+              span.textContent = formatMoney(vr.compare_at_price);
+              compareRow.appendChild(span);
+            } else {
+              existingCompare.textContent = formatMoney(vr.compare_at_price);
+            }
+          } else if (existingCompare) {
+            existingCompare.remove();
+          }
+          if (submitBtn) {
+            submitBtn.disabled = !vr.available;
+            submitBtn.textContent = vr.available
+              ? {{ section.settings.add_to_cart_label | default: 'Add to bag' | json }}
+              : {{ 'products.product.sold_out' | t | json }};
+          }
+          if (!fixedGallery) {
+            var fi = vr.featured_image || vr.featured_media;
+            if (fi && fi.src && mainImg) {
+              var src = fi.src;
+              if (src.indexOf('?') === -1) src += '?width=1400';
+              else src += '&width=1400';
+              mainImg.src = src;
+              mainImg.alt = (fi.alt || '') || '';
+              root.querySelectorAll('[data-cdl-thumb]').forEach(function (btn) {
+                var bsrc = btn.getAttribute('data-src') || '';
+                btn.classList.toggle('is-active', bsrc.indexOf(fi.src.split('?')[0]) !== -1);
+              });
+            }
+          }
+        }
+
+        root.querySelectorAll('[data-cdl-option]').forEach(function (inp) {
+          inp.addEventListener('change', function () {
+            var vr = findVariant();
+            if (vr) applyVariant(vr);
+          });
+        });
+
+        root.querySelectorAll('[data-cdl-thumb]').forEach(function (btn) {
+          btn.addEventListener('click', function () {
+            var src = btn.getAttribute('data-src');
+            var w = btn.getAttribute('data-w');
+            var h = btn.getAttribute('data-h');
+            var alt = btn.getAttribute('data-alt') || '';
+            if (mainImg && src) {
+              mainImg.src = src;
+              mainImg.width = w;
+              mainImg.height = h;
+              mainImg.alt = alt;
+            }
+            root.querySelectorAll('[data-cdl-thumb]').forEach(function (b) {
+              b.classList.toggle('is-active', b === btn);
+            });
+          });
+        });
+
+        var qtyInput = root.querySelector('[data-cdl-qty-input]');
+        var dec = root.querySelector('[data-cdl-qty-dec]');
+        var inc = root.querySelector('[data-cdl-qty-inc]');
+        function bump(delta) {
+          if (!qtyInput) return;
+          var n = parseInt(qtyInput.value, 10) || 1;
+          n = Math.max(1, n + delta);
+          qtyInput.value = n;
+        }
+        if (dec) dec.addEventListener('click', function () {
+          bump(-1);
+        });
+        if (inc) inc.addEventListener('click', function () {
+          bump(1);
+        });
+
+        var accRoot = root.querySelector('[data-cdl-accordion]');
+        if (accRoot) {
+          accRoot.querySelectorAll('details').forEach(function (d) {
+            d.addEventListener('toggle', function () {
+              if (!d.open) return;
+              accRoot.querySelectorAll('details').forEach(function (o) {
+                if (o !== d) o.removeAttribute('open');
+              });
+            });
+          });
+        }
+
+        var delEl = root.querySelector('[data-cdl-delivery]');
+        if (delEl) {
+          function cdlAddBusinessDays(start, days) {
+            var d = new Date(start.getTime());
+            d.setHours(12, 0, 0, 0);
+            var count = 0;
+            while (count < days) {
+              d.setDate(d.getDate() + 1);
+              var w = d.getDay();
+              if (w !== 0 && w !== 6) count += 1;
+            }
+            return d;
+          }
+          function cdlFmtDate(dt, loc) {
+            return dt.toLocaleDateString(loc || 'en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+          }
+          function cdlFmtRange(a, b, loc) {
+            var fa = cdlFmtDate(a, loc);
+            var fb = cdlFmtDate(b, loc);
+            if (fa === fb) return fa;
+            return fa + ' – ' + fb;
+          }
+          var pmn = parseInt(delEl.dataset.prepMin, 10);
+          var pmx = parseInt(delEl.dataset.prepMax, 10);
+          var tmn = parseInt(delEl.dataset.transitMin, 10);
+          var tmx = parseInt(delEl.dataset.transitMax, 10);
+          if (isNaN(pmn)) pmn = 2;
+          if (isNaN(pmx)) pmx = 3;
+          if (isNaN(tmn)) tmn = 5;
+          if (isNaN(tmx)) tmx = 7;
+          var loc = delEl.dataset.locale || 'en-US';
+          var t0 = new Date();
+          t0.setHours(12, 0, 0, 0);
+          var shipLo = cdlAddBusinessDays(t0, pmn);
+          var shipHi = cdlAddBusinessDays(t0, pmx);
+          var arrLo = cdlAddBusinessDays(shipLo, tmn);
+          var arrHi = cdlAddBusinessDays(shipHi, tmx);
+          var dispN = delEl.querySelector('[data-cdl-dispatch-range]');
+          var arrN = delEl.querySelector('[data-cdl-arrival-range]');
+          if (dispN) dispN.textContent = 'Leaves the atelier: ' + cdlFmtRange(shipLo, shipHi, loc);
+          if (arrN) arrN.textContent = 'Estimated delivery: ' + cdlFmtRange(arrLo, arrHi, loc);
+        }
+
+        var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (!reduceMotion && window.IntersectionObserver) {
+          var io = new IntersectionObserver(
+            function (entries) {
+              entries.forEach(function (en) {
+                if (en.isIntersecting) {
+                  en.target.classList.add('cdl-is-inview');
+                  io.unobserve(en.target);
+                }
+              });
+            },
+            { rootMargin: '0px 0px -8% 0px', threshold: 0.08 }
+          );
+          root.querySelectorAll('[data-cdl-reveal]').forEach(function (el) {
+            io.observe(el);
+          });
+        } else {
+          root.querySelectorAll('[data-cdl-reveal]').forEach(function (el) {
+            el.classList.add('cdl-is-inview');
+          });
+        }
+      })();
+    </script>
+  </div>
+{% endif %}
+
+{% schema %}
+{
+  "name": "CDL — Product page",
+  "tag": "section",
+  "class": "cdl-product-page-section",
+  "settings": [
+    {
+      "type": "product",
+      "id": "featured_product",
+      "label": "Product (theme editor preview)"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_brand_logo",
+      "label": "Show brand logo above title",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "brand_logo_url",
+      "label": "Brand logo image URL",
+      "info": "Defaults to Christine de Levigne mark if empty."
+    },
+    {
+      "type": "checkbox",
+      "id": "unlock_shopify_gallery",
+      "label": "Use Shopify variant images in the gallery",
+      "default": false,
+      "info": "Off by default: only your campaign URLs below are shown."
+    },
+    {
+      "type": "header",
+      "content": "Campaign gallery (6 images)"
+    },
+    {
+      "type": "paragraph",
+      "content": "Leave blank to use the default campaign CDN set. Override any slot with your own image URL."
+    },
+    {
+      "type": "url",
+      "id": "gallery_1",
+      "label": "Image 1 — hero / thumb"
+    },
+    {
+      "type": "url",
+      "id": "gallery_2",
+      "label": "Image 2"
+    },
+    {
+      "type": "url",
+      "id": "gallery_3",
+      "label": "Image 3"
+    },
+    {
+      "type": "url",
+      "id": "gallery_4",
+      "label": "Image 4"
+    },
+    {
+      "type": "url",
+      "id": "gallery_5",
+      "label": "Image 5"
+    },
+    {
+      "type": "url",
+      "id": "gallery_6",
+      "label": "Image 6"
+    },
+    {
+      "type": "header",
+      "content": "Promotional offer"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_offer_banner",
+      "label": "Show offer ribbon",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "offer_kicker",
+      "label": "Offer kicker",
+      "default": "Atelier offer"
+    },
+    {
+      "type": "text",
+      "id": "offer_headline",
+      "label": "Offer headline",
+      "default": "Buy one — we gift two"
+    },
+    {
+      "type": "textarea",
+      "id": "offer_subline",
+      "label": "Offer detail",
+      "default": "Add this necklace to your bag and we include two complimentary coordinating pieces (finish subject to availability). Offer applies to this product only — configure matching discounts in Shopify Admin."
+    },
+    {
+      "type": "header",
+      "content": "Horizontal gallery rail"
+    },
+    {
+      "type": "text",
+      "id": "rail_title",
+      "label": "Rail title",
+      "default": "On the atelier table"
+    },
+    {
+      "type": "text",
+      "id": "rail_hint",
+      "label": "Rail hint",
+      "default": "Scroll · every campaign frame"
+    },
+    {
+      "type": "textarea",
+      "id": "rail_dek",
+      "label": "Rail description",
+      "default": "Every frame is from our latest campaign — texture, color, and the way the amulet sits in real life."
+    },
+    {
+      "type": "header",
+      "content": "Bottom experience — trust & story"
+    },
+    {
+      "type": "text",
+      "id": "trust_1_title",
+      "label": "Trust 1 title",
+      "default": "Hand-finished"
+    },
+    {
+      "type": "text",
+      "id": "trust_1_text",
+      "label": "Trust 1 text",
+      "default": "Small batches, human hands"
+    },
+    {
+      "type": "text",
+      "id": "trust_2_title",
+      "label": "Trust 2 title",
+      "default": "Secure checkout"
+    },
+    {
+      "type": "text",
+      "id": "trust_2_text",
+      "label": "Trust 2 text",
+      "default": "Encrypted payments"
+    },
+    {
+      "type": "text",
+      "id": "trust_3_title",
+      "label": "Trust 3 title",
+      "default": "Tracked shipping"
+    },
+    {
+      "type": "text",
+      "id": "trust_3_text",
+      "label": "Trust 3 text",
+      "default": "Door-to-door updates"
+    },
+    {
+      "type": "text",
+      "id": "trust_4_title",
+      "label": "Trust 4 title",
+      "default": "Gift polish"
+    },
+    {
+      "type": "text",
+      "id": "trust_4_text",
+      "label": "Trust 4 text",
+      "default": "Notes & ribbon-ready"
+    },
+    {
+      "type": "text",
+      "id": "story_band_eyebrow",
+      "label": "Story band eyebrow",
+      "default": "The CDL experience"
+    },
+    {
+      "type": "text",
+      "id": "story_band_title",
+      "label": "Story band title",
+      "default": "Why women keep coming back"
+    },
+    {
+      "type": "textarea",
+      "id": "story_band_sub",
+      "label": "Story band subtitle",
+      "default": "A quiet ritual of color, craft, and pieces that feel chosen — not mass-made."
+    },
+    {
+      "type": "header",
+      "content": "Story cards (3)"
+    },
+    {
+      "type": "text",
+      "id": "story_card_1_title",
+      "label": "Card 1 title",
+      "default": "Tactile color"
+    },
+    {
+      "type": "textarea",
+      "id": "story_card_1_text",
+      "label": "Card 1 text",
+      "default": "Heart amulets with hand-balanced enamel tones — precious, never loud."
+    },
+    {
+      "type": "text",
+      "id": "story_card_1_badge",
+      "label": "Card 1 badge",
+      "default": "Bestseller"
+    },
+    {
+      "type": "url",
+      "id": "story_card_1_image",
+      "label": "Card 1 image URL (optional)"
+    },
+    {
+      "type": "text",
+      "id": "story_card_2_title",
+      "label": "Card 2 title",
+      "default": "Lives on the skin"
+    },
+    {
+      "type": "textarea",
+      "id": "story_card_2_text",
+      "label": "Card 2 text",
+      "default": "Rope chain and weight made for daily wear — shower-to-street, always soft."
+    },
+    {
+      "type": "text",
+      "id": "story_card_2_badge",
+      "label": "Card 2 badge",
+      "default": "Atelier pick"
+    },
+    {
+      "type": "url",
+      "id": "story_card_2_image",
+      "label": "Card 2 image URL (optional)"
+    },
+    {
+      "type": "text",
+      "id": "story_card_3_title",
+      "label": "Card 3 title",
+      "default": "Keepsake energy"
+    },
+    {
+      "type": "textarea",
+      "id": "story_card_3_text",
+      "label": "Card 3 text",
+      "default": "Designed to feel like a gift to yourself — or someone you love deeply."
+    },
+    {
+      "type": "text",
+      "id": "story_card_3_badge",
+      "label": "Card 3 badge",
+      "default": "Gift-ready"
+    },
+    {
+      "type": "url",
+      "id": "story_card_3_image",
+      "label": "Card 3 image URL (optional)"
+    },
+    {
+      "type": "header",
+      "content": "Accordions (below Add to bag)"
+    },
+    {
+      "type": "text",
+      "id": "acc_story_title",
+      "label": "First accordion title",
+      "default": "Why this piece feels different"
+    },
+    {
+      "type": "textarea",
+      "id": "story_voice_lead",
+      "label": "Founder voice — one line (optional)",
+      "default": "I design for women who want jewelry to feel personal — warm, a little joyful, never loud, never generic."
+    },
+    {
+      "type": "header",
+      "content": "Reviews (display)"
+    },
+    {
+      "type": "paragraph",
+      "content": "Connect a real reviews app when ready. Until then this block shows your curated rating for social proof."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_rating_block",
+      "label": "Show rating strip",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "rating_value",
+      "label": "Rating number",
+      "default": "4.8"
+    },
+    {
+      "type": "range",
+      "id": "rating_star_percent",
+      "label": "Star fill % (4.8 ≈ 96)",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 96
+    },
+    {
+      "type": "text",
+      "id": "rating_count_label",
+      "label": "Social proof line",
+      "default": "700+ happy customers"
+    },
+    {
+      "type": "text",
+      "id": "rating_footnote",
+      "label": "Optional footnote",
+      "default": "Based on verified boutique purchases."
+    },
+    {
+      "type": "header",
+      "content": "Delivery estimate (business days)"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_delivery_estimate",
+      "label": "Show delivery date card",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "delivery_kicker",
+      "label": "Card kicker",
+      "default": "Estimated timeline"
+    },
+    {
+      "type": "text",
+      "id": "delivery_loading_text",
+      "label": "Loading line (replaced by script)",
+      "default": "Calculating fresh dates…"
+    },
+    {
+      "type": "text",
+      "id": "delivery_fineprint",
+      "label": "Fine print",
+      "default": "Business days, excludes holidays. Refreshes on each visit."
+    },
+    {
+      "type": "range",
+      "id": "delivery_prep_days_min",
+      "label": "Min prep days before dispatch",
+      "min": 0,
+      "max": 14,
+      "step": 1,
+      "default": 2
+    },
+    {
+      "type": "range",
+      "id": "delivery_prep_days_max",
+      "label": "Max prep days before dispatch",
+      "min": 0,
+      "max": 14,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "range",
+      "id": "delivery_transit_days_min",
+      "label": "Min transit days after dispatch",
+      "min": 1,
+      "max": 21,
+      "step": 1,
+      "default": 5
+    },
+    {
+      "type": "range",
+      "id": "delivery_transit_days_max",
+      "label": "Max transit days after dispatch",
+      "min": 1,
+      "max": 21,
+      "step": 1,
+      "default": 7
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Christine de Levigne · Handmade in small batches"
+    },
+    {
+      "type": "textarea",
+      "id": "short_descriptor",
+      "label": "Above-the-fold hook (keep short)",
+      "default": "A heart amulet to wear close to the skin — soft Mediterranean color, a rope chain, and the warmth of something made to keep."
+    },
+    {
+      "type": "text",
+      "id": "badge_small_batch",
+      "label": "Badge — small batch",
+      "default": "Small-batch atelier"
+    },
+    {
+      "type": "text",
+      "id": "badge_keepsake",
+      "label": "Badge — keepsake",
+      "default": "Keepsake piece"
+    },
+    {
+      "type": "text",
+      "id": "add_to_cart_label",
+      "label": "Add to cart label",
+      "default": "Add to bag"
+    },
+    {
+      "type": "textarea",
+      "id": "handmade_note",
+      "label": "Handmade micro-note",
+      "default": "Each piece is finished by hand in small runs — slight variations are part of its character."
+    },
+    {
+      "type": "header",
+      "content": "Shipping micro-copy"
+    },
+    {
+      "type": "text",
+      "id": "prep_text",
+      "label": "Preparation",
+      "default": "Made to order in 2–3 days"
+    },
+    {
+      "type": "text",
+      "id": "ship_text",
+      "label": "Shipping",
+      "default": "Ships in 5–7 business days"
+    },
+    {
+      "type": "text",
+      "id": "returns_text",
+      "label": "Returns",
+      "default": "30-day returns"
+    },
+    {
+      "type": "url",
+      "id": "shipping_logo",
+      "label": "Shipping logo URL (optional override)"
+    },
+    {
+      "type": "header",
+      "content": "Instagram block"
+    },
+    {
+      "type": "paragraph",
+      "content": "These three URLs are only for “As Seen on Instagram” (defaults = your campaign JPGs). They are no longer pulled from the main product gallery."
+    },
+    {
+      "type": "text",
+      "id": "ig_heading",
+      "label": "Heading",
+      "default": "As Seen on Instagram"
+    },
+    {
+      "type": "url",
+      "id": "instagram_url",
+      "label": "Instagram profile URL"
+    },
+    {
+      "type": "url",
+      "id": "ig_logo",
+      "label": "Instagram logo URL (override)"
+    },
+    {
+      "type": "url",
+      "id": "ig_image_1",
+      "label": "Instagram image 1 URL"
+    },
+    {
+      "type": "url",
+      "id": "ig_image_2",
+      "label": "Instagram image 2 URL"
+    },
+    {
+      "type": "url",
+      "id": "ig_image_3",
+      "label": "Instagram image 3 URL"
+    },
+    {
+      "type": "header",
+      "content": "Payment icons (optional overrides)"
+    },
+    {
+      "type": "url",
+      "id": "pay_mc",
+      "label": "Mastercard"
+    },
+    {
+      "type": "url",
+      "id": "pay_amex",
+      "label": "Amex"
+    },
+    {
+      "type": "url",
+      "id": "pay_apple",
+      "label": "Apple Pay"
+    },
+    {
+      "type": "url",
+      "id": "pay_paypal",
+      "label": "PayPal"
+    },
+    {
+      "type": "url",
+      "id": "pay_shop",
+      "label": "Shop Pay"
+    },
+    {
+      "type": "header",
+      "content": "Accordion — story blocks"
+    },
+    {
+      "type": "text",
+      "id": "intro_heading",
+      "label": "Story block heading 1",
+      "default": "Meant to live against the skin"
+    },
+    {
+      "type": "richtext",
+      "id": "emotional_intro",
+      "label": "Story block 1",
+      "default": "<p>What you wear closest to your skin should feel chosen. This necklace is a small, personal object — soft in silhouette, vivid in a quiet way — like a little sunlit accent on calm neutrals.</p>"
+    },
+    {
+      "type": "text",
+      "id": "color_story_heading",
+      "label": "Story block heading 2",
+      "default": "Color, held gently"
+    },
+    {
+      "type": "richtext",
+      "id": "variant_color_story",
+      "label": "Story block 2",
+      "default": "<p>Pick the finish that feels like you. Each tone is balanced to read precious, not loud — a whisper of coral, lagoon, or bloom against the rope chain and heart.</p>"
+    },
+    {
+      "type": "text",
+      "id": "atelier_heading",
+      "label": "Story block heading 3",
+      "default": "How we make it"
+    },
+    {
+      "type": "richtext",
+      "id": "atelier_note",
+      "label": "Story block 3",
+      "default": "<p>Every piece is assembled and finished by hand in small runs. Slight variations are part of the character — they keep the work feeling alive, tactile, and quietly precious.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Accordion — details & materials"
+    },
+    {
+      "type": "richtext",
+      "id": "details_intro",
+      "label": "Intro",
+      "default": "<p>Plain language, honest materials — so you know what you are bringing home.</p>"
+    },
+    {
+      "type": "text",
+      "id": "details_heading",
+      "label": "Heading",
+      "default": "Details & materials"
+    },
+    {
+      "type": "text",
+      "id": "row_structure_label",
+      "label": "Row 1 label",
+      "default": "Structure"
+    },
+    {
+      "type": "text",
+      "id": "row_structure_value",
+      "label": "Row 1 value",
+      "default": "Zinc alloy, rope chain, heart pendant"
+    },
+    {
+      "type": "text",
+      "id": "row_finish_label",
+      "label": "Row 2 label",
+      "default": "Finish"
+    },
+    {
+      "type": "text",
+      "id": "row_finish_value",
+      "label": "Row 2 value",
+      "default": "Handmade color accents"
+    },
+    {
+      "type": "text",
+      "id": "row_style_label",
+      "label": "Row 3 label",
+      "default": "Silhouette"
+    },
+    {
+      "type": "text",
+      "id": "row_style_value",
+      "label": "Row 3 value",
+      "default": "Pendant necklace"
+    },
+    {
+      "type": "header",
+      "content": "Accordion — size & fit"
+    },
+    {
+      "type": "text",
+      "id": "size_heading",
+      "label": "Heading",
+      "default": "Size & fit"
+    },
+    {
+      "type": "richtext",
+      "id": "size_copy",
+      "label": "Body",
+      "default": "<p><strong>Length:</strong> adjustable, about 30–66 cm (11.8–25.98 in) around the neck.</p><p><strong>Pendant:</strong> about 3.5 cm (1.37 in) tall — present without overwhelming.</p><p>Wear it higher or lower with different necklines.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Accordion — shipping & care"
+    },
+    {
+      "type": "text",
+      "id": "shipping_heading",
+      "label": "Heading",
+      "default": "Shipping, returns & care"
+    },
+    {
+      "type": "richtext",
+      "id": "shipping_copy",
+      "label": "Body",
+      "default": "<p>Made to order in 2–3 days, then ships in 5–7 business days. Easy 30-day returns if it is not right for you.</p><p><strong>Care:</strong> store dry, keep away from perfume and lotion on the chain, polish with a soft cloth.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Accordion — brand note"
+    },
+    {
+      "type": "text",
+      "id": "founder_heading",
+      "label": "Heading",
+      "default": "The atelier"
+    },
+    {
+      "type": "richtext",
+      "id": "founder_note",
+      "label": "Body",
+      "default": "<p>Christine de Levigne is a quiet jewelry atelier — intimate, handmade, guided by Mediterranean color. No cold, distant luxury here: only pieces that feel warm, personal, and worth keeping.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Accordion — gifting"
+    },
+    {
+      "type": "text",
+      "id": "gift_heading",
+      "label": "Heading",
+      "default": "Gift-ready"
+    },
+    {
+      "type": "richtext",
+      "id": "gift_note",
+      "label": "Body",
+      "default": "<p>It arrives feeling considered — lovely for birthdays, milestones, or a soft “thinking of you.” Add a gift note at checkout if your store supports it.</p>"
+    }
+  ],
+  "presets": [
+    {
+      "name": "CDL — Product page"
+    }
+  ]
+}
+{% endschema %}

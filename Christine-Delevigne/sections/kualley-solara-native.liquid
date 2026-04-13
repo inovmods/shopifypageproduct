@@ -1,0 +1,36 @@
+{% comment %}
+  Bloc Solara + achat natif Shopify. Thème vierge : ajoute cette section sur le template produit (ou page d’accueil avec produit choisi).
+{% endcomment %}
+{% liquid
+  assign sol = section.settings.product
+  if sol == blank and product != blank
+    assign sol = product
+  endif
+%}
+{% if sol != blank %}
+  {% render 'kualley-solara-native', kp_product: sol %}
+{% else %}
+  <div class="page-width" style="padding:3rem 1rem;text-align:center;">
+    <p>Choisis le produit Solara dans les réglages de la section.</p>
+  </div>
+{% endif %}
+
+{% schema %}
+{
+  "name": "Kualley Solara natif",
+  "tag": "section",
+  "class": "section-kualley-solara-native",
+  "settings": [
+    {
+      "type": "product",
+      "id": "product",
+      "label": "Produit"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Kualley Solara natif"
+    }
+  ]
+}
+{% endschema %}

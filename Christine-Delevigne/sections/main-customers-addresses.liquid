@@ -1,0 +1,169 @@
+<div class="container section">
+  <div class="customer-addresses">
+    <header class="customer-addresses__header mb-lg">
+      <h1 class="h2">{{ 'customer.addresses.title' | t }}</h1>
+      <a href="{{ routes.account_url }}" class="button button--secondary">
+        {{ 'customer.addresses.back_to_account' | t }}
+      </a>
+    </header>
+
+    <div class="customer-addresses__content">
+      <div class="addresses-list grid grid--auto-fit">
+        {%- for address in customer.addresses -%}
+          <div class="address-card">
+            <div class="address-card__content">
+              <h3 class="address-card__name">{{ address.name }}</h3>
+              <div class="address-card__details">
+                <p>{{ address.address1 }}</p>
+                {%- if address.address2 != blank -%}
+                  <p>{{ address.address2 }}</p>
+                {%- endif -%}
+                <p>{{ address.city }}, {{ address.province }} {{ address.zip }}</p>
+                <p>{{ address.country }}</p>
+                {%- if address.phone != blank -%}
+                  <p>{{ address.phone }}</p>
+                {%- endif -%}
+              </div>
+              
+              {%- if address == customer.default_address -%}
+                <span class="address-card__badge">{{ 'customer.addresses.default' | t }}</span>
+              {%- endif -%}
+            </div>
+            
+            <div class="address-card__actions">
+              <a href="{{ address.url }}" class="button button--small button--secondary">
+                {{ 'customer.addresses.edit' | t }}
+              </a>
+              <button type="button" 
+                      class="button button--small" 
+                      onclick="deleteAddress({{ address.id }})">
+                {{ 'customer.addresses.delete' | t }}
+              </button>
+            </div>
+          </div>
+        {%- endfor -%}
+
+        <!-- Add New Address Card -->
+        <div class="address-card address-card--add">
+          <div class="address-card__add-content">
+            <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+              <circle cx="24" cy="24" r="24" fill="var(--color-border)"/>
+              <path d="M24 16v16M16 24h16" stroke="var(--color-text)" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            <h3>{{ 'customer.addresses.add_new' | t }}</h3>
+            <a href="{{ routes.account_addresses_url }}/new" class="button">
+              {{ 'customer.addresses.add' | t }}
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .customer-addresses__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--spacing-md);
+  }
+
+  .addresses-list {
+    gap: var(--spacing-lg);
+    grid-template-columns: repeat(auto-fit, minmax(30rem, 1fr));
+  }
+
+  .address-card {
+    padding: var(--spacing-lg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-lg);
+    background-color: var(--color-background);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 25rem;
+  }
+
+  .address-card--add {
+    border-style: dashed;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .address-card__add-content svg {
+    margin-bottom: var(--spacing-md);
+  }
+
+  .address-card__name {
+    font-weight: var(--font-weight-bold);
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .address-card__details p {
+    margin-bottom: var(--spacing-xs);
+    line-height: 1.4;
+  }
+
+  .address-card__badge {
+    display: inline-block;
+    padding: 0.4rem 0.8rem;
+    background-color: var(--color-accent);
+    color: var(--color-secondary);
+    border-radius: var(--border-radius);
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    margin-top: var(--spacing-sm);
+  }
+
+  .address-card__actions {
+    display: flex;
+    gap: var(--spacing-sm);
+    margin-top: var(--spacing-md);
+  }
+
+  @media (max-width: 768px) {
+    .customer-addresses__header {
+      flex-direction: column;
+      text-align: center;
+    }
+    
+    .addresses-list {
+      grid-template-columns: 1fr;
+    }
+    
+    .address-card__actions {
+      flex-direction: column;
+    }
+  }
+</style>
+
+<script>
+  function deleteAddress(addressId) {
+    if (confirm('{{ 'customer.addresses.delete_confirm' | t }}')) {
+      // Create a form to delete the address
+      const form = document.createElement('form');
+      form.method = 'POST';
+      form.action = '/account/addresses/' + addressId;
+      
+      const methodInput = document.createElement('input');
+      methodInput.type = 'hidden';
+      methodInput.name = '_method';
+      methodInput.value = 'DELETE';
+      
+      form.appendChild(methodInput);
+      document.body.appendChild(form);
+      form.submit();
+    }
+  }
+</script>
+
+{% schema %}
+{
+  "name": "Customer Addresses",
+  "class": "shopify-section--main-customers-addresses",
+  "tag": "section"
+}
+{% endschema %} 

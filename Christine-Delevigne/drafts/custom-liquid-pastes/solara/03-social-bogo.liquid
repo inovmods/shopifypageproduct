@@ -1,0 +1,89 @@
+{% comment %}
+  Kualley Solara — bandeau « As seen on social » (même look que kualley-kp-complete-block).
+  Coller après 02. Révélation au scroll (.rev) : script local à ce bloc.
+{% endcomment %}
+{% assign font_body = 'https://cdn.shopify.com/s/files/1/1033/9418/1457/files/amoera-Regular.ttf?v=1774791198' %}
+{% assign font_title = 'https://cdn.shopify.com/s/files/1/1033/9418/1457/files/Malline.ttf?v=1774787392' %}
+{% assign ig_logo = 'https://cdn.shopify.com/s/files/1/1033/9418/1457/files/Instagram-Logo.wine.svg?v=1774735024' %}
+{% assign sol_ig_1 = 'https://cdn.shopify.com/s/files/1/1033/9418/1457/files/Generated_Image_April_06_2026_-_4_48PM.webp?v=1775677099' %}
+{% assign sol_ig_2 = 'https://cdn.shopify.com/s/files/1/1033/9418/1457/files/Generated_Image_April_06_2026_-_4_51PM.webp?v=1775677099' %}
+{% assign sol_ig_3 = 'https://cdn.shopify.com/s/files/1/1033/9418/1457/files/Generated_Image_April_06_2026_-_4_46PM.webp?v=1775677133' %}
+
+<div class="kp kp-paste kp-paste--social">
+  <style>
+    @font-face{font-family:'KTitle';src:url('{{ font_title }}') format('truetype');font-weight:400;font-style:normal;font-display:swap;}
+    @font-face{font-family:'KBody';src:url('{{ font_body }}') format('truetype');font-weight:400;font-style:normal;font-display:swap;}
+    .kp.kp-paste--social{
+      --iv:#F8F5EF;--sd:#EDE4D6;--wr:#A08B70;--dp:#1C1914;--mu:#7D7268;
+      font-family:'KBody',system-ui,sans-serif;color:var(--dp);background:var(--iv);
+      -webkit-font-smoothing:antialiased;position:relative;
+    }
+    .kp.kp-paste--social *,.kp.kp-paste--social *::before,.kp.kp-paste--social *::after{box-sizing:border-box}
+    .kp.kp-paste--social img{display:block;max-width:100%}
+    .kp.kp-paste--social .k-container{max-width:1280px;margin:0 auto;padding:0 16px}
+    @media(min-width:1024px){.kp.kp-paste--social .k-container{padding:0 48px}}
+    .kp.kp-paste--social .k-social{background:var(--iv);padding:70px 0}
+    .kp.kp-paste--social .k-sh{display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:12px}
+    .kp.kp-paste--social .k-ig{width:18px;height:18px;opacity:.75}
+    .kp.kp-paste--social .k-st{font-family:'KTitle',Georgia,serif;font-size:clamp(22px,3.6vw,34px);margin:0}
+    .kp.kp-paste--social .k-ss{text-align:center;color:var(--mu);font-size:14px;line-height:1.7;max-width:62ch;margin:10px auto 0}
+    .kp.kp-paste--social .k-sgrid{display:flex;flex-direction:row;flex-wrap:nowrap;gap:14px;margin-top:26px;overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;scroll-snap-type:x mandatory;scroll-padding-inline:16px;padding:4px 0 12px;scrollbar-width:thin}
+    .kp.kp-paste--social .k-sgrid::-webkit-scrollbar{height:8px}
+    .kp.kp-paste--social .k-sgrid::-webkit-scrollbar-thumb{background:rgba(28,25,20,.2);border-radius:999px}
+    .kp.kp-paste--social .k-scard{position:relative;flex:0 0 min(82vw,300px);width:min(82vw,300px);scroll-snap-align:start;border-radius:20px;overflow:hidden;background:var(--sd);aspect-ratio:4/5;box-shadow:0 18px 55px rgba(28,25,20,.10)}
+    @media(min-width:640px){.kp.kp-paste--social .k-scard{flex:0 0 260px;width:260px}}
+    @media(min-width:1024px){.kp.kp-paste--social .k-scard{flex:0 0 280px;width:280px}}
+    .kp.kp-paste--social .k-scard img{width:100%;height:100%;object-fit:cover}
+    .kp.kp-paste--social .k-sov{position:absolute;inset:0;background:linear-gradient(to top,rgba(28,25,20,.62),transparent 55%);display:flex;align-items:flex-end;padding:14px}
+    .kp.kp-paste--social .k-sov span{color:var(--iv);font-weight:900;letter-spacing:.12em;text-transform:uppercase;font-size:12px}
+    .kp.kp-paste--social .rev{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s ease}
+    .kp.kp-paste--social .rev.on{opacity:1;transform:translateY(0)}
+    .kp.kp-paste--social .d1{transition-delay:.08s}.kp.kp-paste--social .d2{transition-delay:.16s}.kp.kp-paste--social .d3{transition-delay:.24s}
+  </style>
+
+  <section class="k-social">
+    <div class="k-container">
+      <div class="k-sh rev">
+        <img class="k-ig" src="{{ ig_logo }}" alt="Instagram" loading="lazy" width="18" height="18">
+        <h2 class="k-st">As seen on social</h2>
+      </div>
+      <p class="k-ss rev d1">Premium look and feel — designed to read “expensive on camera.”</p>
+      <div class="k-sgrid" role="region" aria-label="Instagram — scroll horizontal">
+        <div class="k-scard rev d1">
+          <img src="{{ sol_ig_1 }}" alt="Solara on social" loading="lazy">
+          <div class="k-sov"><span>Solara glow</span></div>
+        </div>
+        <div class="k-scard rev d2">
+          <img src="{{ sol_ig_2 }}" alt="Solara on social" loading="lazy">
+          <div class="k-sov"><span>Golden hour</span></div>
+        </div>
+        <div class="k-scard rev d3">
+          <img src="{{ sol_ig_3 }}" alt="Solara on social" loading="lazy">
+          <div class="k-sov"><span>Resort feed</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+  (function(){
+    var root=document.currentScript&&document.currentScript.closest('.kp-paste--social');
+    if(!root)return;
+    var els=root.querySelectorAll('.rev');
+    if(!els.length)return;
+    if(!('IntersectionObserver'in window)){
+      for(var i=0;i<els.length;i++)els[i].classList.add('on');
+      return;
+    }
+    var obs=new IntersectionObserver(function(entries){
+      for(var j=0;j<entries.length;j++){
+        if(entries[j].isIntersecting){
+          entries[j].target.classList.add('on');
+          obs.unobserve(entries[j].target);
+        }
+      }
+    },{threshold:0.12,rootMargin:'0px 0px -60px 0px'});
+    for(var k=0;k<els.length;k++)obs.observe(els[k]);
+  })();
+  </script>
+</div>

@@ -1,0 +1,23 @@
+{% comment %}
+  Page produit Marea — même ATC BOGO que le bloc compact (2 bikinis).
+  Dans Shopify : produit Marea → thème → modèle « marea ».
+{% endcomment %}
+{% render 'kualley-kp-compact',
+  kp_prefer_static_variants: section.settings.force_static_variants,
+  kp_fallback_profile: 'marea'
+%}
+
+{% schema %}
+{
+  "name": "Kualley PDP — Marea",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "force_static_variants",
+      "label": "Variantes figées (JSON thème) — désactivé par défaut ; n’active que si le picker Shopify est cassé",
+      "default": false
+    }
+  ],
+  "presets": [{ "name": "Kualley PDP — Marea" }]
+}
+{% endschema %}

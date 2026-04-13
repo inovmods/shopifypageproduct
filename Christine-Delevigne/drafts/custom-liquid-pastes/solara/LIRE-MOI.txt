@@ -1,0 +1,18 @@
+Solara — blocs pour « Liquid personnalisé » (Shopify)
+
+1. Ouvre chaque fichier .liquid ci-dessous.
+2. Copie TOUT le contenu (du premier {% au dernier %}).
+3. Dans le thème : Ajouter une section / bloc → Liquid personnalisé → colle.
+4. Ordre conseillé :
+   01-galerie.liquid
+   02-achat-natif.liquid  (page produit uniquement)
+   03-confiance.liquid
+   04-guide-tailles.liquid  (lien « Size guide » du 02 → #solara-sizeguide)
+   05-faq.liquid
+   06-social-proof.liquid
+   07-editorial.liquid
+   Tu peux retirer ou dupliquer des blocs.
+
+Sur la PAGE PRODUIT uniquement pour le bloc 02 (achat), sinon le formulaire ne peut pas marcher.
+
+Les blocs utilisent le préfixe CSS solara-paste--* pour éviter les conflits.

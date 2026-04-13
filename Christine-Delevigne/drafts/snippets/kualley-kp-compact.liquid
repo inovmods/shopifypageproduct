@@ -1,0 +1,534 @@
+{% comment %}
+  Kualley — landing produit / accueil. BOGO, timer FL, sticky + sheet, Horizon cart:update.
+  Page d’accueil riche (vidéos + visuels comme la page produit) : kp_home_landing: true
+  ── Liquid personnalisé : ne colle JAMAIS le bloc schema (réservé aux fichiers Section).
+    {% assign kp_home_handle = 'handle-de-ton-produit' %}
+    {% assign kp_home_landing = true %}
+    {% render 'kualley-kp-compact' %}
+{% endcomment %}
+{% assign kp_home_handle = kp_home_handle | default: '' %}
+{% assign kp_home_landing = kp_home_landing | default: false %}
+{% if kp_product != blank %}
+  {% assign p = kp_product %}
+{% elsif kp_home_handle != blank %}
+  {% assign p = all_products[kp_home_handle] %}
+{% else %}
+  {% assign p = product %}
+  {% if p == blank and closest.product != blank %}{% assign p = closest.product %}{% endif %}
+  {% if p == blank %}{% assign p = collections.all.products.first %}{% endif %}
+{% endif %}
+
+{% assign base_price_cents = 7000 %}
+{% assign compare_price_cents = 10000 %}
+{% assign save_price_cents = compare_price_cents | minus: base_price_cents %}
+{% assign r_base = base_price_cents | modulo: 100 %}
+{% assign d_base = base_price_cents | divided_by: 100 %}
+{% assign r_cmp = compare_price_cents | modulo: 100 %}
+{% assign d_cmp = compare_price_cents | divided_by: 100 %}
+{% assign r_sav = save_price_cents | modulo: 100 %}
+{% assign d_sav = save_price_cents | divided_by: 100 %}
+{% assign logo_svg = 'https://cdn.shopify.com/s/files/1/1033/9418/1457/files/Generated_Image_March_29_2026_-_2_29PM.svg?v=1774791054' %}
+{% assign ship_logo = 'https://cdn.shopify.com/s/files/1/1033/9418/1457/files/United_States_Postal_Service-Logo.wine.svg?v=1774735024' %}
+{% assign pay_apple = 'https://cdn.shopify.com/s/files/1/1033/9418/1457/files/Apple_Pay-Logo.wine_1.svg?v=1774735024' %}
+{% assign pay_mc = 'https://cdn.shopify.com/s/files/1/1033/9418/1457/files/Mastercard-Logo.wine.svg?v=1774735024' %}
+{% assign pay_amex = 'https://cdn.shopify.com/s/files/1/1033/9418/1457/files/American_Express-Logo.wine_1.svg?v=1774735024' %}
+{% assign pay_shop = 'https://cdn.shopify.com/s/files/1/1033/9418/1457/files/shoppay_logo-removebg-preview.png?v=1774735059' %}
+{% assign pay_pp = 'https://cdn.shopify.com/s/files/1/1033/9418/1457/files/PayPal-Logo.wine.svg?v=1774735024' %}
+{% assign fallback_img = p.featured_image | image_url: width: 900 %}
+{% assign support_email = shop.email %}
+{% assign ig_logo = 'https://cdn.shopify.com/s/files/1/1033/9418/1457/files/Instagram-Logo.wine.svg?v=1774735024' %}
+{% assign sol_ig_1 = 'https://cdn.shopify.com/s/files/1/1033/9418/1457/files/Generated_Image_April_06_2026_-_4_48PM.webp?v=1775677099' %}
+{% assign sol_ig_2 = 'https://cdn.shopify.com/s/files/1/1033/9418/1457/files/Generated_Image_April_06_2026_-_4_51PM.webp?v=1775677099' %}
+{% assign sol_ig_3 = 'https://cdn.shopify.com/s/files/1/1033/9418/1457/files/Generated_Image_April_06_2026_-_4_46PM.webp?v=1775677133' %}
+{% assign marea_ig_1 = 'https://cdn.shopify.com/s/files/1/1033/9418/1457/files/Generated_Image_March_28_2026_-_10_43PM.webp?v=1774734901' %}
+{% assign marea_ig_2 = 'https://cdn.shopify.com/s/files/1/1033/9418/1457/files/Generated_Image_March_28_2026_-_10_33PM.webp?v=1774734900' %}
+{% assign marea_ig_3 = 'https://cdn.shopify.com/s/files/1/1033/9418/1457/files/Generated_Image_March_28_2026_-_10_30PM.webp?v=1774734900' %}
+{% assign _kp_social_prof = kp_fallback_profile | default: '' | strip | downcase %}
+{% assign _kp_marea_h = kp_marea_static_handle | default: 'kualley-marea-set' %}
+{% assign _kp_prefer_fb = kp_prefer_static_variants | default: false %}
+{% assign kp_fallback_profile = kp_fallback_profile | default: '' %}
+{% if kp_home_landing %}
+  {% assign video_1 = 'https://cdn.shopify.com/videos/c/o/v/186fe95c2279443c90727736281e1bb8.mp4' %}
+  {% assign video_2 = 'https://cdn.shopify.com/videos/c/o/v/c0b90291362e42d4b990177e31e3f7fb.mp4' %}
+  {% assign mimg_1 = 'https://cdn.shopify.com/s/files/1/1033/9418/1457/files/Generated_Image_March_28_2026_-_9_42PM.webp?v=1774734900' %}
+  {% assign mimg_2 = 'https://cdn.shopify.com/s/files/1/1033/9418/1457/files/Generated_Image_March_28_2026_-_9_46PM.webp?v=1774734900' %}
+  {% assign mimg_3 = 'https://cdn.shopify.com/s/files/1/1033/9418/1457/files/Generated_Image_March_28_2026_-_9_48PM.webp?v=1774734901' %}
+  {% assign mimg_4 = 'https://cdn.shopify.com/s/files/1/1033/9418/1457/files/Generated_Image_March_28_2026_-_9_51PM.webp?v=1774734900' %}
+  {% assign mimg_5 = 'https://cdn.shopify.com/s/files/1/1033/9418/1457/files/Generated_Image_March_28_2026_-_9_55PM.webp?v=1774734900' %}
+  {% assign mimg_6 = 'https://cdn.shopify.com/s/files/1/1033/9418/1457/files/Generated_Image_March_28_2026_-_9_58PM.webp?v=1774734898' %}
+  {% assign mimg_7 = 'https://cdn.shopify.com/s/files/1/1033/9418/1457/files/Generated_Image_March_28_2026_-_9_32PM.webp?v=1774734900' %}
+  {% assign mimg_8 = 'https://cdn.shopify.com/s/files/1/1033/9418/1457/files/Generated_Image_March_28_2026_-_7_39PM.webp?v=1774734900' %}
+  {% assign mimg_9 = 'https://cdn.shopify.com/s/files/1/1033/9418/1457/files/Generated_Image_March_28_2026_-_7_43PM.webp?v=1774734900' %}
+  {% assign mimg_10 = 'https://cdn.shopify.com/s/files/1/1033/9418/1457/files/Generated_Image_March_28_2026_-_11_03PM.jpg?v=1774735457' %}
+  {% assign hs_1 = 'https://cdn.shopify.com/s/files/1/1033/9418/1457/files/Generated_Image_March_28_2026_-_10_43PM.webp?v=1774734901' %}
+  {% assign hs_2 = 'https://cdn.shopify.com/s/files/1/1033/9418/1457/files/Generated_Image_March_28_2026_-_10_33PM.webp?v=1774734900' %}
+  {% assign hs_3 = 'https://cdn.shopify.com/s/files/1/1033/9418/1457/files/Generated_Image_March_28_2026_-_10_30PM.webp?v=1774734900' %}
+{% endif %}
+
+<div class="kp" data-kp-root data-k-cart-sections=""{% if _kp_prefer_fb %} data-k-prefer-variant-fallback{% endif %}>
+<style>
+.kp{--iv:#F8F5EF;--sd:#EDE4D6;--st:#C9BAA5;--wr:#A08B70;--dp:#1C1914;--ch:#3A3530;--mu:#7D7268;--bd:#E2D9CC;--wh:#FFF;--cr:#FAF8F4;--gd:#C9A96E;--ok:#5A8A6A;--r:20px;--tr:.32s cubic-bezier(.25,.46,.45,.94);--top:66px;--header-safe:var(--header-group-height,var(--header-height,60px));font-family:Georgia,system-ui,serif;color:var(--dp);background:var(--iv);-webkit-font-smoothing:antialiased;position:relative}
+.kp *,.kp *::before,.kp *::after{box-sizing:border-box}
+.kp img,.kp video{display:block;max-width:100%}
+.kp .k-container{max-width:1280px;margin:0 auto;padding:0 16px}
+@media(min-width:1024px){.kp .k-container{padding:0 48px}}
+.kp .k-topbar{position:sticky;top:var(--header-safe);z-index:4;background:var(--iv);border-bottom:1px solid var(--bd)}
+.kp .k-topbar__inner{height:var(--top);max-width:1280px;margin:0 auto;padding:0 16px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+@media(min-width:1024px){.kp .k-topbar__inner{padding:0 48px}}
+.kp .k-brand{display:flex;align-items:center;gap:10px;min-width:0}
+.kp .k-logo{height:34px;width:auto;object-fit:contain}
+.kp .k-offer{display:flex;align-items:center;gap:10px;color:var(--ch);font-size:12px;letter-spacing:.16em;text-transform:uppercase;font-weight:900;white-space:nowrap}
+.kp .k-savepill{display:none}
+@media(min-width:820px){.kp .k-savepill{display:inline-flex;align-items:center;gap:8px;padding:9px 12px;border-radius:999px;background:rgba(28,25,20,.06);border:1px solid var(--bd);font-weight:900;letter-spacing:.12em;text-transform:uppercase;font-size:11px}}
+.kp .k-savepill .k-savepill__usd{color:var(--ok)}
+.kp .k-countwrap{display:flex;align-items:center;gap:10px;flex-shrink:0}
+.kp .k-countwrap__promo{display:flex;flex-direction:column;align-items:flex-start;gap:2px;min-width:0}
+.kp .k-bogo{margin:0;font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:900;line-height:1.2}
+.kp .k-easter-label{margin:0 0 2px;font-size:10px;letter-spacing:.18em;text-transform:uppercase;font-weight:900;color:var(--gd)}
+.kp .k-countwrap .k-end{font-size:10px;letter-spacing:.12em;text-transform:uppercase;font-weight:900;color:var(--mu);text-align:center;max-width:200px}
+.kp .k-mini{display:flex;align-items:center;gap:6px;font-size:12px;letter-spacing:.1em;font-weight:900;font-variant-numeric:tabular-nums;background:var(--wh);border:1px solid var(--bd);padding:9px 12px;border-radius:999px;white-space:nowrap}
+.kp .k-mini .d{opacity:.45}
+@media(max-width:819px){.kp .k-topbar__inner{flex-direction:column;height:auto;min-height:var(--top);padding:10px 16px 12px}.kp .k-offer{display:none}.kp .k-countwrap{flex-direction:column;align-items:center;width:100%}}
+.kp .k-hero{background:var(--cr);padding:14px 0 48px}
+.kp .k-grid{display:block}
+@media(min-width:1024px){.kp .k-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:start}}
+.kp .k-gal{margin-top:6px}
+@media(min-width:1024px){.kp .k-gal{position:sticky;top:calc(var(--header-safe) + var(--top) + 18px)}}
+.kp .k-main{position:relative;border-radius:var(--r);overflow:hidden;background:var(--sd);aspect-ratio:3/4;box-shadow:0 18px 55px rgba(28,25,20,.12)}
+.kp .k-badge{position:absolute;top:14px;left:14px;z-index:4;background:rgba(28,25,20,.92);color:var(--gd);font-size:10px;letter-spacing:.14em;text-transform:uppercase;font-weight:900;padding:7px 12px;border-radius:999px}
+.kp .k-slide{position:absolute;inset:0;opacity:0;transition:opacity .45s ease}
+.kp .k-slide.on{opacity:1}
+.kp .k-slide img,.kp .k-slide video{width:100%;height:100%;object-fit:cover}
+.kp .k-thumbs{display:flex;gap:10px;margin-top:12px;overflow-x:auto;scrollbar-width:none}
+.kp .k-thumbs::-webkit-scrollbar{display:none}
+.kp .k-thumb{flex-shrink:0;width:74px;height:92px;border-radius:14px;overflow:hidden;border:2px solid transparent;background:var(--sd);cursor:pointer;transition:transform var(--tr),border-color var(--tr);position:relative}
+.kp .k-thumb.on{border-color:var(--dp)}
+.kp .k-thumb img{width:100%;height:100%;object-fit:cover}
+.kp .k-tag{position:absolute;left:8px;bottom:8px;font-size:10px;letter-spacing:.12em;text-transform:uppercase;font-weight:900;color:var(--iv);background:rgba(28,25,20,.78);padding:4px 7px;border-radius:999px}
+.kp .k-eye{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--wr);font-weight:900;margin:14px 0 8px}
+.kp .k-rating{margin:0 0 14px}
+.kp .k-rating__row{display:flex;align-items:center;flex-wrap:wrap;gap:8px 10px}
+.kp .k-rating__stars{color:var(--gd);font-size:14px;letter-spacing:1px;line-height:1;flex-shrink:0}
+.kp .k-rating__score{font-size:14px;font-weight:900;color:var(--dp);letter-spacing:.02em}
+.kp .k-rating__sep{color:var(--st);font-weight:700;opacity:.85}
+.kp .k-rating__proof{font-size:13px;font-weight:800;color:var(--ch);letter-spacing:.01em}
+.kp .k-rating__hint{margin:6px 0 0;font-size:11px;color:var(--mu);line-height:1.45;max-width:42ch}
+.kp .k-social-micro{margin-top:10px;margin-bottom:8px;padding-bottom:10px;border-bottom:1px solid rgba(28,25,20,.06)}
+.kp .k-social-micro__head{display:flex;align-items:center;gap:6px;margin:0 0 4px}
+.kp .k-social-micro__ig{width:12px;height:12px;opacity:.72;flex-shrink:0}
+.kp .k-social-micro__label{font-size:9px;letter-spacing:.16em;text-transform:uppercase;font-weight:900;color:var(--wr);margin:0}
+.kp .k-social-micro__tag{margin:0 0 8px;font-size:10px;color:var(--mu);line-height:1.4;max-width:48ch}
+.kp .k-sgrid--micro{display:flex;flex-direction:row;flex-wrap:nowrap;gap:8px;margin:0;overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;scroll-snap-type:x mandatory;padding:2px 0 6px;scrollbar-width:thin}
+.kp .k-sgrid--micro::-webkit-scrollbar{height:5px}
+.kp .k-sgrid--micro::-webkit-scrollbar-thumb{background:rgba(28,25,20,.18);border-radius:999px}
+.kp .k-scard--micro{position:relative;flex:0 0 104px;width:104px;scroll-snap-align:start;border-radius:12px;overflow:hidden;background:var(--sd);aspect-ratio:4/5;box-shadow:0 6px 18px rgba(28,25,20,.08)}
+.kp .k-scard--micro img{width:100%;height:100%;object-fit:cover;display:block}
+.kp .k-sov--micro{position:absolute;inset:0;background:linear-gradient(to top,rgba(28,25,20,.58),transparent 52%);display:flex;align-items:flex-end;padding:6px 6px 7px}
+.kp .k-sov--micro span{color:var(--iv);font-weight:900;letter-spacing:.1em;text-transform:uppercase;font-size:8px;line-height:1.2}
+.kp .k-title{font-size:clamp(26px,4.2vw,42px);line-height:1.08;margin:0 0 10px}
+.kp .k-sub{color:var(--mu);font-size:14px;line-height:1.7;margin:0 0 16px;max-width:58ch}
+.kp .k-pill{display:inline-flex;align-items:center;gap:10px;padding:10px 14px;border-radius:999px;background:rgba(28,25,20,.92);color:var(--gd);font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:900;margin:0 0 12px}
+.kp .k-price{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin:8px 0 6px}
+.kp .k-now{font-size:32px;letter-spacing:.02em}
+.kp .k-was{font-size:16px;color:var(--st);text-decoration:line-through}
+.kp .k-save{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ok);font-weight:900}
+.kp .k-ship{display:flex;flex-wrap:wrap;gap:10px;margin:10px 0 14px}
+.kp .k-chip{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--ch);background:rgba(255,255,255,.55);border:1px solid rgba(28,25,20,.06);padding:8px 10px;border-radius:999px}
+.kp .k-chip i{font-style:normal;color:var(--ok);font-weight:900}
+.kp .k-paywrap{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:8px 0 14px}
+.kp .k-pay{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.kp .k-pay img{height:22px;width:auto;opacity:.85}
+.kp .k-shiplogo{display:flex;align-items:center;gap:10px}
+.kp .k-shiplogo img{height:22px;opacity:.8}
+.kp .k-qty{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:10px 0 12px}
+.kp .k-ql{font-size:12px;color:var(--mu);letter-spacing:.12em;text-transform:uppercase;font-weight:900}
+.kp .k-qc{display:flex;align-items:center;gap:8px;background:var(--wh);border:1px solid var(--bd);border-radius:999px;padding:6px}
+.kp .k-qb{width:34px;height:34px;border:none;border-radius:999px;background:rgba(28,25,20,.06);cursor:pointer;font-weight:900}
+.kp .k-qv{min-width:34px;text-align:center;font-variant-numeric:tabular-nums;font-weight:900}
+.kp .k-pick{border:1px solid var(--bd);border-radius:18px;background:rgba(255,255,255,.65);padding:14px;margin:12px 0}
+.kp .k-ph{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
+.kp .k-pt{font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:900;margin:0}
+.kp .k-pr{font-size:11px;letter-spacing:.12em;text-transform:uppercase;font-weight:900;color:var(--gd);background:rgba(28,25,20,.92);padding:6px 10px;border-radius:999px}
+.kp .k-sum{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.55);border:1px solid rgba(28,25,20,.06);padding:10px 12px;border-radius:16px;margin-bottom:10px}
+.kp .k-sum__img{width:46px;height:58px;border-radius:12px;overflow:hidden;background:var(--sd);flex-shrink:0}
+.kp .k-sum__img img{width:100%;height:100%;object-fit:cover}
+.kp .k-sum__name{font-weight:900;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.kp .k-sum__var{font-size:12px;color:var(--mu);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.kp .k-ol{font-size:11px;letter-spacing:.12em;text-transform:uppercase;font-weight:900;color:var(--mu);margin:8px 0 6px}
+.kp .k-or{display:flex;flex-wrap:wrap;gap:8px}
+.kp .k-ob{border:1.5px solid var(--bd);background:var(--wh);color:var(--ch);padding:10px 12px;border-radius:14px;cursor:pointer;font-size:13px;font-weight:900;transition:all var(--tr)}
+.kp .k-ob.on{background:var(--dp);border-color:var(--dp);color:var(--iv)}
+.kp .k-ob.off{opacity:.35;cursor:not-allowed}
+.kp .k-btn{width:100%;display:flex;align-items:center;justify-content:center;gap:10px;padding:16px 18px;border:none;border-radius:16px;cursor:pointer;font-size:13px;font-weight:900;letter-spacing:.14em;text-transform:uppercase;background:var(--dp);color:var(--iv);box-shadow:0 16px 40px rgba(28,25,20,.18);font-family:inherit}
+.kp [data-k-add].kp-atc--busy{opacity:.55;pointer-events:none}
+.kp .k-atc-wrap{margin-top:16px;margin-bottom:0}
+.shopify-section .kp [data-k-add],.shopify-block .kp [data-k-add]{display:flex!important;visibility:visible!important;opacity:1!important}
+.kp .k-sticky{position:fixed;left:0;right:0;bottom:0;z-index:9995;background:rgba(248,245,239,.97);backdrop-filter:blur(12px);border-top:1px solid var(--bd);padding:6px 0 calc(8px + env(safe-area-inset-bottom,0px));transform:translate3d(0,110%,0);transition:transform .32s;visibility:hidden;pointer-events:none}
+.kp .k-sticky.k-sticky--on{transform:translate3d(0,0,0);visibility:visible;pointer-events:auto}
+.kp.kp--sticky-bar{padding-bottom:calc(76px + env(safe-area-inset-bottom,0px))}
+.kp .k-sticky__inner{max-width:1280px;margin:0 auto;padding:0 12px}
+@media(min-width:1024px){.kp .k-sticky__inner{padding:0 48px}}
+.kp .k-sticky__bar{display:flex;align-items:center;gap:8px}
+.kp .k-sticky__hit{flex:1;min-width:0;display:flex;align-items:center;gap:10px;padding:6px 10px;border-radius:14px;border:1px solid var(--bd);background:rgba(255,255,255,.72);cursor:pointer;text-align:left;font:inherit}
+.kp .k-sticky__thumb{width:40px;height:50px;border-radius:10px;object-fit:cover;flex-shrink:0;background:var(--sd)}
+.kp .k-sticky__meta{flex:1;min-width:0;display:flex;flex-direction:column;gap:1px}
+.kp .k-sticky__eyebrow{font-size:8px;letter-spacing:.14em;text-transform:uppercase;font-weight:900;color:var(--mu)}
+.kp .k-sticky__sel{font-size:11px;font-weight:900;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.kp .k-sticky__chev{flex-shrink:0;width:22px;height:22px;border-radius:999px;border:1px solid var(--bd);display:flex;align-items:center;justify-content:center;font-size:9px;color:var(--mu)}
+.kp .k-sticky__cta--bar{flex-shrink:0;min-width:92px;max-width:110px;padding:12px 10px!important;font-size:10px!important;letter-spacing:.1em!important;white-space:nowrap}
+.kp .k-sticky-sheet{position:fixed;inset:0;z-index:9998;pointer-events:none}
+.kp .k-sticky-sheet.k-sticky-sheet--on{pointer-events:auto}
+.kp .k-sticky-sheet__backdrop{position:absolute;inset:0;background:rgba(28,25,20,.5);opacity:0;transition:opacity .28s}
+.kp .k-sticky-sheet.k-sticky-sheet--on .k-sticky-sheet__backdrop{opacity:1}
+.kp .k-sticky-sheet__panel{position:absolute;left:0;right:0;bottom:0;max-height:min(82dvh,560px);background:var(--wh);border-radius:20px 20px 0 0;transform:translate3d(0,105%,0);transition:transform .34s cubic-bezier(.25,.46,.45,.94);display:flex;flex-direction:column}
+.kp .k-sticky-sheet.k-sticky-sheet--on .k-sticky-sheet__panel{transform:translate3d(0,0,0)}
+.kp .k-sticky-sheet__head{display:flex;align-items:center;justify-content:space-between;padding:14px 16px 10px;border-bottom:1px solid rgba(28,25,20,.08)}
+.kp .k-sticky-sheet__title{font-size:18px;margin:0}
+.kp .k-sticky-sheet__x{width:38px;height:38px;border-radius:999px;border:1px solid var(--bd);background:rgba(28,25,20,.04);cursor:pointer;font-weight:900}
+.kp .k-sticky-sheet__body{padding:12px 16px calc(16px + env(safe-area-inset-bottom,0px));overflow-y:auto;flex:1;min-height:0}
+.kp .k-sticky-sheet__slot{display:flex;align-items:flex-start;gap:8px;margin-bottom:14px}
+.kp .k-sticky-sheet__tag{flex-shrink:0;font-size:10px;letter-spacing:.14em;text-transform:uppercase;font-weight:900;color:var(--mu);padding-top:6px}
+.kp .k-sticky-sheet__slot [data-k-picker-sticky]{flex:1;min-width:0}
+.kp .k-micro{font-size:12px;color:var(--mu);margin:8px 0}
+.kp .k-home-band{background:var(--iv);padding:52px 0}
+.kp .k-home-band--alt{background:var(--cr);padding:60px 0}
+.kp .k-home-intro{text-align:center;margin-bottom:26px}
+.kp .k-home-intro .kh{display:block;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--wr);font-weight:900;margin-bottom:8px}
+.kp .k-home-intro .kt{font-size:clamp(22px,3.4vw,34px);line-height:1.12;margin:0 0 10px}
+.kp .k-home-intro .ks{color:var(--mu);font-size:14px;line-height:1.7;max-width:56ch;margin:0 auto}
+.kp .k-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:20px}
+@media(max-width:760px){.kp .k-cards{grid-template-columns:1fr}}
+.kp .k-card{position:relative;border-radius:20px;overflow:hidden;background:var(--sd);aspect-ratio:4/5;box-shadow:0 16px 48px rgba(28,25,20,.1)}
+.kp .k-card img{width:100%;height:100%;object-fit:cover}
+.kp .k-card .kv{position:absolute;inset:0;background:linear-gradient(to top,rgba(28,25,20,.58),transparent 52%);display:flex;align-items:flex-end;padding:14px}
+.kp .k-card .kv span{color:var(--iv);font-weight:900;letter-spacing:.12em;text-transform:uppercase;font-size:11px}
+.kp .k-mosaic{display:grid;gap:14px;grid-template-columns:1fr}
+@media(min-width:900px){.kp .k-mosaic{grid-template-columns:1fr 1fr;gap:18px}}
+.kp .k-mosaic .km{border-radius:20px;overflow:hidden;background:var(--sd);min-height:280px;box-shadow:0 16px 48px rgba(28,25,20,.08);position:relative}
+@media(min-width:900px){.kp .k-mosaic .km{min-height:360px}}
+.kp .k-mosaic .km img{width:100%;height:100%;object-fit:cover;display:block}
+.kp .k-mosaic .km .ko{position:absolute;inset:0;background:linear-gradient(to top,rgba(28,25,20,.55),transparent 52%);display:flex;align-items:flex-end;padding:16px}
+.kp .k-mosaic .km .ko span{color:var(--iv);font-weight:900;letter-spacing:.1em;text-transform:uppercase;font-size:11px}
+</style>
+
+<div class="k-topbar" data-k-topbar>
+  <div class="k-topbar__inner">
+    <div class="k-brand"><img class="k-logo" src="{{ logo_svg }}" alt="Kualley" width="140" height="34" loading="eager"></div>
+    <div class="k-offer"><span>Easter · Free shipping</span></div>
+    <div class="k-savepill">Save <span class="k-savepill__usd">${{ d_sav }}.{% if r_sav < 10 %}0{% endif %}{{ r_sav }}</span> (30%)</div>
+    <div class="k-countwrap" data-k-countdown>
+      <div class="k-countwrap__promo">
+        <p class="k-easter-label">Easter offer</p>
+        <p class="k-bogo">Buy 1 Get 1 Free</p>
+        <span class="k-end">Ends Tue midnight · Florida (ET)</span>
+      </div>
+      <div class="k-mini">
+        <span data-kcd="d">00</span><span class="d">:</span><span data-kcd="h">00</span><span class="d">:</span><span data-kcd="m">00</span><span class="d">:</span><span data-kcd="s">00</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="k-hero">
+  <div class="k-container">
+    <div class="k-grid">
+      <div class="k-gal">
+        <div class="k-main" data-k-gallery>
+          <span class="k-badge">Hand-finished</span>
+          {% if kp_home_landing %}
+            <div class="k-slide on" data-k-slide="0"><video playsinline muted loop autoplay preload="metadata" src="{{ video_1 }}"></video></div>
+            <div class="k-slide" data-k-slide="1"><video playsinline muted loop preload="metadata" src="{{ video_2 }}"></video></div>
+            <div class="k-slide" data-k-slide="2"><img src="{{ mimg_1 }}" alt="{{ p.title | escape }}" loading="eager" width="900" height="1200"></div>
+            <div class="k-slide" data-k-slide="3"><img src="{{ mimg_2 }}" alt="{{ p.title | escape }}" loading="lazy" width="900" height="1200"></div>
+            <div class="k-slide" data-k-slide="4"><img src="{{ mimg_3 }}" alt="{{ p.title | escape }}" loading="lazy" width="900" height="1200"></div>
+            <div class="k-slide" data-k-slide="5"><img src="{{ mimg_4 }}" alt="{{ p.title | escape }}" loading="lazy" width="900" height="1200"></div>
+            <div class="k-slide" data-k-slide="6"><img src="{{ mimg_5 }}" alt="{{ p.title | escape }}" loading="lazy" width="900" height="1200"></div>
+            <div class="k-slide" data-k-slide="7"><img src="{{ mimg_6 }}" alt="{{ p.title | escape }}" loading="lazy" width="900" height="1200"></div>
+            <div class="k-slide" data-k-slide="8"><img src="{{ mimg_7 }}" alt="{{ p.title | escape }}" loading="lazy" width="900" height="1200"></div>
+            <div class="k-slide" data-k-slide="9"><img src="{{ mimg_8 }}" alt="{{ p.title | escape }}" loading="lazy" width="900" height="1200"></div>
+            <div class="k-slide" data-k-slide="10"><img src="{{ mimg_9 }}" alt="{{ p.title | escape }}" loading="lazy" width="900" height="1200"></div>
+            <div class="k-slide" data-k-slide="11"><img src="{{ mimg_10 }}" alt="{{ p.title | escape }}" loading="lazy" width="900" height="1200"></div>
+          {% elsif p.media.size > 0 %}
+            {% for media in p.media limit: 8 %}
+              <div class="k-slide{% if forloop.first %} on{% endif %}" data-k-slide="{{ forloop.index0 }}">
+                {% if media.media_type == 'video' %}
+                  {% if forloop.first %}
+                    {{ media | video_tag: image_size: '900x', controls: false, muted: true, autoplay: true, loop: true, playsinline: true, preload: 'auto' }}
+                  {% else %}
+                    {{ media | video_tag: image_size: '900x', controls: false, muted: true, loop: true, playsinline: true, preload: 'metadata' }}
+                  {% endif %}
+                {% else %}
+                  <img src="{{ media | image_url: width: 900 }}" alt="{{ media.alt | default: p.title | escape }}" {% if forloop.first %}loading="eager"{% else %}loading="lazy"{% endif %} width="900" height="1200">
+                {% endif %}
+              </div>
+            {% endfor %}
+          {% else %}
+            <div class="k-slide on" data-k-slide="0">
+              <img src="{{ fallback_img }}" alt="{{ p.title | escape }}" loading="eager" width="900" height="1200">
+            </div>
+          {% endif %}
+        </div>
+        <div class="k-thumbs" aria-label="Gallery">
+          {% if kp_home_landing %}
+            <div class="k-thumb on" data-k-thumb="0"><img src="{{ mimg_1 }}" alt="" loading="lazy" width="200" height="250"><span class="k-tag">Video</span></div>
+            <div class="k-thumb" data-k-thumb="1"><img src="{{ mimg_5 }}" alt="" loading="lazy" width="200" height="250"><span class="k-tag">Video</span></div>
+            <div class="k-thumb" data-k-thumb="2"><img src="{{ mimg_1 }}" alt="" loading="lazy"></div>
+            <div class="k-thumb" data-k-thumb="3"><img src="{{ mimg_2 }}" alt="" loading="lazy"></div>
+            <div class="k-thumb" data-k-thumb="4"><img src="{{ mimg_3 }}" alt="" loading="lazy"></div>
+            <div class="k-thumb" data-k-thumb="5"><img src="{{ mimg_4 }}" alt="" loading="lazy"></div>
+            <div class="k-thumb" data-k-thumb="6"><img src="{{ mimg_5 }}" alt="" loading="lazy"></div>
+            <div class="k-thumb" data-k-thumb="7"><img src="{{ mimg_6 }}" alt="" loading="lazy"></div>
+            <div class="k-thumb" data-k-thumb="8"><img src="{{ mimg_7 }}" alt="" loading="lazy"></div>
+            <div class="k-thumb" data-k-thumb="9"><img src="{{ mimg_8 }}" alt="" loading="lazy"></div>
+            <div class="k-thumb" data-k-thumb="10"><img src="{{ mimg_9 }}" alt="" loading="lazy"></div>
+            <div class="k-thumb" data-k-thumb="11"><img src="{{ mimg_10 }}" alt="" loading="lazy"></div>
+          {% elsif p.media.size > 0 %}
+            {% for media in p.media limit: 8 %}
+              <div class="k-thumb{% if forloop.first %} on{% endif %}" data-k-thumb="{{ forloop.index0 }}">
+                {% if media.media_type == 'video' %}
+                  <img src="{{ media.preview_image | image_url: width: 200 }}" alt="">
+                  <span class="k-tag">Video</span>
+                {% else %}
+                  <img src="{{ media | image_url: width: 200 }}" alt="">
+                {% endif %}
+              </div>
+            {% endfor %}
+          {% else %}
+            <div class="k-thumb on" data-k-thumb="0"><img src="{{ p.featured_image | image_url: width: 200 }}" alt=""></div>
+          {% endif %}
+        </div>
+      </div>
+
+      <div class="k-info" id="k-atc-anchor">
+        <p class="k-eye">Kualley — Resort Swimwear</p>
+        <div class="k-rating" role="group" aria-label="Customer rating 4.8 out of 5, over 10,000 verified customers">
+          <div class="k-rating__row">
+            <span class="k-rating__stars" aria-hidden="true">★★★★★</span>
+            <strong class="k-rating__score">4.8/5</strong>
+            <span class="k-rating__sep" aria-hidden="true">·</span>
+            <span class="k-rating__proof">10,000+ verified customers</span>
+          </div>
+          <p class="k-rating__hint">Average from verified post-purchase reviews.</p>
+        </div>
+        <h1 class="k-title">{{ p.title }}</h1>
+        <p class="k-sub">{{ p.description | strip_html | truncate: 140 }}</p>
+        <div class="k-pill">Buy 1 Get 1 Free — Free shipping — At checkout</div>
+        <div class="k-price">
+          <span class="k-now">${{ d_base }}.{% if r_base < 10 %}0{% endif %}{{ r_base }}</span>
+          <span class="k-was">${{ d_cmp }}.{% if r_cmp < 10 %}0{% endif %}{{ r_cmp }}</span>
+          <span class="k-save">Save ${{ d_sav }}.{% if r_sav < 10 %}0{% endif %}{{ r_sav }}</span>
+        </div>
+        <div class="k-ship">
+          <div class="k-chip"><i>✓</i> Free shipping</div>
+          <div class="k-chip"><i>✓</i> Ships 5–7 days</div>
+        </div>
+        <div class="k-paywrap">
+          <div class="k-shiplogo">
+            <img src="{{ ship_logo }}" alt="USPS" loading="lazy">
+            <span style="font-size:12px;color:var(--mu);letter-spacing:.08em;text-transform:uppercase;font-weight:900;">Tracked</span>
+          </div>
+          <div class="k-pay" aria-label="Pay">
+            <img src="{{ pay_apple }}" alt="" loading="lazy"><img src="{{ pay_shop }}" alt="" loading="lazy"><img src="{{ pay_pp }}" alt="" loading="lazy"><img src="{{ pay_mc }}" alt="" loading="lazy"><img src="{{ pay_amex }}" alt="" loading="lazy">
+          </div>
+        </div>
+        <div class="k-qty">
+          <div class="k-ql">Sets quantity</div>
+          <div class="k-qc" data-k-qty>
+            <button class="k-qb" type="button" data-k-qty-minus>−</button>
+            <div class="k-qv" data-k-qty-val>1</div>
+            <button class="k-qb" type="button" data-k-qty-plus>+</button>
+            <input type="hidden" value="1" data-k-qty-input>
+          </div>
+        </div>
+        <div class="k-pick" data-k-slot="1">
+          <div class="k-ph"><p class="k-pt">Bikini #1</p><span class="k-pr">Paid</span></div>
+          <div class="k-sum">
+            <div class="k-sum__img"><img src="{{ fallback_img }}" alt="" loading="lazy" data-k-sum-img="1"></div>
+            <div style="min-width:0">
+              <div class="k-sum__name">{{ p.title }}</div>
+              <div class="k-sum__var" data-k-sum-var="1">Select options</div>
+            </div>
+          </div>
+          <div data-k-picker="1"></div>
+          <input type="hidden" data-k-vid data-k-slot="1" value="{{ p.selected_or_first_available_variant.id }}">
+        </div>
+        <div class="k-pick" data-k-slot="2">
+          <div class="k-ph"><p class="k-pt">Bikini #2</p><span class="k-pr">Free</span></div>
+          <div class="k-sum">
+            <div class="k-sum__img"><img src="{{ fallback_img }}" alt="" loading="lazy" data-k-sum-img="2"></div>
+            <div style="min-width:0">
+              <div class="k-sum__name">{{ p.title }}</div>
+              <div class="k-sum__var" data-k-sum-var="2">Select options</div>
+            </div>
+          </div>
+          <div data-k-picker="2"></div>
+          <input type="hidden" data-k-vid data-k-slot="2" value="{{ p.selected_or_first_available_variant.id }}">
+        </div>
+        <div class="k-atc-wrap">
+          <span class="k-btn" role="button" tabindex="0" data-k-add>Add 2 bikinis to cart</span>
+        </div>
+        <div class="k-social-micro">
+          <div class="k-social-micro__head rev">
+            <img class="k-social-micro__ig" src="{{ ig_logo }}" alt="" width="12" height="12" loading="lazy">
+            <p class="k-social-micro__label">As seen on social</p>
+          </div>
+          {% if _kp_social_prof == 'marea' %}
+            <p class="k-social-micro__tag rev d1">Premium look and feel — designed to read “expensive on camera.”</p>
+            <div class="k-sgrid k-sgrid--micro" role="region" aria-label="As seen on social — swipe horizontally">
+              <div class="k-scard k-scard--micro rev d1">
+                <img src="{{ marea_ig_1 }}" alt="Marea on social" loading="lazy" width="208" height="260">
+                <div class="k-sov k-sov--micro"><span>Luxury finish</span></div>
+              </div>
+              <div class="k-scard k-scard--micro rev d2">
+                <img src="{{ marea_ig_2 }}" alt="Marea on social" loading="lazy" width="208" height="260">
+                <div class="k-sov k-sov--micro"><span>Resort-ready</span></div>
+              </div>
+              <div class="k-scard k-scard--micro rev d3">
+                <img src="{{ marea_ig_3 }}" alt="Marea on social" loading="lazy" width="208" height="260">
+                <div class="k-sov k-sov--micro"><span>Small batch</span></div>
+              </div>
+            </div>
+          {% else %}
+            <p class="k-social-micro__tag rev d1">Premium on camera—made to read luxe in feed and real life.</p>
+            <div class="k-sgrid k-sgrid--micro" role="region" aria-label="As seen on social — swipe horizontally">
+              <div class="k-scard k-scard--micro rev d1">
+                <img src="{{ sol_ig_1 }}" alt="Solara on social" loading="lazy" width="208" height="260">
+                <div class="k-sov k-sov--micro"><span>Solara glow</span></div>
+              </div>
+              <div class="k-scard k-scard--micro rev d2">
+                <img src="{{ sol_ig_2 }}" alt="Solara on social" loading="lazy" width="208" height="260">
+                <div class="k-sov k-sov--micro"><span>Golden hour</span></div>
+              </div>
+              <div class="k-scard k-scard--micro rev d3">
+                <img src="{{ sol_ig_3 }}" alt="Solara on social" loading="lazy" width="208" height="260">
+                <div class="k-sov k-sov--micro"><span>Resort feed</span></div>
+              </div>
+            </div>
+          {% endif %}
+        </div>
+        <p class="k-micro">Questions? <a href="mailto:{{ support_email }}">{{ support_email }}</a></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% if kp_home_landing %}
+<section class="k-home-band" aria-label="Campaign">
+  <div class="k-container">
+    <div class="k-home-intro">
+      <span class="kh">As seen on social</span>
+      <h2 class="kt">Resort-ready on camera</h2>
+      <p class="ks">The same visuals as our product story — clean light, premium finish, flattering fit.</p>
+    </div>
+    <div class="k-cards">
+      <div class="k-card"><img src="{{ hs_1 }}" alt="" loading="lazy" width="800" height="1000"><div class="kv"><span>Luxe finish</span></div></div>
+      <div class="k-card"><img src="{{ hs_2 }}" alt="" loading="lazy" width="800" height="1000"><div class="kv"><span>Beach tested</span></div></div>
+      <div class="k-card"><img src="{{ hs_3 }}" alt="" loading="lazy" width="800" height="1000"><div class="kv"><span>Small batch</span></div></div>
+    </div>
+  </div>
+</section>
+<section class="k-home-band k-home-band--alt" aria-label="Craft">
+  <div class="k-container">
+    <div class="k-home-intro">
+      <span class="kh">Atelier details</span>
+      <h2 class="kt">Made like a rare summer piece</h2>
+      <p class="ks">Hand-finished details, ocean-inspired texture, limited runs — same campaign as the PDP.</p>
+    </div>
+    <div class="k-mosaic">
+      <div class="km"><img src="{{ mimg_5 }}" alt="" loading="lazy" width="900" height="1100"><div class="ko"><span>Hand-finished</span></div></div>
+      <div class="km"><img src="{{ mimg_6 }}" alt="" loading="lazy" width="900" height="1100"><div class="ko"><span>Flattering fit</span></div></div>
+      <div class="km"><img src="{{ mimg_7 }}" alt="" loading="lazy" width="900" height="1100"><div class="ko"><span>Texture</span></div></div>
+      <div class="km"><img src="{{ mimg_9 }}" alt="" loading="lazy" width="900" height="1100"><div class="ko"><span>Limited run</span></div></div>
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<div class="k-sticky" data-k-sticky>
+  <div class="k-sticky__inner">
+    <div class="k-sticky__bar">
+      <button type="button" class="k-sticky__hit" data-k-open-sticky-sheet aria-label="Options">
+        <img class="k-sticky__thumb" data-k-st-img src="{{ fallback_img }}" alt="" width="40" height="50" loading="lazy">
+        <span class="k-sticky__meta">
+          <span class="k-sticky__eyebrow">2 bikinis · BOGO</span>
+          <span class="k-sticky__sel" data-k-st-line>Tap to choose</span>
+        </span>
+        <span class="k-sticky__chev" aria-hidden="true">▾</span>
+      </button>
+      <span class="k-btn k-sticky__cta k-sticky__cta--bar" role="button" tabindex="0" data-k-add>Add</span>
+    </div>
+  </div>
+</div>
+
+<div class="k-sticky-sheet" data-k-sticky-sheet>
+  <div class="k-sticky-sheet__backdrop" data-k-close-sticky-sheet tabindex="-1" aria-hidden="true"></div>
+  <div class="k-sticky-sheet__panel" role="dialog" aria-modal="true" aria-label="Selection">
+    <div class="k-sticky-sheet__head">
+      <h2 class="k-sticky-sheet__title">Your selection</h2>
+      <button type="button" class="k-sticky-sheet__x" data-k-close-sticky-sheet aria-label="Close">✕</button>
+    </div>
+    <div class="k-sticky-sheet__body">
+      <div class="k-sticky-sheet__slot"><span class="k-sticky-sheet__tag">#1</span><div data-k-picker-sticky="1"></div></div>
+      <div class="k-sticky-sheet__slot"><span class="k-sticky-sheet__tag">#2</span><div data-k-picker-sticky="2"></div></div>
+      <div class="k-atc-wrap"><span class="k-btn" role="button" tabindex="0" data-k-add>Add 2 bikinis</span></div>
+    </div>
+  </div>
+</div>
+
+{% comment %} Inline variant fallback (pas besoin du snippet kualley-kp-variant-fallback sur le thème) {% endcomment %}
+{% if p != blank %}
+  {% assign _kpf_prof = kp_fallback_profile | default: '' | strip | downcase %}
+  {% assign _kpf_h = p.handle %}
+  {% assign _kpf_sol = kp_solara_static_handle | default: 'kualley-solara-set' %}
+  {% assign _kpf_mar = kp_marea_static_handle | default: 'kualley-marea-set' %}
+  {% if _kpf_prof == 'solara' or _kpf_h == _kpf_sol %}
+    <script type="application/json" data-k-variant-fallback>
+[{"id":53475051700561,"title":"XS / Style 1","options":["XS","Style 1"],"available":true},{"id":53475051733329,"title":"XS / Style 2","options":["XS","Style 2"],"available":true},{"id":53475051798865,"title":"XS / Style 3","options":["XS","Style 3"],"available":true},{"id":53475051176273,"title":"S / Style 1","options":["S","Style 1"],"available":true},{"id":53475051209041,"title":"S / Style 2","options":["S","Style 2"],"available":true},{"id":53475051274577,"title":"S / Style 3","options":["S","Style 3"],"available":true},{"id":53475051569489,"title":"M / Style 1","options":["M","Style 1"],"available":true},{"id":53475051602257,"title":"M / Style 2","options":["M","Style 2"],"available":true},{"id":53475051667793,"title":"M / Style 3","options":["M","Style 3"],"available":true},{"id":53475051438417,"title":"L / Style 1","options":["L","Style 1"],"available":true},{"id":53475051471185,"title":"L / Style 2","options":["L","Style 2"],"available":true},{"id":53475051536721,"title":"L / Style 3","options":["L","Style 3"],"available":true},{"id":53475051307345,"title":"XL / Style 1","options":["XL","Style 1"],"available":true},{"id":53475051340113,"title":"XL / Style 2","options":["XL","Style 2"],"available":true},{"id":53475051405649,"title":"XL / Style 3","options":["XL","Style 3"],"available":true}]
+    </script>
+  {% elsif _kpf_prof == 'marea' or _kpf_h == _kpf_mar %}
+    <script type="application/json" data-k-variant-fallback>
+[{"id":53407000592721,"title":"S / Style 1","options":["S","Style 1"],"available":true},{"id":53407000625489,"title":"S / Style 2","options":["S","Style 2"],"available":true},{"id":53407000658257,"title":"S / Style 3","options":["S","Style 3"],"available":true},{"id":53407000789329,"title":"M / Style 1","options":["M","Style 1"],"available":true},{"id":53407000822097,"title":"M / Style 2","options":["M","Style 2"],"available":true},{"id":53407000854865,"title":"M / Style 3","options":["M","Style 3"],"available":true},{"id":53407000691025,"title":"L / Style 1","options":["L","Style 1"],"available":true},{"id":53407000723793,"title":"L / Style 2","options":["L","Style 2"],"available":true},{"id":53407000756561,"title":"L / Style 3","options":["L","Style 3"],"available":true}]
+    </script>
+  {% endif %}
+{% endif %}
+<script type="application/json" data-k-variants>{{ p.variants | json | replace: '</', '<\/' }}</script>
+<script>
+(function(){var root=document.querySelector('.kp[data-kp-root]');if(!root)return;var FL='America/New_York';
+function q(s,c){return(c||root).querySelector(s)}function qa(s,c){return[].slice.call((c||root).querySelectorAll(s))}
+function closest(el,sel){if(!el)return null;if(el.closest)return el.closest(sel);while(el&&el.nodeType===1){if(el.matches&&el.matches(sel))return el;el=el.parentNode}return null}
+function kpfList(ctx){try{var fe=ctx.querySelector('[data-k-variant-fallback]'),fb=fe&&fe.textContent?JSON.parse(fe.textContent):[];if(!Array.isArray(fb))fb=[];if(ctx.hasAttribute('data-k-prefer-variant-fallback')&&fb.length)return fb;var ve=ctx.querySelector('[data-k-variants]'),list=JSON.parse(ve&&ve.textContent?ve.textContent:'[]');if(!Array.isArray(list))list=[];if(!list.length&&fb.length)return fb;return list}catch(e){return[]}}
+function pad(n){return String(n).padStart(2,'0')}
+function nextTueMid(){var now=Date.now(),max=21*864e5,fmt=new Intl.DateTimeFormat('en-US',{timeZone:FL,weekday:'short',hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false});
+for(var off=1e3;off<=max;off+=1e3){var d=new Date(now+off),wd='',h=0,m=0,s=0;fmt.formatToParts(d).forEach(function(p){if(p.type==='weekday')wd=p.value;if(p.type==='hour')h=+p.value;if(p.type==='minute')m=+p.value;if(p.type==='second')s=+p.value});
+if(wd==='Tue'&&h===0&&m===0&&s===0)return d}return null}
+var variants=kpfList(root);
+function firstAvail(){for(var i=0;i<variants.length;i++)if(variants[i]&&variants[i].available)return variants[i];return variants[0]||null}
+function byId(id){id=+id;for(var i=0;i<variants.length;i++)if(+variants[i].id===id)return variants[i];return null}
+function uniq(a){var o=[],s={};for(var i=0;i<a.length;i++){var k=String(a[i]);if(!s[k]){s[k]=1;o.push(a[i])}}return o}
+function valsIdx(idx){var v,o=[];for(var i=0;i<variants.length;i++){v=variants[i];if(v&&v.options&&v.options[idx]!=null)o.push(v.options[idx])}return uniq(o)}
+function findPart(p){for(var i=0;i<variants.length;i++){var v=variants[i];if(!v||!v.available)continue;var ok=true;for(var j=0;j<p.length;j++)if(p[j]&&v.options[j]!==p[j]){ok=false;break}if(ok)return v}return null}
+function setTop(){var b=q('[data-k-topbar]');if(b)root.style.setProperty('--top',Math.round(b.getBoundingClientRect().height)+'px')}
+function initCD(){var nodes=qa('[data-k-countdown]');if(!nodes.length)return;var dl=nextTueMid();if(!dl)return;function tick(){var diff=dl.getTime()-Date.now();for(var i=0;i<nodes.length;i++){var box=nodes[i],d=box.querySelector('[data-kcd="d"]'),h=box.querySelector('[data-kcd="h"]'),m=box.querySelector('[data-kcd="m"]'),s=box.querySelector('[data-kcd="s"]');
+if(diff<=0){if(d)d.textContent='00';if(h)h.textContent='00';if(m)m.textContent='00';if(s)s.textContent='00';box.style.opacity='.55';continue}
+var D=Math.floor(diff/864e5),H=Math.floor(diff%864e5/36e5),M=Math.floor(diff%36e5/6e4),S=Math.floor(diff%6e4/1e3);if(d)d.textContent=pad(D);if(h)h.textContent=pad(H);if(m)m.textContent=pad(M);if(s)s.textContent=pad(S)}}tick();setInterval(tick,1e3)}
+function showSlide(i){qa('[data-k-slide]').forEach(function(sl){sl.classList.toggle('on',sl.getAttribute('data-k-slide')===String(i));var v=sl.querySelector('video');if(v){try{sl.classList.contains('on')?v.play():v.pause()}catch(e){}}});
+qa('[data-k-thumb]').forEach(function(th){th.classList.toggle('on',th.getAttribute('data-k-thumb')===String(i))})}
+function getQty(){var inp=q('[data-k-qty-input]'),n=inp?parseInt(inp.value,10):1;if(!n||n<1)n=1;return Math.min(5,n)}
+function setQty(n){n=Math.min(5,Math.max(1,n));var inp=q('[data-k-qty-input]'),v=q('[data-k-qty-val]'),mi=q('[data-k-qty-minus]'),pl=q('[data-k-qty-plus]');if(inp)inp.value=String(n);if(v)v.textContent=String(n);if(mi)mi.disabled=n<=1;if(pl)pl.disabled=n>=5}
+function openSh(){var sh=q('[data-k-sticky-sheet]');if(sh){sh.classList.add('k-sticky-sheet--on');document.body.style.overflow='hidden'}}
+function closeSh(){var sh=q('[data-k-sticky-sheet]');if(sh){sh.classList.remove('k-sticky-sheet--on');document.body.style.overflow=''}}
+function shOpen(){var sh=q('[data-k-sticky-sheet]');return sh&&sh.classList.contains('k-sticky-sheet--on')}
+function initSticky(){var st=q('[data-k-sticky]'),an=q('#k-atc-anchor');if(!st||!an||!('IntersectionObserver'in window))return;new IntersectionObserver(function(ent){var e=ent[0],show=!e.isIntersecting&&e.boundingClientRect.top<0;st.classList.toggle('k-sticky--on',show);root.classList.toggle('kp--sticky-bar',show)},{threshold:0,rootMargin:'-40px 0px 0px 0px'}).observe(an)}
+function hid(slot){return q('[data-k-vid][data-k-slot="'+slot+'"]')}
+function updSum(slot){var idEl=hid(slot);if(!idEl)return;var v=byId(idEl.value)||firstAvail();if(!v)return;var img=q('[data-k-sum-img="'+slot+'"]'),ve=q('[data-k-sum-var="'+slot+'"]');if(img&&v.featured_image&&v.featured_image.src)img.src=v.featured_image.src;if(img&&v.image){if(typeof v.image==='string')img.src=v.image;else if(v.image.src)img.src=v.image.src}if(ve)ve.textContent=(v.title&&v.title!=='Default Title')?v.title:'Selected';var stI=q('[data-k-st-img]'),stL=q('[data-k-st-line]'),v1=byId((hid('1')&&hid('1').value)||0),v2=byId((hid('2')&&hid('2').value)||0);if(stI&&v1&&v1.image){if(typeof v1.image==='string')stI.src=v1.image;else if(v1.image.src)stI.src=v1.image.src}var t1=v1&&v1.title&&v1.title!=='Default Title'?v1.title:'1',t2=v2&&v2.title&&v2.title!=='Default Title'?v2.title:'2';if(stL)stL.textContent='1: '+t1+' · 2: '+t2}
+function buildPicker(slot){var main=q('[data-k-picker="'+slot+'"]');if(!main)return;var sticky=q('[data-k-picker-sticky="'+slot+'"]'),mounts=[main];if(sticky)mounts.push(sticky);mounts.forEach(function(m){m.innerHTML=''});if(!variants.length){main.innerHTML='<div class="k-micro">No variants.</div>';return}var v0=firstAvail();if(!v0)return;var oc=(v0.options&&v0.options.length)?v0.options.length:0;if(oc===1&&v0.options[0]==='Default Title'){main.innerHTML='<div class="k-micro">Single variant.</div>';if(sticky)sticky.innerHTML='';var h=hid(slot);if(h)h.value=String(v0.id);updSum(slot);return}var sel=[];for(var i=0;i<oc;i++)sel[i]=v0.options[i]||null;var h0=hid(slot);if(h0)h0.value=String(v0.id);function buildInto(mount){for(var oi=0;oi<oc;oi++){var wrap=document.createElement('div'),lab=document.createElement('p');lab.className='k-ol';lab.textContent='Option '+(oi+1);wrap.appendChild(lab);var row=document.createElement('div');row.className='k-or';row.setAttribute('data-k-oi',String(oi));row.setAttribute('data-k-slot',slot);var vs=valsIdx(oi);for(var vi=0;vi<vs.length;vi++){var btn=document.createElement('button');btn.type='button';btn.className='k-ob';btn.setAttribute('data-k-opt','1');btn.setAttribute('data-k-slot',slot);btn.setAttribute('data-k-oi',String(oi));btn.setAttribute('data-k-val',String(vs[vi]));btn.textContent=String(vs[vi]);if(String(vs[vi])===String(sel[oi]))btn.classList.add('on');row.appendChild(btn)}wrap.appendChild(row);mount.appendChild(wrap)}}mounts.forEach(buildInto);function refresh(){var mi,bi;for(var oi2=0;oi2<oc;oi2++){var row0=main.querySelector('[data-k-oi="'+oi2+'"]');if(!row0)continue;var bt0=row0.querySelectorAll('[data-k-opt]');for(bi=0;bi<bt0.length;bi++){var test=sel.slice();test[oi2]=bt0[bi].getAttribute('data-k-val');var poss=!!findPart(test);for(mi=0;mi<mounts.length;mi++){var rowM=mounts[mi].querySelector('[data-k-oi="'+oi2+'"]');if(!rowM)continue;var bM=rowM.querySelectorAll('[data-k-opt]')[bi];if(bM)bM.classList.toggle('off',!poss)}}var cur=!!findPart(sel);if(!cur){var fp=null;for(bi=0;bi<bt0.length;bi++)if(!bt0[bi].classList.contains('off')){fp=bt0[bi].getAttribute('data-k-val');break}if(fp!=null)sel[oi2]=fp}}var ch=findPart(sel)||firstAvail(),hh=hid(slot);if(hh&&ch)hh.value=String(ch.id);for(var oi3=0;oi3<oc;oi3++){for(mi=0;mi<mounts.length;mi++){var row3=mounts[mi].querySelector('[data-k-oi="'+oi3+'"]');if(!row3)continue;var bt3=row3.querySelectorAll('[data-k-opt]');for(var bi3=0;bi3<bt3.length;bi3++)bt3[bi3].classList.toggle('on',bt3[bi3].getAttribute('data-k-val')===String(sel[oi3]))}}updSum(slot)}refresh();main._kSelected=sel;main._kRefresh=refresh}
+function shopRoot(){var b=(window.Shopify&&window.Shopify.routes&&window.Shopify.routes.root)?window.Shopify.routes.root:'/';if(b.slice(-1)!=='/')b+='/';return b}
+function parseV(ctx){return kpfList(ctx)}
+function vById(list,id){id=+id;for(var i=0;i<list.length;i++)if(list[i]&&+list[i].id===id)return list[i];return null}
+function addToCart(scopeRoot){var ctx=scopeRoot||root,list=parseV(ctx),h1=ctx.querySelector('[data-k-vid][data-k-slot="1"]'),h2=ctx.querySelector('[data-k-vid][data-k-slot="2"]'),v1=h1?String(h1.value).trim():'',v2=h2?String(h2.value).trim():'',qi=ctx.querySelector('[data-k-qty-input]'),qn=qi?parseInt(qi.value,10):1;if(!qn||qn<1)qn=1;var qty=Math.min(5,qn);if(!v1||!v2){openSh();return}var id1=+v1,id2=+v2;if(!Number.isFinite(id1)||!Number.isFinite(id2)){openSh();return}var b1=vById(list,v1),b2=vById(list,v2);if(b1&&b1.available===false||b2&&b2.available===false)return;window.location.assign(shopRoot()+'cart/'+id1+':'+qty+','+id2+':'+qty)}
+function bindAtc(){qa('[data-k-add]').forEach(function(n){if(n._kpB)return;n._kpB=true;function go(e){if(this.classList.contains('kp-atc--busy'))return;e.preventDefault();e.stopPropagation();e.stopImmediatePropagation();var sr=this.closest('[data-kp-root]');if(sr)addToCart(sr)}n.addEventListener('click',go,true);n.addEventListener('keydown',function(e){if(e.key!=='Enter'&&e.key!==' ')return;go.call(this,e)},true)})}
+function bind(){root.addEventListener('click',function(e){var t=e.target,th=closest(t,'[data-k-thumb]');if(th){showSlide(th.getAttribute('data-k-thumb'));return}if(closest(t,'[data-k-open-sticky-sheet]')){openSh();return}if(closest(t,'[data-k-close-sticky-sheet]')){closeSh();return}var opt=closest(t,'[data-k-opt]');if(opt){if(opt.classList.contains('off'))return;var slot=opt.getAttribute('data-k-slot'),picker=q('[data-k-picker="'+slot+'"]');if(!picker||!picker._kSelected||!picker._kRefresh)return;picker._kSelected[+opt.getAttribute('data-k-oi')]=opt.getAttribute('data-k-val');picker._kRefresh();return}if(closest(t,'[data-k-qty-minus]')){setQty(getQty()-1);return}if(closest(t,'[data-k-qty-plus]')){setQty(getQty()+1);return}});document.addEventListener('keydown',function(e){if(e.key!=='Escape')return;if(shOpen())closeSh()})}
+function init(){setTop();initCD();bind();setQty(1);showSlide(0);buildPicker('1');buildPicker('2');updSum('1');updSum('2');initSticky();bindAtc()}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();window.addEventListener('resize',setTop)})();
+</script>
+</div>
